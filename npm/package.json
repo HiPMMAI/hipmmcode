@@ -1,0 +1,30 @@
+{
+  "name": "@hipmmai/hipmmcode",
+  "version": "0.16.0",
+  "description": "Provider-agnostic AI coding agent for your terminal (binary distribution)",
+  "bin": {
+    "hipmmcode": "bin/run.js"
+  },
+  "scripts": {
+    "postinstall": "node install.js"
+  },
+  "files": [
+    "bin/run.js",
+    "install.js",
+    "README.md"
+  ],
+  "os": [
+    "darwin",
+    "linux",
+    "win32"
+  ],
+  "license": "SEE LICENSE IN https://github.com/HiPMMAI/hipmmcode/blob/main/LICENSE.txt",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HiPMMAI/hipmmcode.git"
+  },
+  "homepage": "https://github.com/HiPMMAI/hipmmcode",
+  "publishConfig": {
+    "access": "public"
+  }
+}
