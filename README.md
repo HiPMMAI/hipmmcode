@@ -4,6 +4,8 @@
 
 **hipmmcode** is a provider-agnostic AI coding agent for your terminal: a fullscreen TUI that orchestrates teams of LLM agents across 29+ model channels (Anthropic, OpenAI, Gemini, DeepSeek, Kimi, MiniMax, DashScope, GLM, custom proxies, …).
 
+**New in v0.16.1 — clean wrapped prompts and reliable isolated execution.** Long model/API-key prompts repaint without duplicated rows. Linux sandbox hiding now distinguishes directories, credential files, and stale missing paths, so bubblewrap jobs no longer fail on deployment `.env` entries while tenant isolation remains fail-closed. Product and documentation links use `www.hipmmai.com` consistently.
+
 **New in v0.16.0 — config-path flexibility, collapsible background tasks, stabler check commands.** `HIPMMCODE_CONFIG_DIR` / `CLAUDE_CONFIG_DIR` select the config root (default `~/.hipmmcode`). Consecutive background-task status lines collapse into one `⏺ Background tasks (N)` row (click / `Ctrl+O` to expand). Check-style commands that exit 0 with no output no longer false-fail; empty cgroups clean up more reliably; `hipmmcode daemon stop-service <name> [--force]` stops a single named service.
 
 **New in v0.15.0 — xAI Grok device-code OAuth, Imagine images, Responses web search.** `hipmmcode model xai-oauth` signs in with a device code (or reuses `~/.grok/auth.json`); tokens auto-refresh. `GenerateImage` uses xAI Imagine on Grok channels; `WebSearch` uses Responses `web_search`. DeepSeek V4 API ids and the mid-turn **[Send now]** / double-Enter queue polish round out the release. See the [release notes](RELEASE_NOTES.md) for details.
@@ -97,6 +99,8 @@ Binary-only, free to use; no redistribution or reverse engineering. See [LICENSE
 # hipmmcode（中文）
 
 **hipmmcode** 是终端里的全能 AI 编程智能体:全屏 TUI,可在 29+ 模型渠道(Anthropic、OpenAI、Gemini、DeepSeek、Kimi、MiniMax、通义、智谱、自定义代理……)上编排 LLM 智能体团队。
+
+**v0.16.1 新增 —— 长提示干净重绘、隔离任务可靠启动。** 模型/API Key 长提示不再重复刷屏；Linux 沙箱会正确区分隐藏目录、凭据文件和不存在的过期路径，部署 `.env` 条目不再导致 bubblewrap 启动失败，同时继续保持租户隔离 fail-closed。产品和文档链接统一使用 `www.hipmmai.com`。
 
 **v0.16.0 新增 —— 配置目录可指定、后台任务可折叠、check 命令更稳。** `HIPMMCODE_CONFIG_DIR` / `CLAUDE_CONFIG_DIR` 可选配置根目录（默认 `~/.hipmmcode`）。连续后台任务状态行折叠为一条 `⏺ Background tasks (N)`（点击 / `Ctrl+O` 展开）。无输出且 exit 0 的 check 类命令不再误报失败；空 cgroup 清理更可靠；`hipmmcode daemon stop-service <name> [--force]` 可单独停一个命名服务。
 

@@ -1,3 +1,14 @@
+## hipmmcode v0.16.1
+
+A focused reliability and security patch for interactive setup and isolated agent execution.
+
+- **Wrapped setup prompts repaint cleanly.** Long model/API-key prompts clear all occupied terminal rows before repainting, eliminating repeated text while secrets are entered.
+- **Correct hidden-path masking.** Existing directories use empty mounts, existing files use `/dev/null`, and missing paths are ignored. `HIPMMCODE_SANDBOX_HIDE` can safely include deployment `.env` paths without breaking bubblewrap startup.
+- **Fail-closed isolation is preserved.** A file-only masking policy still requires the sandbox and never silently falls back to direct execution.
+- **HiPMMAI naming alignment.** Product, docs, artifact, and deployment references consistently use `www.hipmmai.com` and the `hipmmcode` naming family.
+
+**Platforms:** macOS (Apple Silicon / Intel / universal), Linux (x64 / arm64, musl-static), Windows (x64). Verify downloads against `SHA256SUMS`.
+
 ## hipmmcode v0.16.0
 
 Config-path flexibility, a collapsible background-task bar, and a stabler task runner for check-style commands.
