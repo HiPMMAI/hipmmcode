@@ -51,12 +51,34 @@ Write-Host "Installed: $exe"
 
 # Add the install dir to the USER PATH (persisted) if it isn't already there.
 $userPath = [Environment]::GetEnvironmentVariable("Path", "User")
-if (($userPath -split ';') -notcontains $installDir) {
-    [Environment]::SetEnvironmentVariable("Path", "$userPath;$installDir", "User")
-    Write-Host "Added $installDir to your user PATH. Open a NEW terminal for it to take effect."
+$userPathEntries = @($userPath -split ';' | Where-Object { -not [string]::IsNullOrWhiteSpace($_) })
+$installDirNormalized = $installDir.TrimEnd('\')
+$hasInstallDir = $userPathEntries | Where-Object {
+    $_.Trim().TrimEnd('\') -ieq $installDirNormalized
+}
+if (-not $hasInstallDir) {
+    $updatedUserPath = if ([string]::IsNullOrWhiteSpace($userPath)) {
+        $installDir
+    } else {
+        "$userPath;$installDir"
+    }
+    [Environment]::SetEnvironmentVariable("Path", $updatedUserPath, "User")
+    Write-Host "Added $installDir to your user PATH."
 }
 
+# Refresh PATH in this PowerShell process too, so hipmmcode works immediately
+# after `irm ... | iex` without requiring the user to open a new terminal.
+$machinePath = [System.Environment]::GetEnvironmentVariable("Path", "Machine")
+$refreshedUserPath = [System.Environment]::GetEnvironmentVariable("Path", "User")
+$pathParts = @($machinePath, $refreshedUserPath) | Where-Object {
+    -not [string]::IsNullOrWhiteSpace($_)
+}
+$env:Path = $pathParts -join ';'
+Write-Host "Refreshed PATH for this PowerShell session."
+
 Write-Host "Get started:  hipmmcode model   (configure a channel)   then:  hipmmcode"
+Write-Host "If this terminal still cannot find hipmmcode, open a new terminal or run:"
+Write-Host '$env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")'
 
 # hipmmcode's full-screen UI targets a modern VT terminal. The legacy
 # PowerShell 5.1 / conhost console lacks VT processing, glyph coverage, and

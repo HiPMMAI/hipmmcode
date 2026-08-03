@@ -59,6 +59,14 @@ npm install -g @hipmmai/hipmmcode
 irm https://github.com/HiPMMAI/hipmmcode/releases/latest/download/install.ps1 | iex
 ```
 
+If the install succeeds but `hipmmcode` or `hipmmcode model` is not recognized in the current PowerShell window, open a new terminal or refresh `PATH` in place:
+
+```powershell
+$env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
+hipmmcode --version
+hipmmcode model
+```
+
 **Manual** — grab a tarball from [Releases](../../releases/latest) (`darwin-universal` runs on both Apple Silicon and Intel Macs), untar, put `hipmmcode` on your PATH, verify against `SHA256SUMS`.
 
 ## Quick start
@@ -141,6 +149,17 @@ npm install -g @hipmmai/hipmmcode
 
 ```powershell
 irm https://github.com/HiPMMAI/hipmmcode/releases/latest/download/install.ps1 | iex
+```
+
+如果安装成功后，当前 PowerShell 仍提示找不到 `hipmmcode` 或无法执行 `hipmmcode model`：
+
+1. 关闭当前终端并重新打开；或
+2. 在当前窗口手动刷新 `PATH`，立即读取系统与用户的最新配置：
+
+```powershell
+$env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
+hipmmcode --version
+hipmmcode model
 ```
 
 **手动** —— 从 [Releases](../../releases/latest) 下载压缩包(`darwin-universal` 同时支持 Apple Silicon 与 Intel Mac),解压后把 `hipmmcode` 放进 PATH;用 `SHA256SUMS` 校验。
