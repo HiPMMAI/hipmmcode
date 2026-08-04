@@ -4,6 +4,10 @@
 
 **hipmmcode** is a provider-agnostic AI coding agent for your terminal: a fullscreen TUI that orchestrates teams of LLM agents across 29+ model channels (Anthropic, OpenAI, Gemini, DeepSeek, Kimi, MiniMax, DashScope, GLM, custom proxies, …).
 
+**New in v0.17.0 — native Qwen Token Plan multimedia.** `GenerateImage`, `GenerateVideo`, and `GenerateSpeech` now call the direct Token Plan services with the configured `sk-sp-...` key—no Skill and no pay-as-you-go fallback. Video supports resumable HappyHorse t2v/i2v/r2v jobs; speech uses `qwen-audio-3.0-tts-plus` over the official WebSocket with `longanlingxin` by default and MP3/WAV/Opus/PCM output. Qwen 3.8 Max defaults to `xhigh` reasoning. `--include-partial-messages` adds live per-token `stream_event` / `content_block_delta` frames to `stream-json`, while the default settled-output contract remains compatible. Permission gates, new-only output paths, and non-retryable billable submissions keep Credits and files safe.
+
+**New in v0.16.2 — complete Qwen Token Plan and pay-as-you-go routing.** `qwen-token-plan` (OpenAI-compatible; alias `qwen-token-plan-openai`) and `qwen-token-plan-anthropic` use isolated `sk-sp-...` Token Plan credentials, while `qwen` and `qwen-anthropic` use separate DashScope pay-as-you-go keys. Direct Token Plan channels can generate images through the dedicated interactive-tool endpoint. `hipmmcode skill add QianWen-AI/qianwen-ai` installs the official QianWen skill pack (standard `sk-...` required by its execution scripts). CLI, SDK/headless, and ACP resolve aliases consistently; usage counters are not remaining Token Plan Credits. Windows installation docs also include an in-place PowerShell `PATH` refresh.
+
 **New in v0.16.1 — clean wrapped prompts and reliable isolated execution.** Long model/API-key prompts repaint without duplicated rows. Linux sandbox hiding now distinguishes directories, credential files, and stale missing paths, so bubblewrap jobs no longer fail on deployment `.env` entries while tenant isolation remains fail-closed. Product and documentation links use `www.hipmmai.com` consistently.
 
 **New in v0.16.0 — config-path flexibility, collapsible background tasks, stabler check commands.** `HIPMMCODE_CONFIG_DIR` / `CLAUDE_CONFIG_DIR` select the config root (default `~/.hipmmcode`). Consecutive background-task status lines collapse into one `⏺ Background tasks (N)` row (click / `Ctrl+O` to expand). Check-style commands that exit 0 with no output no longer false-fail; empty cgroups clean up more reliably; `hipmmcode daemon stop-service <name> [--force]` stops a single named service.
@@ -107,6 +111,10 @@ Binary-only, free to use; no redistribution or reverse engineering. See [LICENSE
 # hipmmcode（中文）
 
 **hipmmcode** 是终端里的全能 AI 编程智能体:全屏 TUI,可在 29+ 模型渠道(Anthropic、OpenAI、Gemini、DeepSeek、Kimi、MiniMax、通义、智谱、自定义代理……)上编排 LLM 智能体团队。
+
+**v0.17.0 新增 —— 千问 Token Plan 原生多媒体。** `GenerateImage`、`GenerateVideo`、`GenerateSpeech` 直连 Token Plan 服务并复用 `sk-sp-...`，无需 Skill，也不回退到按量付费。视频支持可恢复的 HappyHorse t2v/i2v/r2v；语音通过官方 WebSocket 调用 `qwen-audio-3.0-tts-plus`，默认 `longanlingxin`，输出 MP3/WAV/Opus/PCM。Qwen 3.8 Max 默认 `xhigh`；`--include-partial-messages` 可让 `stream-json` 实时输出逐 Token 的 `stream_event` / `content_block_delta`，默认完整消息协议保持兼容。权限门禁、仅新建输出与付费提交不盲目重试共同保护 Credits 和本地文件。
+
+**v0.16.2 新增 —— 千问 Token Plan 与按量付费四渠道完整接入。** `qwen-token-plan`（OpenAI 兼容，别名 `qwen-token-plan-openai`）与 `qwen-token-plan-anthropic` 使用隔离的 `sk-sp-...` Token Plan 凭据；`qwen` 与 `qwen-anthropic` 使用独立的 DashScope 按量付费密钥。CLI、SDK/无头模式和 ACP 的别名解析保持一致。流式用量保留输入/输出、缓存创建/读取和推理 Token 明细，但不会把 Token 计数误报为剩余 Credits。Windows 安装说明也补充了 PowerShell 原地刷新 `PATH` 的方法。
 
 **v0.16.1 新增 —— 长提示干净重绘、隔离任务可靠启动。** 模型/API Key 长提示不再重复刷屏；Linux 沙箱会正确区分隐藏目录、凭据文件和不存在的过期路径，部署 `.env` 条目不再导致 bubblewrap 启动失败，同时继续保持租户隔离 fail-closed。产品和文档链接统一使用 `www.hipmmai.com`。
 

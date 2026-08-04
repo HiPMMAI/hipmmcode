@@ -1,3 +1,30 @@
+## hipmmcode v0.17.0
+
+Qwen Token Plan expands into native image, video, and speech generation, with Qwen 3.8 thinking aligned to the provider contract.
+
+- **Native multimedia tools.** `GenerateImage`, `GenerateVideo`, and `GenerateSpeech` call direct `qwen-token-plan` / `qwen-token-plan-anthropic` services with the configured `sk-sp-...`; no Skill or pay-as-you-go fallback is involved.
+- **Resumable video.** HappyHorse t2v/i2v/r2v supports 720P/1080P and 3–15 second MP4 output. HiPMMCode confirms before submission and persists the private `task_id` so polling/downloading can resume without duplicate billing.
+- **Native speech.** The official WebSocket drives `qwen-audio-3.0-tts-plus`, defaulting to `longanlingxin`, with MP3/WAV/Opus/PCM and prosody/language/instruction controls.
+- **Qwen 3.8 thinking.** `qwen3.8-max` defaults to `xhigh` and supports `/effort off`; `qwen3.8-max-preview` always thinks; thinking temperature is at least `0.6`.
+- **Live partial-message streaming.** `--include-partial-messages` adds per-token `stream_event` / `content_block_delta` frames to `stream-json`; SDK/headless and ACP share the same live event path, while the default settled-output contract remains unchanged.
+- **Safe outputs and billing boundaries.** Multimedia calls pass the permission gate, never overwrite an existing destination, and never blindly repeat a potentially billable submission after an ambiguous failure.
+
+**Platforms:** macOS (Apple Silicon / Intel / universal), Linux (x64 / arm64, musl-static), Windows (x64). Verify downloads against `SHA256SUMS`.
+
+## hipmmcode v0.16.2
+
+Alibaba Qwen now has explicit Token Plan and pay-as-you-go channels for both supported wire protocols, with isolated credentials and consistent alias handling.
+
+- **Four Qwen channels.** `qwen-token-plan` is the OpenAI-compatible Token Plan channel (`qwen-token-plan-openai` is an alias), `qwen-token-plan-anthropic` uses Anthropic Messages, and `qwen` / `qwen-anthropic` are the pay-as-you-go counterparts.
+- **Credentials never cross billing products.** Token Plan uses `QWENCLOUD_TOKEN_PLAN_API_KEY` (or compatibility alias `QWEN_TOKEN_PLAN_API_KEY`) with `sk-sp-...` keys. Pay-as-you-go uses `DASHSCOPE_API_KEY` (or legacy `QWEN_API_KEY`) with `sk-...` / `sk-ws-...` keys.
+- **Aliases are consistent across entry points.** CLI, headless/SDK execution, and ACP resolve built-in aliases the same way while preserving an explicitly configured same-named custom provider.
+- **Detailed token usage.** OpenAI-compatible and Anthropic streams retain input, output, cache-create, cache-read, and reasoning-token counters. These values are token counts, not remaining Token Plan Credits; use the Alibaba Model Studio console for Credits and reset windows.
+- **Token Plan image generation.** Direct Token Plan channels route `GenerateImage` through Alibaba's dedicated multimodal endpoint with Bearer auth and supported image sizes; membership gateways retain their existing `/images/generations` contract.
+- **Official QianWen Skills.** `hipmmcode skill add QianWen-AI/qianwen-ai` now recursively discovers the categorized repository and installs its eight user-facing skills plus the update helper with scripts/references intact. Their execution scripts require a standard pay-as-you-go `sk-...` key; Token Plan `sk-sp-...` stays isolated to the interactive channel and native Token Plan image tool.
+- **Windows PATH recovery.** Installation docs now show how to reopen PowerShell or refresh the current session's machine/user `PATH` before running `hipmmcode` or `hipmmcode model`.
+
+**Platforms:** macOS (Apple Silicon / Intel / universal), Linux (x64 / arm64, musl-static), Windows (x64). Verify downloads against `SHA256SUMS`.
+
 ## hipmmcode v0.16.1
 
 A focused reliability and security patch for interactive setup and isolated agent execution.
