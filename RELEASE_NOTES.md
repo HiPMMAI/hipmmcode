@@ -1,3 +1,13 @@
+## hipmmcode v0.17.2
+
+Codex and membership-channel compatibility: Responses requests now match the parameters accepted by the ChatGPT Codex backend, restoring reliable Auto mode classification without changing other providers.
+
+- **Codex-safe Responses payloads.** `openai-codex` and membership channels omit unsupported `temperature` and `stop` parameters, alongside the existing `max_output_tokens` guard, so hidden classifier requests no longer fail with HTTP 400.
+- **Auto mode works on Codex again.** The safety classifier completes normally instead of becoming unavailable and fail-closing otherwise valid tool calls. The v0.17.1 bounded retry remains in place for genuine transient provider outages.
+- **Other Responses endpoints stay unchanged.** The compatibility gate is limited to Codex-backed channels; standard OpenAI-compatible endpoints retain their sampling and stop-sequence behavior.
+
+**Platforms:** macOS (Apple Silicon / Intel / universal), Linux (x64 / arm64, musl-static), Windows (x64). Verify downloads against `SHA256SUMS`.
+
 ## hipmmcode v0.17.0
 
 Qwen Token Plan expands into native image, video, and speech generation, with Qwen 3.8 thinking aligned to the provider contract.
