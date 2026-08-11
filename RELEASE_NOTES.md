@@ -1,3 +1,14 @@
+## hipmmcode v1.0.0
+
+Codex Computer Use can now be reused from HiPMMCode without embedding Codex, its plugin, or its native service in the release package.
+
+- **Automatic local discovery with no bundled Codex payload.** HiPMMCode finds the newest enabled local `computer-use` plugin and starts its declared typed MCP service in place. Other Codex plugins are not activated.
+- **Interactive, default-off control.** Run `/computer-use`, use the arrow keys to choose Enable / Disable / View status, and press Enter; Esc cancels. `/computer-use on|off|status` is the direct form. A successful change rebuilds the current session's skill and MCP catalogs immediately.
+- **Fail-closed plugin execution.** Plugin launchers and working directories must remain inside the canonical plugin root. The MCP subprocess receives a minimal functional environment plus only manifest-requested variable names. Safe and bare modes keep the integration disabled.
+- **Native authorization stays independent.** Desktop consent and the system **Stop Using HiPMMCode** control on supported macOS and Windows installations remain owned by the installed Codex Computer Use service; discovery alone never grants desktop access, and Linux does not report false availability.
+
+**Platforms:** macOS (Apple Silicon / Intel / universal), Linux (x64 / arm64, musl-static), Windows (x64). Verify downloads against `SHA256SUMS`.
+
 ## hipmmcode v0.17.2
 
 Codex and membership-channel compatibility: Responses requests now match the parameters accepted by the ChatGPT Codex backend, restoring reliable Auto mode classification without changing other providers.

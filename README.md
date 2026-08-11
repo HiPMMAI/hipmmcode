@@ -4,6 +4,8 @@
 
 **hipmmcode** is a provider-agnostic AI coding agent for your terminal: a fullscreen TUI that orchestrates teams of LLM agents across 29+ model channels (Anthropic, OpenAI, Gemini, DeepSeek, Kimi, MiniMax, DashScope, GLM, custom proxies, …).
 
+**New in v1.0.0 — reuse the local Codex Computer Use plugin without bundling it.** HiPMMCode discovers the newest enabled local `computer-use` plugin and uses its typed MCP tools in place; no Codex binary, plugin asset, or native service is copied into the release. `/computer-use` opens an arrow-key + Enter picker for Enable / Disable / View status, while `/computer-use on|off|status` applies directly and rebuilds the current session's tool catalog. The independent switch defaults off, plugin paths/cwd stay contained, subprocess environment inheritance is minimized, and native authorization on supported macOS and Windows installations remains owned by the installed Codex service.
+
 **New in v0.17.2 — Codex and membership-channel compatibility.** Responses requests sent through `openai-codex` or a membership gateway now omit the unsupported `temperature`, `stop`, and `max_output_tokens` parameters. Hidden Auto mode classification no longer fails with HTTP 400 and fail-closes otherwise valid tool calls; standard OpenAI-compatible endpoints keep their existing behavior.
 
 **New in v0.17.0 — native Qwen Token Plan multimedia.** `GenerateImage`, `GenerateVideo`, and `GenerateSpeech` now call the direct Token Plan services with the configured `sk-sp-...` key—no Skill and no pay-as-you-go fallback. Video supports resumable HappyHorse t2v/i2v/r2v jobs; speech uses `qwen-audio-3.0-tts-plus` over the official WebSocket with `longanlingxin` by default and MP3/WAV/Opus/PCM output. Qwen 3.8 Max defaults to `xhigh` reasoning. `--include-partial-messages` adds live per-token `stream_event` / `content_block_delta` frames to `stream-json`, while the default settled-output contract remains compatible. Permission gates, new-only output paths, and non-retryable billable submissions keep Credits and files safe.
@@ -113,6 +115,8 @@ Binary-only, free to use; no redistribution or reverse engineering. See [LICENSE
 # hipmmcode（中文）
 
 **hipmmcode** 是终端里的全能 AI 编程智能体:全屏 TUI,可在 29+ 模型渠道(Anthropic、OpenAI、Gemini、DeepSeek、Kimi、MiniMax、通义、智谱、自定义代理……)上编排 LLM 智能体团队。
+
+**v1.0.0 新增 —— 不打包 Codex 也能复用本机 Computer Use。** HiPMMCode 自动发现本机最新、已启用的 `computer-use` 插件，原地调用其 typed MCP 工具；Codex 二进制、插件资产和原生服务都不会被复制到发布包。`/computer-use` 提供方向键+回车的“开启 / 关闭 / 查看状态”选择器，`/computer-use on|off|status` 可直接操作并立即重建当前会话的工具目录。独立开关默认关闭，插件路径/cwd 受限，子进程环境继承最小化，受支持的 macOS 与 Windows 原生授权仍由已安装的 Codex 服务负责。
 
 **v0.17.2 新增 —— Codex 与会员渠道兼容性修复。** `openai-codex` 与会员网关的 Responses 请求现在会省略后端不支持的 `temperature`、`stop` 和 `max_output_tokens` 参数。Auto mode 隐藏分类器不再因 HTTP 400 而 fail-closed 拦截原本有效的工具调用；标准 OpenAI 兼容端点行为保持不变。
 
