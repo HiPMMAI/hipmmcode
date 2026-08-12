@@ -3,7 +3,7 @@ class Hipmmcode < Formula
   homepage "https://github.com/HiPMMAI/hipmmcode"
   version "1.0.0"
   url "https://github.com/HiPMMAI/hipmmcode/releases/download/v1.0.0/hipmmcode-v1.0.0-darwin-universal.tar.gz"
-  sha256 "2168968aff447516c4c0ce3cc52ef7ff5b5e17f27625b9ab128afdc8ab51c1a4"
+  sha256 "5209e30d18615cdf5b8371f6d04172b4c8227cb8db0d21547b885e5e6bace714"
 
   def install
     bin.install "hipmmcode"
