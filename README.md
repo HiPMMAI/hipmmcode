@@ -38,6 +38,25 @@
 
 Distributed as prebuilt binaries. ✦ This repository hosts **releases and documentation only**.
 
+## Desktop v1.0.1
+
+HiPMMCode Desktop **v1.0.1** packages the Web workspace with the compiled
+`hipmmcode v1.0.0` runtime. The Desktop and CLI release lines are independent:
+
+- **macOS Apple Silicon and Intel:** Developer ID signed, Apple-notarized, and
+  stapled DMG and App.zip packages.
+- **Windows x64:** intentionally unsigned NSIS installer. Microsoft Defender
+  SmartScreen may warn or block installation until Authenticode signing is
+  introduced.
+- **Linux x64:** unsigned AppImage and Debian `.deb` packages.
+- Every package is covered by the release `SHA256SUMS` file.
+
+The immutable Desktop tag is **`desktop-v1.0.1`**. It must not replace the CLI
+`v1.0.0` release as GitHub **Latest**, because the terminal installers below use
+`releases/latest/download/install.sh` and `install.ps1`. See
+[Desktop release notes](DESKTOP_RELEASE_NOTES.md) for the exact asset manifest,
+installation notes, and checksum verification.
+
 ## Install
 
 **Platforms**: macOS (Apple Silicon & Intel), Linux (x64 & arm64), and Windows (x64) — all native.
@@ -137,6 +156,23 @@ Binary-only, free to use; no redistribution or reverse engineering. See [LICENSE
 **v0.12.2 新增 —— 会把问题查到底的 Web 检索。** 指向任意 Anthropic 兼容 base URL(如 DeepSeek 的 `/anthropic` 端点）、仅设置 `ANTHROPIC_AUTH_TOKEN` 时,hipmmcode 会识别该凭证并在服务端运行 `web_search`,返回带 `Sources:` 列表的当年结果,无需单独的搜索 key。每回合搜索预算提高到 8 次(每会话 200 次）,复杂问题可以跨多轮持续检索直到得出答案;拒绝原生 `web_fetch` 的端点会回退为客户端抓取,而不是让整个请求失败。HUD 工具计数现在会在回合进行中实时统计**每一个**工具——包括服务端托管的搜索/抓取,而全屏视图此前对它们完全不计数。
 
 以预编译二进制发行。✦ 本仓库只承载**发布产物与文档**。
+
+## 桌面版 v1.0.1
+
+HiPMMCode Desktop **v1.0.1** 将 Web 工作台与编译后的 `hipmmcode v1.0.0`
+运行时一起打包。桌面版与 CLI 是两条独立发布线：
+
+- **macOS Apple Silicon 与 Intel：** Developer ID 签名、Apple 公证并完成
+  staple 的 DMG 与 App.zip。
+- **Windows x64：** 当前明确为未签名 NSIS 安装包；引入 Authenticode
+  签名之前，Microsoft Defender SmartScreen 可能警告或拦截。
+- **Linux x64：** 当前为未签名 AppImage 与 Debian `.deb`。
+- 所有安装包均由 release 中的 `SHA256SUMS` 覆盖。
+
+桌面版使用不可变标签 **`desktop-v1.0.1`**，不要将它设为 GitHub
+**Latest**。下方终端安装命令依赖 `releases/latest/download/install.sh` 与
+`install.ps1`，因此 CLI `v1.0.0` 必须继续保持 Latest。完整文件清单、安装
+提示和校验方法见[桌面版发行说明](DESKTOP_RELEASE_NOTES.md)。
 
 ## 安装
 

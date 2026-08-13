@@ -1,3 +1,24 @@
 .DS_Store
 npm/dist/
 node_modules/
+
+# Desktop release packages belong in GitHub Release assets, not Git history.
+/dist/
+/release-assets/
+/artifacts/
+*.dmg
+*.app
+*.app.zip
+*.AppImage
+*.deb
+*-setup.exe
+
+# Never commit signing certificates, private keys, or provisioning material.
+*.p12
+*.pfx
+*.cer
+*.crt
+*.key
+*.pem
+*.mobileprovision
+*.provisionprofile

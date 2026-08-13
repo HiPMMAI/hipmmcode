@@ -1,3 +1,20 @@
+## HiPMMCode Desktop v1.0.1
+
+This is a Desktop distribution release that bundles the compiled
+`hipmmcode v1.0.0` runtime; it does not change the CLI version, npm package, or
+Homebrew formula.
+
+- **Trusted macOS distribution.** Apple Silicon and Intel App.zip/DMG packages
+  are Developer ID signed, notarized, and stapled.
+- **Explicit Windows trust status.** The Windows x64 application and NSIS
+  installer are intentionally unsigned, so SmartScreen may warn or block.
+- **Linux packages.** Linux x64 is provided as an unsigned AppImage and Debian
+  package.
+- **Verifiable manifest.** Seven platform packages and `SHA256SUMS` form the
+  exact release asset set. See [DESKTOP_RELEASE_NOTES.md](DESKTOP_RELEASE_NOTES.md).
+- **Separate release channel.** Publish under `desktop-v1.0.1` without making it
+  GitHub Latest; `v1.0.0` remains Latest for CLI installer compatibility.
+
 ## hipmmcode v1.0.0
 
 Codex Computer Use can now be reused from HiPMMCode without embedding Codex, its plugin, or its native service in the release package.
