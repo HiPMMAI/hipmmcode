@@ -1,3 +1,15 @@
+## hipmmcode v1.0.1
+
+Session collaboration, mid-turn transcript preservation, and Auto-mode consent aligned with Claude Code 2.1.233.
+
+- **Same-machine cross-session chat.** Type `@session-name` to mention another live HiPMMCode process. `SendMessage` / `ListPeers` use a local Unix socket; `/peer list|accept|refuse` manages held inbound mail. `/config set crossSessionInbound=accept|hold|refuse` and `/config set dialogExpiry=60s|5m|10m|never` (default 5 minutes; `HIPMMCODE_USER_DIALOG_TIMEOUT_MS` overrides). Cross-machine `bridge:` is not implemented.
+- **Fork subagents.** `subagent_type: "fork"` inherits the parent transcript and prompt-cache prefix. Off in print/SDK; enable with `HIPMMCODE_FORK_SUBAGENT`.
+- **Esc / Send now keep what already streamed.** Cancel-and-send no longer wipes the current turn. Partial assistant text stays in the transcript, then the queued follow-up is sent.
+- **Auto mode honors picker answers.** An `AskUserQuestion` choice is fed to the classifier as user intent (Claude `fVp`). Soft rules such as a named production deploy or remote write can auto-run after you confirm; hard blocks still deny. Timeouts and `(no answer)` grant nothing.
+- **Safer logs and tunable WebFetch cache.** GitLab token families (`glpat-`, `glrt-`, …) are redacted. `HIPMMCODE_WEBFETCH_CACHE_TTL_MS` (or `CLAUDE_CODE_WEBFETCH_CACHE_TTL_MS`) sets the per-URL cache; default remains 15 minutes.
+
+**Platforms:** macOS (Apple Silicon / Intel / universal), Linux (x64 / arm64, musl-static), Windows (x64). Verify downloads against `SHA256SUMS`.
+
 ## HiPMMCode Desktop v1.0.1
 
 This is a Desktop distribution release that bundles the compiled
@@ -13,7 +25,7 @@ Homebrew formula.
 - **Verifiable manifest.** Seven platform packages and `SHA256SUMS` form the
   exact release asset set. See [DESKTOP_RELEASE_NOTES.md](DESKTOP_RELEASE_NOTES.md).
 - **Separate release channel.** Publish under `desktop-v1.0.1` without making it
-  GitHub Latest; `v1.0.0` remains Latest for CLI installer compatibility.
+  GitHub Latest; CLI `v1.0.1` remains Latest for installer compatibility.
 
 ## hipmmcode v1.0.0
 

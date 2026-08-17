@@ -4,6 +4,8 @@
 
 **hipmmcode** is a provider-agnostic AI coding agent for your terminal: a fullscreen TUI that orchestrates teams of LLM agents across 29+ model channels (Anthropic, OpenAI, Gemini, DeepSeek, Kimi, MiniMax, DashScope, GLM, custom proxies, …).
 
+**New in v1.0.1 — same-machine cross-session chat, fork subagents, and keep-partial Esc / Send now.** Type `@session-name` to mention another live HiPMMCode process; `SendMessage` / `ListPeers` use a local Unix socket, and `/peer list|accept|refuse` manages held inbound mail. `subagent_type: "fork"` inherits the parent transcript. Esc / Send now keep already-streamed assistant text. Auto mode honors `AskUserQuestion` answers as user intent; GitLab tokens are redacted and `HIPMMCODE_WEBFETCH_CACHE_TTL_MS` is tunable. Cross-machine `bridge:` is not implemented.
+
 **New in v1.0.0 — reuse the local Codex Computer Use plugin without bundling it.** HiPMMCode discovers the newest enabled local `computer-use` plugin and uses its typed MCP tools in place; no Codex binary, plugin asset, or native service is copied into the release. `/computer-use` opens an arrow-key + Enter picker for Enable / Disable / View status, while `/computer-use on|off|status` applies directly and rebuilds the current session's tool catalog. The independent switch defaults off, plugin paths/cwd stay contained, subprocess environment inheritance is minimized, and native authorization on supported macOS and Windows installations remains owned by the installed Codex service.
 
 **New in v0.17.2 — Codex and membership-channel compatibility.** Responses requests sent through `openai-codex` or a membership gateway now omit the unsupported `temperature`, `stop`, and `max_output_tokens` parameters. Hidden Auto mode classification no longer fails with HTTP 400 and fail-closes otherwise valid tool calls; standard OpenAI-compatible endpoints keep their existing behavior.
@@ -52,7 +54,7 @@ HiPMMCode Desktop **v1.0.1** packages the Web workspace with the compiled
 - Every package is covered by the release `SHA256SUMS` file.
 
 The immutable Desktop tag is **`desktop-v1.0.1`**. It must not replace the CLI
-`v1.0.0` release as GitHub **Latest**, because the terminal installers below use
+`v1.0.1` release as GitHub **Latest**, because the terminal installers below use
 `releases/latest/download/install.sh` and `install.ps1`. See
 [Desktop release notes](DESKTOP_RELEASE_NOTES.md) for the exact asset manifest,
 installation notes, and checksum verification.
@@ -135,6 +137,8 @@ Binary-only, free to use; no redistribution or reverse engineering. See [LICENSE
 
 **hipmmcode** 是终端里的全能 AI 编程智能体:全屏 TUI,可在 29+ 模型渠道(Anthropic、OpenAI、Gemini、DeepSeek、Kimi、MiniMax、通义、智谱、自定义代理……)上编排 LLM 智能体团队。
 
+**v1.0.1 新增 —— 本机跨会话、Fork 子代理、Esc / Send now 保留已生成内容。** `@会话名` 点名另一台正在跑的 HiPMMCode；`SendMessage` / `ListPeers` 走本机 Unix socket，`/peer list|accept|refuse` 处理暂挂来信。`subagent_type: "fork"` 继承父对话。Esc / Send now 不再抹掉已生成文字。Auto 认 `AskUserQuestion` 答案；GitLab token 会打码，`HIPMMCODE_WEBFETCH_CACHE_TTL_MS` 可调。跨机器 `bridge:` 未实现。
+
 **v1.0.0 新增 —— 不打包 Codex 也能复用本机 Computer Use。** HiPMMCode 自动发现本机最新、已启用的 `computer-use` 插件，原地调用其 typed MCP 工具；Codex 二进制、插件资产和原生服务都不会被复制到发布包。`/computer-use` 提供方向键+回车的“开启 / 关闭 / 查看状态”选择器，`/computer-use on|off|status` 可直接操作并立即重建当前会话的工具目录。独立开关默认关闭，插件路径/cwd 受限，子进程环境继承最小化，受支持的 macOS 与 Windows 原生授权仍由已安装的 Codex 服务负责。
 
 **v0.17.2 新增 —— Codex 与会员渠道兼容性修复。** `openai-codex` 与会员网关的 Responses 请求现在会省略后端不支持的 `temperature`、`stop` 和 `max_output_tokens` 参数。Auto mode 隐藏分类器不再因 HTTP 400 而 fail-closed 拦截原本有效的工具调用；标准 OpenAI 兼容端点行为保持不变。
@@ -171,7 +175,7 @@ HiPMMCode Desktop **v1.0.1** 将 Web 工作台与编译后的 `hipmmcode v1.0.0`
 
 桌面版使用不可变标签 **`desktop-v1.0.1`**，不要将它设为 GitHub
 **Latest**。下方终端安装命令依赖 `releases/latest/download/install.sh` 与
-`install.ps1`，因此 CLI `v1.0.0` 必须继续保持 Latest。完整文件清单、安装
+`install.ps1`，因此 CLI `v1.0.1` 必须继续保持 Latest。完整文件清单、安装
 提示和校验方法见[桌面版发行说明](DESKTOP_RELEASE_NOTES.md)。
 
 ## 安装
