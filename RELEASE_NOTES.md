@@ -1,3 +1,13 @@
+## hipmmcode v1.0.2
+
+Turbo runtime profile, slimmer first-turn context, and desktop Host-bridge discovery that works on every packaged OS.
+
+- **Turbo profile.** `/turbo on|off|toggle` is a session runtime profile, not a permission mode. Turbo is Auto with the cheap classifier skipped; high-risk tools still open the regular Ask card. `/fast` stays a channel switch and `/effort max` still works.
+- **Slim request face.** New turbo sessions replace the outgoing system prompt with a short harness and keep only core tools plus connected `mcp__*` schemas. Skills and extra tools load through `ToolSearch`. Conversation history is unchanged.
+- **Desktop Host bridge.** The shell publishes `HIPMMCODE_HOST_BRIDGE_DIR` to the packaged `runtime/hipmmcode-web/host-bridge` on macOS, Windows, and Linux. Discovery also looks one directory above the desktop `app/` cwd so Connections no longer reports a missing adapter when the payload is present.
+
+**Platforms:** macOS (Apple Silicon / Intel / universal), Linux (x64 / arm64, musl-static), Windows (x64). Verify downloads against `SHA256SUMS`. Public repo tag: `v1.0.2`.
+
 ## hipmmcode v1.0.1
 
 Session collaboration, mid-turn transcript preservation, and Auto-mode consent aligned with Claude Code 2.1.233.
