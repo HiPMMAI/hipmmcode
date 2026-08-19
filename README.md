@@ -4,6 +4,8 @@
 
 **hipmmcode** is a provider-agnostic AI coding agent for your terminal: a fullscreen TUI that orchestrates teams of LLM agents across 29+ model channels (Anthropic, OpenAI, Gemini, DeepSeek, Kimi, MiniMax, DashScope, GLM, custom proxies, …).
 
+**New in v1.0.3 — TUI transcript polish and robustness fixes.** Messages queued mid-turn keep their `[Image #N]` / `[Pasted text #N]` placeholders in the sent bubble; queued messages are consumed into their own block so replies are never glued to the user bubble; the turn screen always tears down before post-turn bookkeeping so running tool rows can't blink forever; tokenless `Edit`/`Write` bind to the most recent `Read` (snapshot mismatches report the correct token, `~` rewrites are tolerated while `./` and symlink aliases are rejected); and a successful manual `/compact` re-arms auto-compaction.
+
 **New in v1.0.2 — `/turbo` slim runtime profile.** `/turbo on|off|toggle` is a session profile, not a permission mode. Turbo is Auto with the cheap classifier skipped; high-risk tools still ask. Each turbo request sends a short system prompt plus core tools and connected `mcp__*` schemas. Skills and extra tools load through `ToolSearch`. `/fast` stays a channel switch and `/effort max` still works. Plan write refusals render as errors; “开始干活” only leaves Plan when the protected plan file is non-empty.
 
 **New in v1.0.1 — same-machine cross-session chat, fork subagents, and keep-partial Esc / Send now.** Type `@session-name` to mention another live HiPMMCode process; `SendMessage` / `ListPeers` use a local Unix socket, and `/peer list|accept|refuse` manages held inbound mail. `subagent_type: "fork"` inherits the parent transcript. Esc / Send now keep already-streamed assistant text. Auto mode honors `AskUserQuestion` answers as user intent; GitLab tokens are redacted and `HIPMMCODE_WEBFETCH_CACHE_TTL_MS` is tunable. Cross-machine `bridge:` is not implemented.
@@ -42,22 +44,21 @@
 
 Distributed as prebuilt binaries. ✦ This repository hosts **releases and documentation only**.
 
-## Desktop v1.0.3
+## Desktop v1.0.4
 
-HiPMMCode Desktop **v1.0.3** packages the Web workspace with a compiled
-`hipmmcode` runtime. The Desktop and CLI release lines are independent
-(CLI is **v1.0.2**):
+HiPMMCode Desktop **v1.0.4** packages the Web workspace with compiled
+**hipmmcode v1.0.3**. The Desktop and CLI release lines stay independent:
 
-- **macOS Apple Silicon and Intel:** Developer ID signed, Apple-notarized, and
-  stapled DMG and App.zip packages.
+- **macOS Apple Silicon and Intel:** Developer ID signed DMG and App.zip. This
+  `1.0.4` set is **not** Apple-notarized or stapled; Gatekeeper may still warn.
 - **Windows x64:** intentionally unsigned NSIS installer. Microsoft Defender
   SmartScreen may warn or block installation until Authenticode signing is
   introduced.
 - **Linux x64:** unsigned AppImage and Debian `.deb` packages.
 - Every package is covered by the release `SHA256SUMS` file.
 
-The immutable Desktop tag is **`desktop-v1.0.3`**. It must not replace the CLI
-`v1.0.2` release as GitHub **Latest**, because the terminal installers below use
+The immutable Desktop tag is **`desktop-v1.0.4`**. It must not replace the CLI
+`v1.0.3` release as GitHub **Latest**, because the terminal installers below use
 `releases/latest/download/install.sh` and `install.ps1`. See
 [Desktop release notes](DESKTOP_RELEASE_NOTES.md) for the exact asset manifest,
 installation notes, and checksum verification.
@@ -140,6 +141,8 @@ Binary-only, free to use; no redistribution or reverse engineering. See [LICENSE
 
 **hipmmcode** 是终端里的全能 AI 编程智能体:全屏 TUI,可在 29+ 模型渠道(Anthropic、OpenAI、Gemini、DeepSeek、Kimi、MiniMax、通义、智谱、自定义代理……)上编排 LLM 智能体团队。
 
+**v1.0.3 新增 —— TUI 转录打磨与健壮性修复。** 回合中排队消息保留 `[Image #N]` / `[Pasted text #N]` 占位符，发送后不再变成 `[image: clipboard]`；排队消息被消费后助手回复独立成块，不再紧贴用户消息；回合屏拆除前移到所有回合后簿记之前，running 工具行不再永久闪烁；无 token 的 `Edit`/`Write` 绑定最近一次 `Read`（snapshot 不匹配报错附正确 token，容忍 `~` 前缀改写、拒绝 `./` 与符号链接别名）；成功的手动 `/compact` 会复位断路器，自动压缩重新武装。
+
 **v1.0.2 新增 —— `/turbo` 极速运行时档。** `/turbo on|off|toggle` 是会话档，不是权限模式。Turbo 就是 Auto，并跳过便宜分类器；高风险工具仍要确认。每一轮发出短系统提示、核心工具和已连接的 `mcp__*` schema；技能和其余工具用 `ToolSearch` 按需加载。`/fast` 仍只切渠道，`/effort max` 仍可用。计划文件拒写显示为错误；「开始干活」只有在受保护计划非空时才会离开 Plan。
 
 **v1.0.1 新增 —— 本机跨会话、Fork 子代理、Esc / Send now 保留已生成内容。** `@会话名` 点名另一台正在跑的 HiPMMCode；`SendMessage` / `ListPeers` 走本机 Unix socket，`/peer list|accept|refuse` 处理暂挂来信。`subagent_type: "fork"` 继承父对话。Esc / Send now 不再抹掉已生成文字。Auto 认 `AskUserQuestion` 答案；GitLab token 会打码，`HIPMMCODE_WEBFETCH_CACHE_TTL_MS` 可调。跨机器 `bridge:` 未实现。
@@ -166,21 +169,21 @@ Binary-only, free to use; no redistribution or reverse engineering. See [LICENSE
 
 以预编译二进制发行。✦ 本仓库只承载**发布产物与文档**。
 
-## 桌面版 v1.0.3
+## 桌面版 v1.0.4
 
-HiPMMCode Desktop **v1.0.3** 将 Web 工作台与编译后的 `hipmmcode`
-运行时一起打包。桌面版与 CLI 是两条独立发布线（CLI 为 **v1.0.2**）：
+HiPMMCode Desktop **v1.0.4** 将 Web 工作台与编译后的 **hipmmcode v1.0.3**
+一起打包。桌面版与 CLI 是两条独立发布线：
 
-- **macOS Apple Silicon 与 Intel：** Developer ID 签名、Apple 公证并完成
-  staple 的 DMG 与 App.zip。
+- **macOS Apple Silicon 与 Intel：** Developer ID 已签名的 DMG 与 App.zip。
+  本次 **`1.0.4` 未做 Apple 公证/装订**，Gatekeeper 仍可能提示。
 - **Windows x64：** 当前明确为未签名 NSIS 安装包；引入 Authenticode
   签名之前，Microsoft Defender SmartScreen 可能警告或拦截。
 - **Linux x64：** 当前为未签名 AppImage 与 Debian `.deb`。
 - 所有安装包均由 release 中的 `SHA256SUMS` 覆盖。
 
-桌面版使用不可变标签 **`desktop-v1.0.3`**，不要将它设为 GitHub
+桌面版使用不可变标签 **`desktop-v1.0.4`**，不要将它设为 GitHub
 **Latest**。下方终端安装命令依赖 `releases/latest/download/install.sh` 与
-`install.ps1`，因此 CLI `v1.0.2` 必须继续保持 Latest。完整文件清单、安装
+`install.ps1`，因此 CLI `v1.0.3` 必须继续保持 Latest。完整文件清单、安装
 提示和校验方法见[桌面版发行说明](DESKTOP_RELEASE_NOTES.md)。
 
 ## 安装

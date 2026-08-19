@@ -1,9 +1,9 @@
 class Hipmmcode < Formula
   desc "Provider-agnostic AI coding agent for your terminal"
   homepage "https://github.com/HiPMMAI/hipmmcode"
-  version "1.0.2"
-  url "https://github.com/HiPMMAI/hipmmcode/releases/download/v1.0.2/hipmmcode-v1.0.2-darwin-universal.tar.gz"
-  sha256 "5a563b2649b2d08d8260c9f0b33224b8f3eaad59b3354c82771bb535701e1d35"
+  version "1.0.3"
+  url "https://github.com/HiPMMAI/hipmmcode/releases/download/v1.0.3/hipmmcode-v1.0.3-darwin-universal.tar.gz"
+  sha256 "13dab2adab0d5c5c6b902a899b06f0746cef0f33b54d871a6e4fdea14c65e95e"
 
   def install
     bin.install "hipmmcode"

@@ -1,3 +1,17 @@
+## hipmmcode v1.0.3
+
+TUI transcript polish and robustness fixes.
+
+- **Queued messages keep image placeholders.** Messages queued mid-turn (type-ahead) preserve the `[Image #N]` / `[Pasted text #N]` placeholders you saw while typing; sent bubbles no longer show the parsed `[image: clipboard]` marker.
+- **Injected bubbles are separated.** After a queued message is consumed mid-turn, the assistant's reply starts its own block instead of being glued to the user bubble.
+- **The turn screen always tears down.** Teardown now runs before any post-turn bookkeeping awaits, so an engine/inbox hang can no longer strand the previous turn's running tool rows blinking forever.
+- **Snapshot-gate hardening.** Tokenless `Edit`/`Write` bind to the most recent `Read`; a snapshot mismatch reports the correct token; the permission engine tolerates rewriting the `~` prefix (plain string level) while still rejecting `./` and symlink aliases.
+- **Auto-compact re-arms after a manual compact.** A successful manual `/compact` resets the consecutive-failure breaker so automatic compaction resumes.
+
+**Platforms:** macOS (Apple Silicon / Intel / universal), Linux (x64 / arm64, musl-static), Windows (x64). Verify downloads against `SHA256SUMS`. Public repo tag: `v1.0.3`.
+
+**Windows toolchain note:** the v1.0.3 Windows x64 archive is built with the native MSVC toolchain (previous releases used the GNU cross-build). Windows 10/11 ship the required UCRT; if `hipmmcode.exe` reports a missing `VCRUNTIME140.dll`, install the Microsoft Visual C++ Redistributable once.
+
 ## hipmmcode v1.0.2
 
 Turbo runtime profile, slimmer first-turn context, and desktop Host-bridge discovery that works on every packaged OS.
@@ -7,6 +21,29 @@ Turbo runtime profile, slimmer first-turn context, and desktop Host-bridge disco
 - **Desktop Host bridge.** The shell publishes `HIPMMCODE_HOST_BRIDGE_DIR` to the packaged `runtime/hipmmcode-web/host-bridge` on macOS, Windows, and Linux. Discovery also looks one directory above the desktop `app/` cwd so Connections no longer reports a missing adapter when the payload is present.
 
 **Platforms:** macOS (Apple Silicon / Intel / universal), Linux (x64 / arm64, musl-static), Windows (x64). Verify downloads against `SHA256SUMS`. Public repo tag: `v1.0.2`.
+
+## HiPMMCode Desktop v1.0.4
+
+This is a Desktop distribution release that bundles the compiled
+`hipmmcode v1.0.2` runtime; it does not change the CLI version, npm package, or
+Homebrew formula.
+
+- **Turbo in the desktop shell.** Regular / Turbo is switched through
+  `set_runtime_profile`. Turbo is Auto with the cheap classifier skipped;
+  high-risk tools still open the regular Ask card.
+- **Host bridge on every packaged OS.** The shell publishes
+  `HIPMMCODE_HOST_BRIDGE_DIR` and also looks one directory above the desktop
+  `app/` cwd, so Windows and Linux Connections no longer report a missing
+  adapter when the payload is present.
+- **macOS.** Developer ID signed App.zip and DMG. This `1.0.4` set is **not**
+  Apple-notarized or stapled; Gatekeeper may still warn.
+- **Windows.** The application and NSIS installer are intentionally unsigned.
+  SmartScreen may warn or block.
+- **Linux.** Unsigned AppImage and Debian package.
+- **Verifiable manifest.** Seven platform packages and `SHA256SUMS` form the
+  exact release asset set.
+- **Separate release channel.** Publish under `desktop-v1.0.4` without making it
+  GitHub Latest; CLI `v1.0.2` remains Latest for installer compatibility.
 
 ## hipmmcode v1.0.1
 
