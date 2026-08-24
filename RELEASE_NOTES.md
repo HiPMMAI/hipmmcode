@@ -1,3 +1,13 @@
+## hipmmcode v1.0.4
+
+DeepSeek vision: three official SKUs; Flash/Pro image turns detour to vision-exp for that turn only.
+
+- **Official catalog.** `deepseek` and `deepseek-anthropic` suggest `deepseek-v4-flash`, `deepseek-v4-pro`, and `deepseek-v4-flash-vision-exp`. The `pro[1m]` alias is gone.
+- **Images on all three wires.** Chat Completions `image_url`, Anthropic Messages `image` + `source.base64`, Responses `input_image`. Only the vision SKU accepts pictures.
+- **One-turn detour.** If the session is Flash or Pro and this turn has an image, the whole turn (including the tool loop) is sent to `deepseek-v4-flash-vision-exp`. The next text-only turn returns to Flash/Pro. The selected model is unchanged.
+
+**Platforms:** macOS (Apple Silicon / Intel / universal), Linux (x64 / arm64, musl-static), Windows (x64). Verify downloads against `SHA256SUMS`. Public repo tag: `v1.0.4`.
+
 ## hipmmcode v1.0.3
 
 TUI transcript polish and robustness fixes.

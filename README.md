@@ -4,6 +4,8 @@
 
 **hipmmcode** is a provider-agnostic AI coding agent for your terminal: a fullscreen TUI that orchestrates teams of LLM agents across 29+ model channels (Anthropic, OpenAI, Gemini, DeepSeek, Kimi, MiniMax, DashScope, GLM, custom proxies, …).
 
+**New in v1.0.4 — DeepSeek vision.** `deepseek` and `deepseek-anthropic` suggest `deepseek-v4-flash`, `deepseek-v4-pro`, and `deepseek-v4-flash-vision-exp` (👁). Images go out on Chat Completions (`image_url`), Anthropic Messages, and Responses (`input_image`). A Flash/Pro session that receives an image this turn is sent to vision-exp for that turn only; the next text-only turn returns to Flash/Pro without changing the selected model.
+
 **New in v1.0.3 — TUI transcript polish and robustness fixes.** Messages queued mid-turn keep their `[Image #N]` / `[Pasted text #N]` placeholders in the sent bubble; queued messages are consumed into their own block so replies are never glued to the user bubble; the turn screen always tears down before post-turn bookkeeping so running tool rows can't blink forever; tokenless `Edit`/`Write` bind to the most recent `Read` (snapshot mismatches report the correct token, `~` rewrites are tolerated while `./` and symlink aliases are rejected); and a successful manual `/compact` re-arms auto-compaction.
 
 **New in v1.0.2 — `/turbo` slim runtime profile.** `/turbo on|off|toggle` is a session profile, not a permission mode. Turbo is Auto with the cheap classifier skipped; high-risk tools still ask. Each turbo request sends a short system prompt plus core tools and connected `mcp__*` schemas. Skills and extra tools load through `ToolSearch`. `/fast` stays a channel switch and `/effort max` still works. Plan write refusals render as errors; “开始干活” only leaves Plan when the protected plan file is non-empty.
@@ -57,9 +59,9 @@ HiPMMCode Desktop **v1.0.4** packages the Web workspace with compiled
 - **Linux x64:** unsigned AppImage and Debian `.deb` packages.
 - Every package is covered by the release `SHA256SUMS` file.
 
-The immutable Desktop tag is **`desktop-v1.0.4`**. It must not replace the CLI
-`v1.0.3` release as GitHub **Latest**, because the terminal installers below use
-`releases/latest/download/install.sh` and `install.ps1`. See
+The immutable Desktop tag is **`desktop-v1.0.4`** (bundled core 1.0.3). It must
+not replace the CLI `v1.0.4` release as GitHub **Latest**, because the terminal
+installers below use `releases/latest/download/install.sh` and `install.ps1`. See
 [Desktop release notes](DESKTOP_RELEASE_NOTES.md) for the exact asset manifest,
 installation notes, and checksum verification.
 
@@ -141,6 +143,8 @@ Binary-only, free to use; no redistribution or reverse engineering. See [LICENSE
 
 **hipmmcode** 是终端里的全能 AI 编程智能体:全屏 TUI,可在 29+ 模型渠道(Anthropic、OpenAI、Gemini、DeepSeek、Kimi、MiniMax、通义、智谱、自定义代理……)上编排 LLM 智能体团队。
 
+**v1.0.4 新增 —— DeepSeek 识图。** `deepseek` 与 `deepseek-anthropic` 建议 `deepseek-v4-flash`、`deepseek-v4-pro`、`deepseek-v4-flash-vision-exp`（👁）。图片走 Chat Completions `image_url`、Anthropic Messages、Responses `input_image`。Flash/Pro 会话本轮带图时整轮发到 vision-exp，下一轮纯文本仍回原模型，选中的模型不变。
+
 **v1.0.3 新增 —— TUI 转录打磨与健壮性修复。** 回合中排队消息保留 `[Image #N]` / `[Pasted text #N]` 占位符，发送后不再变成 `[image: clipboard]`；排队消息被消费后助手回复独立成块，不再紧贴用户消息；回合屏拆除前移到所有回合后簿记之前，running 工具行不再永久闪烁；无 token 的 `Edit`/`Write` 绑定最近一次 `Read`（snapshot 不匹配报错附正确 token，容忍 `~` 前缀改写、拒绝 `./` 与符号链接别名）；成功的手动 `/compact` 会复位断路器，自动压缩重新武装。
 
 **v1.0.2 新增 —— `/turbo` 极速运行时档。** `/turbo on|off|toggle` 是会话档，不是权限模式。Turbo 就是 Auto，并跳过便宜分类器；高风险工具仍要确认。每一轮发出短系统提示、核心工具和已连接的 `mcp__*` schema；技能和其余工具用 `ToolSearch` 按需加载。`/fast` 仍只切渠道，`/effort max` 仍可用。计划文件拒写显示为错误；「开始干活」只有在受保护计划非空时才会离开 Plan。
@@ -181,9 +185,9 @@ HiPMMCode Desktop **v1.0.4** 将 Web 工作台与编译后的 **hipmmcode v1.0.3
 - **Linux x64：** 当前为未签名 AppImage 与 Debian `.deb`。
 - 所有安装包均由 release 中的 `SHA256SUMS` 覆盖。
 
-桌面版使用不可变标签 **`desktop-v1.0.4`**，不要将它设为 GitHub
-**Latest**。下方终端安装命令依赖 `releases/latest/download/install.sh` 与
-`install.ps1`，因此 CLI `v1.0.3` 必须继续保持 Latest。完整文件清单、安装
+桌面版使用不可变标签 **`desktop-v1.0.4`**（内置核心 1.0.3），不要将它设为
+GitHub **Latest**。下方终端安装命令依赖 `releases/latest/download/install.sh`
+与 `install.ps1`，因此 CLI `v1.0.4` 必须继续保持 Latest。完整文件清单、安装
 提示和校验方法见[桌面版发行说明](DESKTOP_RELEASE_NOTES.md)。
 
 ## 安装
