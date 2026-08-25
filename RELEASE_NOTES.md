@@ -1,3 +1,14 @@
+## hipmmcode v1.0.5
+
+DeepSeek vision uses the Files API. Local OpenAI-compatible servers such as LM Studio can complete a full tool loop.
+
+- **Small JSON, images stay images.** Pixels go up with `POST /files`. Chat requests only send `{type: "file", file_id}`. File references can total 128 MiB. If Files is unavailable, images are JPEG-packed inline (20 MiB / 48 MiB request-body cap).
+- **`deepseek-anthropic`.** Anthropic Messages does not accept `file_id`, so vision turns go to Chat Completions + Files. Flash/Pro image turns still detour to vision-exp for that turn only.
+- **LM Studio.** Pasting `http://host:1234` appends `/v1`. Tool schemas always include `properties`. Local prefill can wait 10 minutes; idle after first text is 5 minutes; HTTP idle read is 10 minutes.
+- **Auto + read-only MCP.** Read-only MCP tools such as `kb_status` and `kb_search` skip the classifier. Bash/Write may still be denied on a single local GPU.
+
+**Platforms:** macOS (Apple Silicon / Intel / universal), Linux (x64 / arm64, musl-static), Windows (x64). Verify downloads against `SHA256SUMS`. Public repo tag: `v1.0.5`. Desktop is a separate line (`desktop-v1.0.7`, bundled core 1.0.5).
+
 ## hipmmcode v1.0.4
 
 DeepSeek vision: three official SKUs; Flash/Pro image turns detour to vision-exp for that turn only.

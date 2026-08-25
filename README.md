@@ -4,6 +4,8 @@
 
 **hipmmcode** is a provider-agnostic AI coding agent for your terminal: a fullscreen TUI that orchestrates teams of LLM agents across 29+ model channels (Anthropic, OpenAI, Gemini, DeepSeek, Kimi, MiniMax, DashScope, GLM, custom proxies, …).
 
+**New in v1.0.5 — DeepSeek Files API, LM Studio local loops.** Images are uploaded with `POST /files`; the chat JSON only carries `{type: "file", file_id}` (still the picture). File refs can total 128 MiB. LM Studio origins get `/v1` automatically; tool schemas include `properties`; local prefill waits 10 minutes so prompt processing is not cut at 30%. Read-only MCP (`kb_status` / `kb_search`) skips Auto. Flash/Pro still detour image turns to `deepseek-v4-flash-vision-exp`.
+
 **New in v1.0.4 — DeepSeek vision.** `deepseek` and `deepseek-anthropic` suggest `deepseek-v4-flash`, `deepseek-v4-pro`, and `deepseek-v4-flash-vision-exp` (👁). Images go out on Chat Completions (`image_url`), Anthropic Messages, and Responses (`input_image`). A Flash/Pro session that receives an image this turn is sent to vision-exp for that turn only; the next text-only turn returns to Flash/Pro without changing the selected model.
 
 **New in v1.0.3 — TUI transcript polish and robustness fixes.** Messages queued mid-turn keep their `[Image #N]` / `[Pasted text #N]` placeholders in the sent bubble; queued messages are consumed into their own block so replies are never glued to the user bubble; the turn screen always tears down before post-turn bookkeeping so running tool rows can't blink forever; tokenless `Edit`/`Write` bind to the most recent `Read` (snapshot mismatches report the correct token, `~` rewrites are tolerated while `./` and symlink aliases are rejected); and a successful manual `/compact` re-arms auto-compaction.
@@ -46,21 +48,21 @@
 
 Distributed as prebuilt binaries. ✦ This repository hosts **releases and documentation only**.
 
-## Desktop v1.0.4
+## Desktop v1.0.7
 
-HiPMMCode Desktop **v1.0.4** packages the Web workspace with compiled
-**hipmmcode v1.0.3**. The Desktop and CLI release lines stay independent:
+HiPMMCode Desktop **v1.0.7** packages the Web workspace with compiled
+**hipmmcode v1.0.5**. The Desktop and CLI release lines stay independent:
 
-- **macOS Apple Silicon and Intel:** Developer ID signed DMG and App.zip. This
-  `1.0.4` set is **not** Apple-notarized or stapled; Gatekeeper may still warn.
+- **macOS Apple Silicon and Intel:** Developer ID signed, Apple-notarized, and
+  stapled DMG and App.zip. Gatekeeper should accept Notarized Developer ID.
 - **Windows x64:** intentionally unsigned NSIS installer. Microsoft Defender
   SmartScreen may warn or block installation until Authenticode signing is
   introduced.
 - **Linux x64:** unsigned AppImage and Debian `.deb` packages.
 - Every package is covered by the release `SHA256SUMS` file.
 
-The immutable Desktop tag is **`desktop-v1.0.4`** (bundled core 1.0.3). It must
-not replace the CLI `v1.0.4` release as GitHub **Latest**, because the terminal
+The immutable Desktop tag is **`desktop-v1.0.7`** (bundled core 1.0.5). It must
+not replace the CLI `v1.0.5` release as GitHub **Latest**, because the terminal
 installers below use `releases/latest/download/install.sh` and `install.ps1`. See
 [Desktop release notes](DESKTOP_RELEASE_NOTES.md) for the exact asset manifest,
 installation notes, and checksum verification.
@@ -143,6 +145,8 @@ Binary-only, free to use; no redistribution or reverse engineering. See [LICENSE
 
 **hipmmcode** 是终端里的全能 AI 编程智能体:全屏 TUI,可在 29+ 模型渠道(Anthropic、OpenAI、Gemini、DeepSeek、Kimi、MiniMax、通义、智谱、自定义代理……)上编排 LLM 智能体团队。
 
+**v1.0.5 新增 —— DeepSeek Files API，LM Studio 本地循环。** 先 `POST /files` 上传图像素，聊天 JSON 只带 `{type: "file", file_id}`（仍是图）。文件引用合计 128 MiB。LM Studio 地址自动补 `/v1`；工具 schema 带 `properties`；本地预填充等到 10 分钟。只读 MCP（kb_status / kb_search）跳过 Auto。Flash/Pro 贴图仍只在这一轮走 vision-exp。
+
 **v1.0.4 新增 —— DeepSeek 识图。** `deepseek` 与 `deepseek-anthropic` 建议 `deepseek-v4-flash`、`deepseek-v4-pro`、`deepseek-v4-flash-vision-exp`（👁）。图片走 Chat Completions `image_url`、Anthropic Messages、Responses `input_image`。Flash/Pro 会话本轮带图时整轮发到 vision-exp，下一轮纯文本仍回原模型，选中的模型不变。
 
 **v1.0.3 新增 —— TUI 转录打磨与健壮性修复。** 回合中排队消息保留 `[Image #N]` / `[Pasted text #N]` 占位符，发送后不再变成 `[image: clipboard]`；排队消息被消费后助手回复独立成块，不再紧贴用户消息；回合屏拆除前移到所有回合后簿记之前，running 工具行不再永久闪烁；无 token 的 `Edit`/`Write` 绑定最近一次 `Read`（snapshot 不匹配报错附正确 token，容忍 `~` 前缀改写、拒绝 `./` 与符号链接别名）；成功的手动 `/compact` 会复位断路器，自动压缩重新武装。
@@ -173,21 +177,21 @@ Binary-only, free to use; no redistribution or reverse engineering. See [LICENSE
 
 以预编译二进制发行。✦ 本仓库只承载**发布产物与文档**。
 
-## 桌面版 v1.0.4
+## 桌面版 v1.0.7
 
-HiPMMCode Desktop **v1.0.4** 将 Web 工作台与编译后的 **hipmmcode v1.0.3**
+HiPMMCode Desktop **v1.0.7** 将 Web 工作台与编译后的 **hipmmcode v1.0.5**
 一起打包。桌面版与 CLI 是两条独立发布线：
 
-- **macOS Apple Silicon 与 Intel：** Developer ID 已签名的 DMG 与 App.zip。
-  本次 **`1.0.4` 未做 Apple 公证/装订**，Gatekeeper 仍可能提示。
+- **macOS Apple Silicon 与 Intel：** Developer ID 已签名、Apple 已公证并装订的
+  DMG 与 App.zip。Gatekeeper 应识别为已公证应用。
 - **Windows x64：** 当前明确为未签名 NSIS 安装包；引入 Authenticode
   签名之前，Microsoft Defender SmartScreen 可能警告或拦截。
 - **Linux x64：** 当前为未签名 AppImage 与 Debian `.deb`。
 - 所有安装包均由 release 中的 `SHA256SUMS` 覆盖。
 
-桌面版使用不可变标签 **`desktop-v1.0.4`**（内置核心 1.0.3），不要将它设为
+桌面版使用不可变标签 **`desktop-v1.0.7`**（内置核心 1.0.5），不要将它设为
 GitHub **Latest**。下方终端安装命令依赖 `releases/latest/download/install.sh`
-与 `install.ps1`，因此 CLI `v1.0.4` 必须继续保持 Latest。完整文件清单、安装
+与 `install.ps1`，因此 CLI `v1.0.5` 必须继续保持 Latest。完整文件清单、安装
 提示和校验方法见[桌面版发行说明](DESKTOP_RELEASE_NOTES.md)。
 
 ## 安装
