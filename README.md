@@ -4,6 +4,8 @@
 
 **hipmmcode** is a provider-agnostic AI coding agent for your terminal: a fullscreen TUI that orchestrates teams of LLM agents across 29+ model channels (Anthropic, OpenAI, Gemini, DeepSeek, Kimi, MiniMax, DashScope, GLM, custom proxies, …).
 
+**New in v1.0.6 — Ctrl+V image paste in the macOS terminal.** Terminal.app and iTerm2 swallow Cmd+V when the clipboard is an image. The idle composer, mid-turn editor, and readline now honor **Ctrl+V**: a screenshot becomes `[Image #N]`; text still pastes as text. Cmd+V in VS Code / Cursor is unchanged. Ctrl+C remains interrupt, not copy.
+
 **New in v1.0.5 — DeepSeek Files API, LM Studio local loops.** Images are uploaded with `POST /files`; the chat JSON only carries `{type: "file", file_id}` (still the picture). File refs can total 128 MiB. LM Studio origins get `/v1` automatically; tool schemas include `properties`; local prefill waits 10 minutes so prompt processing is not cut at 30%. Read-only MCP (`kb_status` / `kb_search`) skips Auto. Flash/Pro still detour image turns to `deepseek-v4-flash-vision-exp`.
 
 **New in v1.0.4 — DeepSeek vision.** `deepseek` and `deepseek-anthropic` suggest `deepseek-v4-flash`, `deepseek-v4-pro`, and `deepseek-v4-flash-vision-exp` (👁). Images go out on Chat Completions (`image_url`), Anthropic Messages, and Responses (`input_image`). A Flash/Pro session that receives an image this turn is sent to vision-exp for that turn only; the next text-only turn returns to Flash/Pro without changing the selected model.
@@ -51,7 +53,7 @@ Distributed as prebuilt binaries. ✦ This repository hosts **releases and docum
 ## Desktop v1.0.7
 
 HiPMMCode Desktop **v1.0.7** packages the Web workspace with compiled
-**hipmmcode v1.0.5**. The Desktop and CLI release lines stay independent:
+**hipmmcode v1.0.6**. The Desktop and CLI release lines stay independent:
 
 - **macOS Apple Silicon and Intel:** Developer ID signed, Apple-notarized, and
   stapled DMG and App.zip. Gatekeeper should accept Notarized Developer ID.
@@ -62,7 +64,7 @@ HiPMMCode Desktop **v1.0.7** packages the Web workspace with compiled
 - Every package is covered by the release `SHA256SUMS` file.
 
 The immutable Desktop tag is **`desktop-v1.0.7`** (bundled core 1.0.5). It must
-not replace the CLI `v1.0.5` release as GitHub **Latest**, because the terminal
+not replace the CLI `v1.0.6` release as GitHub **Latest**, because the terminal
 installers below use `releases/latest/download/install.sh` and `install.ps1`. See
 [Desktop release notes](DESKTOP_RELEASE_NOTES.md) for the exact asset manifest,
 installation notes, and checksum verification.
@@ -145,6 +147,8 @@ Binary-only, free to use; no redistribution or reverse engineering. See [LICENSE
 
 **hipmmcode** 是终端里的全能 AI 编程智能体:全屏 TUI,可在 29+ 模型渠道(Anthropic、OpenAI、Gemini、DeepSeek、Kimi、MiniMax、通义、智谱、自定义代理……)上编排 LLM 智能体团队。
 
+**v1.0.6 新增 —— macOS 终端 Ctrl+V 贴图。** Terminal.app / iTerm2 在剪贴板是图片时会吞掉 Cmd+V。空闲输入框、回合中编辑和行编辑现在都响应 **Ctrl+V**：截图变成 `[Image #N]`，文字照常粘贴。VS Code / Cursor 里 Cmd+V 不变。Ctrl+C 仍是中断，不是复制。
+
 **v1.0.5 新增 —— DeepSeek Files API，LM Studio 本地循环。** 先 `POST /files` 上传图像素，聊天 JSON 只带 `{type: "file", file_id}`（仍是图）。文件引用合计 128 MiB。LM Studio 地址自动补 `/v1`；工具 schema 带 `properties`；本地预填充等到 10 分钟。只读 MCP（kb_status / kb_search）跳过 Auto。Flash/Pro 贴图仍只在这一轮走 vision-exp。
 
 **v1.0.4 新增 —— DeepSeek 识图。** `deepseek` 与 `deepseek-anthropic` 建议 `deepseek-v4-flash`、`deepseek-v4-pro`、`deepseek-v4-flash-vision-exp`（👁）。图片走 Chat Completions `image_url`、Anthropic Messages、Responses `input_image`。Flash/Pro 会话本轮带图时整轮发到 vision-exp，下一轮纯文本仍回原模型，选中的模型不变。
@@ -191,7 +195,7 @@ HiPMMCode Desktop **v1.0.7** 将 Web 工作台与编译后的 **hipmmcode v1.0.5
 
 桌面版使用不可变标签 **`desktop-v1.0.7`**（内置核心 1.0.5），不要将它设为
 GitHub **Latest**。下方终端安装命令依赖 `releases/latest/download/install.sh`
-与 `install.ps1`，因此 CLI `v1.0.5` 必须继续保持 Latest。完整文件清单、安装
+与 `install.ps1`，因此 CLI `v1.0.6` 必须继续保持 Latest。完整文件清单、安装
 提示和校验方法见[桌面版发行说明](DESKTOP_RELEASE_NOTES.md)。
 
 ## 安装

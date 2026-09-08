@@ -1,271 +1,448 @@
-## hipmmcode v1.0.5
+# HiPMMCode v1.0.6 更新总结
 
-DeepSeek vision uses the Files API. Local OpenAI-compatible servers such as LM Studio can complete a full tool loop.
+macOS 终端里 Ctrl+V 可以贴图。
 
-- **Small JSON, images stay images.** Pixels go up with `POST /files`. Chat requests only send `{type: "file", file_id}`. File references can total 128 MiB. If Files is unavailable, images are JPEG-packed inline (20 MiB / 48 MiB request-body cap).
-- **`deepseek-anthropic`.** Anthropic Messages does not accept `file_id`, so vision turns go to Chat Completions + Files. Flash/Pro image turns still detour to vision-exp for that turn only.
-- **LM Studio.** Pasting `http://host:1234` appends `/v1`. Tool schemas always include `properties`. Local prefill can wait 10 minutes; idle after first text is 5 minutes; HTTP idle read is 10 minutes.
-- **Auto + read-only MCP.** Read-only MCP tools such as `kb_status` and `kb_search` skip the classifier. Bash/Write may still be denied on a single local GPU.
+- **Ctrl+V 粘贴截图。** Terminal.app / iTerm2 在剪贴板是图片时会吞掉 Cmd+V，应用收不到粘贴事件。空闲输入框、回合中编辑和行编辑现在都响应 **Ctrl+V**：有图则插入 `[Image #N]`，有文字则照常粘贴。VS Code / Cursor 里 Cmd+V 仍然可用。Ctrl+C 还是中断，不是复制。
+- **`/paste` 仍可用**，作为个别宿主仍丢键时的兜底。
 
-**Platforms:** macOS (Apple Silicon / Intel / universal), Linux (x64 / arm64, musl-static), Windows (x64). Verify downloads against `SHA256SUMS`. Public repo tag: `v1.0.5`. Desktop is a separate line (`desktop-v1.0.7`, bundled core 1.0.5).
+**平台：** macOS（Apple Silicon / Intel / universal）、Linux（x64 / arm64，musl 静态）、Windows（x64）。下载后请用 `SHA256SUMS` 校验。公开仓 tag：`v1.0.6`。桌面版独立版本。
 
-## hipmmcode v1.0.4
+# HiPMMCode v1.0.5 更新总结
 
-DeepSeek vision: three official SKUs; Flash/Pro image turns detour to vision-exp for that turn only.
+DeepSeek 识图走 Files API；LM Studio 本地模型可跑完整工具循环。
 
-- **Official catalog.** `deepseek` and `deepseek-anthropic` suggest `deepseek-v4-flash`, `deepseek-v4-pro`, and `deepseek-v4-flash-vision-exp`. The `pro[1m]` alias is gone.
-- **Images on all three wires.** Chat Completions `image_url`, Anthropic Messages `image` + `source.base64`, Responses `input_image`. Only the vision SKU accepts pictures.
-- **One-turn detour.** If the session is Flash or Pro and this turn has an image, the whole turn (including the tool loop) is sent to `deepseek-v4-flash-vision-exp`. The next text-only turn returns to Flash/Pro. The selected model is unchanged.
+- **JSON 很小，图还是图。** 先 `POST /files` 上传图像素，聊天请求只带 `{type: "file", file_id}`。模型仍按图看。文件引用合计可以到 128 MiB。Files 不可用时压成 JPEG 内联（20 MiB / 48 MiB 请求体帽）。
+- **`deepseek-anthropic`。** Messages 不接受 `file_id`，识图轮改走 Chat Completions + Files。Flash/Pro 贴图仍只在这一轮走 vision-exp，输入框不再打印绕行说明。
+- **LM Studio。** 粘贴 `http://host:1234` 会自动补 `/v1`；工具 schema 补上 `properties`，不再 HTTP 400。本地预填充等到 10 分钟、出字后空闲 5 分钟，HTTP 空闲读 10 分钟，避免预填充到一半被掐断重来。
+- **Auto + 只读 MCP。** `kb_status` / `kb_search` 等只读 MCP 不再走分类器。Bash/Write 在本地单模型上仍可能被 Auto 拦住（分类器与主对话抢同一路推理）。
 
-**Platforms:** macOS (Apple Silicon / Intel / universal), Linux (x64 / arm64, musl-static), Windows (x64). Verify downloads against `SHA256SUMS`. Public repo tag: `v1.0.4`.
+**平台：** macOS（Apple Silicon / Intel / universal）、Linux（x64 / arm64，musl 静态）、Windows（x64）。下载后请用 `SHA256SUMS` 校验。公开仓 tag：`v1.0.5`。桌面版独立版本。
 
-## hipmmcode v1.0.3
+# HiPMMCode v1.0.4 更新总结
 
-TUI transcript polish and robustness fixes.
+DeepSeek 识图：三个官方 SKU；Flash/Pro 贴图只在这一轮走 vision-exp，会话模型不变。
 
-- **Queued messages keep image placeholders.** Messages queued mid-turn (type-ahead) preserve the `[Image #N]` / `[Pasted text #N]` placeholders you saw while typing; sent bubbles no longer show the parsed `[image: clipboard]` marker.
-- **Injected bubbles are separated.** After a queued message is consumed mid-turn, the assistant's reply starts its own block instead of being glued to the user bubble.
-- **The turn screen always tears down.** Teardown now runs before any post-turn bookkeeping awaits, so an engine/inbox hang can no longer strand the previous turn's running tool rows blinking forever.
-- **Snapshot-gate hardening.** Tokenless `Edit`/`Write` bind to the most recent `Read`; a snapshot mismatch reports the correct token; the permission engine tolerates rewriting the `~` prefix (plain string level) while still rejecting `./` and symlink aliases.
-- **Auto-compact re-arms after a manual compact.** A successful manual `/compact` resets the consecutive-failure breaker so automatic compaction resumes.
+- **官方目录。** `deepseek` / `deepseek-anthropic` 建议 `deepseek-v4-flash`、`deepseek-v4-pro`、`deepseek-v4-flash-vision-exp`。去掉 `pro[1m]`。
+- **三条线识图。** Chat Completions `image_url`、Anthropic `image`+`source.base64`、Responses `input_image`。仅 vision SKU 接受图片。
+- **一轮绕行。** 当前是 Flash/Pro 且本轮带图时，整轮发到 `deepseek-v4-flash-vision-exp`；下一轮纯文本仍回原模型。
 
-**Platforms:** macOS (Apple Silicon / Intel / universal), Linux (x64 / arm64, musl-static), Windows (x64). Verify downloads against `SHA256SUMS`. Public repo tag: `v1.0.3`.
+**平台：** macOS（Apple Silicon / Intel / universal）、Linux（x64 / arm64，musl 静态）、Windows（x64）。下载后请用 `SHA256SUMS` 校验。公开仓 tag：`v1.0.4`。桌面版独立标签：`desktop-v1.0.4`。
 
-**Windows toolchain note:** the v1.0.3 Windows x64 archive is built with the native MSVC toolchain (previous releases used the GNU cross-build). Windows 10/11 ship the required UCRT; if `hipmmcode.exe` reports a missing `VCRUNTIME140.dll`, install the Microsoft Visual C++ Redistributable once.
+# HiPMMCode v1.0.3 更新总结
 
-## hipmmcode v1.0.2
+## TUI 转录与健壮性修复
 
-Turbo runtime profile, slimmer first-turn context, and desktop Host-bridge discovery that works on every packaged OS.
+- **追加消息保留图片占位符。** 回合中排队消息发送后，气泡保留 `[Image #N]` / `[Pasted text #N]`，不再显示 `[image: clipboard]` 原文。
+- **注入气泡分隔。** 追加消息被消费后，AI 回复独立成块，不再紧贴用户消息。
+- **回合屏必定拆除。** 拆除动作前移到所有回合后 await 之前；引擎/簿记挂起不再让旧回合的 running 工具行永久闪烁。
+- **快照门加固。** tokenless Edit/Write 绑定最近 Read；mismatch 报错附正确 token；`~` 前缀改写容忍（纯字符串层），`./` 与符号链接别名仍拒绝。
+- **手动 /compact 后自动压缩重新武装。** 成功的手动压缩复位连续失败断路器。
 
-- **Turbo profile.** `/turbo on|off|toggle` is a session runtime profile, not a permission mode. Turbo is Auto with the cheap classifier skipped; high-risk tools still open the regular Ask card. `/fast` stays a channel switch and `/effort max` still works.
-- **Slim request face.** New turbo sessions replace the outgoing system prompt with a short harness and keep only core tools plus connected `mcp__*` schemas. Skills and extra tools load through `ToolSearch`. Conversation history is unchanged.
-- **Desktop Host bridge.** The shell publishes `HIPMMCODE_HOST_BRIDGE_DIR` to the packaged `runtime/hipmmcode-web/host-bridge` on macOS, Windows, and Linux. Discovery also looks one directory above the desktop `app/` cwd so Connections no longer reports a missing adapter when the payload is present.
+**平台：** macOS（Apple Silicon / Intel / universal）、Linux（x64 / arm64，musl 静态）、Windows（x64）。下载后请用 `SHA256SUMS` 校验。公开仓 tag：`v1.0.3`。桌面版独立标签：`desktop-v1.0.4`（内置本版本核心）。
 
-**Platforms:** macOS (Apple Silicon / Intel / universal), Linux (x64 / arm64, musl-static), Windows (x64). Verify downloads against `SHA256SUMS`. Public repo tag: `v1.0.2`.
+# HiPMMCode v1.0.2 更新总结
 
-## HiPMMCode Desktop v1.0.4
+## Turbo 极速档与计划拒写
 
-This is a Desktop distribution release that bundles the compiled
-`hipmmcode v1.0.2` runtime; it does not change the CLI version, npm package, or
-Homebrew formula.
+- **`/turbo` 运行时档。** 与权限模式正交。进入 turbo 就是 Auto，跳过分类器；高风险工具仍走审批卡。`/fast` 仍只切渠道，`/effort max` 可用。
+- **极简请求面。** 发出去的是短系统提示，只保留核心工具和已连接的 `mcp__*` schema。技能与其余工具经 `ToolSearch` 再加载。对话历史不变。
+- **计划拒写显示为错误。** 受保护计划的 `Write`/`Edit` 返回 `Refusing to…` 时是红色错误，不再刷成绿色“已写入”。
 
-- **Turbo in the desktop shell.** Regular / Turbo is switched through
-  `set_runtime_profile`. Turbo is Auto with the cheap classifier skipped;
-  high-risk tools still open the regular Ask card.
-- **Host bridge on every packaged OS.** The shell publishes
-  `HIPMMCODE_HOST_BRIDGE_DIR` and also looks one directory above the desktop
-  `app/` cwd, so Windows and Linux Connections no longer report a missing
-  adapter when the payload is present.
-- **macOS.** Developer ID signed App.zip and DMG. This `1.0.4` set is **not**
-  Apple-notarized or stapled; Gatekeeper may still warn.
-- **Windows.** The application and NSIS installer are intentionally unsigned.
-  SmartScreen may warn or block.
-- **Linux.** Unsigned AppImage and Debian package.
-- **Verifiable manifest.** Seven platform packages and `SHA256SUMS` form the
-  exact release asset set.
-- **Separate release channel.** Publish under `desktop-v1.0.4` without making it
-  GitHub Latest; CLI `v1.0.2` remains Latest for installer compatibility.
+**平台：** macOS（Apple Silicon / Intel / universal）、Linux（x64 / arm64，musl 静态）、Windows（x64）。下载后请用 `SHA256SUMS` 校验。公开仓 tag：`v1.0.2`。桌面版独立标签：`desktop-v1.0.4`（内置本版本核心）。
 
-## hipmmcode v1.0.1
+# HiPMMCode v1.0.1 更新总结
 
-Session collaboration, mid-turn transcript preservation, and Auto-mode consent aligned with Claude Code 2.1.233.
+## 跨会话、中途取消与 Auto 确认
 
-- **Same-machine cross-session chat.** Type `@session-name` to mention another live HiPMMCode process. `SendMessage` / `ListPeers` use a local Unix socket; `/peer list|accept|refuse` manages held inbound mail. `/config set crossSessionInbound=accept|hold|refuse` and `/config set dialogExpiry=60s|5m|10m|never` (default 5 minutes; `HIPMMCODE_USER_DIALOG_TIMEOUT_MS` overrides). Cross-machine `bridge:` is not implemented.
-- **Fork subagents.** `subagent_type: "fork"` inherits the parent transcript and prompt-cache prefix. Off in print/SDK; enable with `HIPMMCODE_FORK_SUBAGENT`.
-- **Esc / Send now keep what already streamed.** Cancel-and-send no longer wipes the current turn. Partial assistant text stays in the transcript, then the queued follow-up is sent.
-- **Auto mode honors picker answers.** An `AskUserQuestion` choice is fed to the classifier as user intent (Claude `fVp`). Soft rules such as a named production deploy or remote write can auto-run after you confirm; hard blocks still deny. Timeouts and `(no answer)` grant nothing.
-- **Safer logs and tunable WebFetch cache.** GitLab token families (`glpat-`, `glrt-`, …) are redacted. `HIPMMCODE_WEBFETCH_CACHE_TTL_MS` (or `CLAUDE_CODE_WEBFETCH_CACHE_TTL_MS`) sets the per-URL cache; default remains 15 minutes.
+- **本机跨会话。** `@会话名`、`SendMessage` / `ListPeers` 走本机 UDS；`/peer list|accept|refuse`；`crossSessionInbound` 与 `dialogExpiry`（默认 5 分钟）。不实现跨机器 `bridge:`。
+- **Fork 子代理。** `subagent_type: "fork"` 继承父对话；print/SDK 默认关。
+- **Esc / Send now 保留已生成内容。** 打断当前轮时把半段助手回复写入历史，再发送排队消息。
+- **Auto 认 AskUserQuestion 答案。** 与 Claude 2.1.233 `fVp` 一致，点名后的软拦截可自动执行；硬拦截仍拒绝。
+- **GitLab token 脱敏** 与 **`HIPMMCODE_WEBFETCH_CACHE_TTL_MS`**（默认 15 分钟）。
 
-**Platforms:** macOS (Apple Silicon / Intel / universal), Linux (x64 / arm64, musl-static), Windows (x64). Verify downloads against `SHA256SUMS`.
+**平台：** macOS（Apple Silicon / Intel / universal）、Linux（x64 / arm64，musl 静态）、Windows（x64）。下载后请用 `SHA256SUMS` 校验。公开仓 tag：`v1.0.1`。
 
-## HiPMMCode Desktop v1.0.1
+# HiPMMCode v1.0.0 更新总结
 
-This is a Desktop distribution release that bundles the compiled
-`hipmmcode v1.0.0` runtime; it does not change the CLI version, npm package, or
-Homebrew formula.
+## Codex Computer Use 本机兼容
 
-- **Trusted macOS distribution.** Apple Silicon and Intel App.zip/DMG packages
-  are Developer ID signed, notarized, and stapled.
-- **Explicit Windows trust status.** The Windows x64 application and NSIS
-  installer are intentionally unsigned, so SmartScreen may warn or block.
-- **Linux packages.** Linux x64 is provided as an unsigned AppImage and Debian
-  package.
-- **Verifiable manifest.** Seven platform packages and `SHA256SUMS` form the
-  exact release asset set. See [DESKTOP_RELEASE_NOTES.md](DESKTOP_RELEASE_NOTES.md).
-- **Separate release channel.** Publish under `desktop-v1.0.1` without making it
-  GitHub Latest; CLI `v1.0.1` remains Latest for installer compatibility.
+- **复用已安装的 Codex 能力。** HiPMMCode 可自动发现本机 Codex 中最新、已启用的 `computer-use` 插件，校验本地 Codex CLI 与 `node_repl` 运行时，并通过隔离的 app-server 暴露固定 typed Computer Use 工具；Codex、插件和原生服务都不会被复制到 HiPMMCode 二进制或发布包中。
+- **`/computer-use` 交互开关。** 裸命令使用方向键选择“开启 / 关闭 / 查看状态”，回车确认、Esc 取消；`/computer-use on|off|status` 提供可脚本化的直接形式。开关保存成功后，当前会话会立即重建 Skills、MCP 工具、补全与系统提示，无需重启。
+- **默认关闭且 fail-closed。** Codex 内已启用插件不等于授权 HiPMMCode 启动它；独立开关默认为关，`--safe-mode` / `--bare` 也会禁用。辅助 app-server 清空环境后只保留平台必需的固定白名单与 `CODEX_HOME`，禁用其他 MCP 服务和托管 Apps，原始 `node_repl` 工具不会进入模型工具目录。
+- **原生桌面授权保持独立。** macOS 与 Windows 上的桌面授权和系统“Stop Using HiPMMCode”控制仍由外部 Codex Computer Use 服务负责，插件发现不会被当成原生授权；Linux 不会假报可用。
 
-## hipmmcode v1.0.0
+**平台：** macOS（Apple Silicon / Intel / universal）、Linux（x64 / arm64，musl 静态）、Windows（x64）。下载后请使用 `SHA256SUMS` 校验。
 
-Codex Computer Use can now be reused from HiPMMCode without embedding Codex, its plugin, or its native service in the release package.
+# HiPMMCode v0.17.2 更新总结
 
-- **Automatic local discovery with no bundled Codex payload.** HiPMMCode finds the newest enabled local `computer-use` plugin and starts its declared typed MCP service in place. Other Codex plugins are not activated.
-- **Interactive, default-off control.** Run `/computer-use`, use the arrow keys to choose Enable / Disable / View status, and press Enter; Esc cancels. `/computer-use on|off|status` is the direct form. A successful change rebuilds the current session's skill and MCP catalogs immediately.
-- **Fail-closed plugin execution.** Plugin launchers and working directories must remain inside the canonical plugin root. The MCP subprocess receives a minimal functional environment plus only manifest-requested variable names. Safe and bare modes keep the integration disabled.
-- **Native authorization stays independent.** Desktop consent and the system **Stop Using HiPMMCode** control on supported macOS and Windows installations remain owned by the installed Codex Computer Use service; discovery alone never grants desktop access, and Linux does not report false availability.
+## Codex / 会员渠道 Responses 兼容性
 
-**Platforms:** macOS (Apple Silicon / Intel / universal), Linux (x64 / arm64, musl-static), Windows (x64). Verify downloads against `SHA256SUMS`.
+- **请求参数与 Codex 后端对齐。** `openai-codex` 与会员渠道现在会省略 ChatGPT Codex Responses 后端不支持的 `temperature` 和 `stop` 参数，并保留已有的 `max_output_tokens` 兼容门控，避免隐藏分类器请求被 HTTP 400 拒绝。
+- **Auto mode 恢复正常。** 安全分类器不再因请求参数不兼容而进入 unavailable 状态并 fail-closed 拦截原本有效的工具调用；v0.17.1 的有界重试继续负责真正的瞬时供应商故障。
+- **其他 Responses 端点行为不变。** 兼容门控仅作用于 Codex 后端渠道，标准 OpenAI 兼容端点继续保留原有的采样参数与停止序列行为。
 
-## hipmmcode v0.17.2
+**平台：** macOS（Apple Silicon / Intel / universal）、Linux（x64 / arm64，musl 静态）、Windows（x64）。下载后请使用 `SHA256SUMS` 校验。
 
-Codex and membership-channel compatibility: Responses requests now match the parameters accepted by the ChatGPT Codex backend, restoring reliable Auto mode classification without changing other providers.
+# HiPMMCode v0.17.1 更新总结
 
-- **Codex-safe Responses payloads.** `openai-codex` and membership channels omit unsupported `temperature` and `stop` parameters, alongside the existing `max_output_tokens` guard, so hidden classifier requests no longer fail with HTTP 400.
-- **Auto mode works on Codex again.** The safety classifier completes normally instead of becoming unavailable and fail-closing otherwise valid tool calls. The v0.17.1 bounded retry remains in place for genuine transient provider outages.
-- **Other Responses endpoints stay unchanged.** The compatibility gate is limited to Codex-backed channels; standard OpenAI-compatible endpoints retain their sampling and stop-sequence behavior.
+## Auto mode 分类器可靠性
 
-**Platforms:** macOS (Apple Silicon / Intel / universal), Linux (x64 / arm64, musl-static), Windows (x64). Verify downloads against `SHA256SUMS`.
+- **stage-2 有界重试。** 两段式 Auto 分类器中，重负载的 stage-2 请求遇到瞬时供应商故障时，现在会在共享分类预算（stage-1 60s + stage-2 120s）的剩余时间内做一次有界重试；剩余不足 10 秒时跳过重试，直接 fail-closed。此前第三方通道的一次亚秒抖动就会让良性命令被报为 "Auto mode denied the `Bash` call"。
+- **判定语义不变。** `Unavailable` 仍是 deny + retry、不打开人工权限弹窗（Claude parity）；只有 transcript 过长（`TranscriptTooLong`）才回退人工确认。分类器故障期间只读工具照常可用。
+- **回归测试。** 新增端到端测试：首次分类器请求瞬时失败后可恢复并正常执行工具；block / unavailable 判定永不打开确认弹窗；both-mode stage-2 恢复路径覆盖有界重试。
 
-## hipmmcode v0.17.0
+**平台：** macOS（Apple Silicon / Intel / universal）、Linux（x64 / arm64，musl 静态）、Windows（x64）。下载后请使用 `SHA256SUMS` 校验。
 
-Qwen Token Plan expands into native image, video, and speech generation, with Qwen 3.8 thinking aligned to the provider contract.
+# HiPMMCode v0.17.0 更新总结
 
-- **Native multimedia tools.** `GenerateImage`, `GenerateVideo`, and `GenerateSpeech` call direct `qwen-token-plan` / `qwen-token-plan-anthropic` services with the configured `sk-sp-...`; no Skill or pay-as-you-go fallback is involved.
-- **Resumable video.** HappyHorse t2v/i2v/r2v supports 720P/1080P and 3–15 second MP4 output. HiPMMCode confirms before submission and persists the private `task_id` so polling/downloading can resume without duplicate billing.
-- **Native speech.** The official WebSocket drives `qwen-audio-3.0-tts-plus`, defaulting to `longanlingxin`, with MP3/WAV/Opus/PCM and prosody/language/instruction controls.
-- **Qwen 3.8 thinking.** `qwen3.8-max` defaults to `xhigh` and supports `/effort off`; `qwen3.8-max-preview` always thinks; thinking temperature is at least `0.6`.
-- **Live partial-message streaming.** `--include-partial-messages` adds per-token `stream_event` / `content_block_delta` frames to `stream-json`; SDK/headless and ACP share the same live event path, while the default settled-output contract remains unchanged.
-- **Safe outputs and billing boundaries.** Multimedia calls pass the permission gate, never overwrite an existing destination, and never blindly repeat a potentially billable submission after an ambiguous failure.
+## 千问 Token Plan 原生多媒体
 
-**Platforms:** macOS (Apple Silicon / Intel / universal), Linux (x64 / arm64, musl-static), Windows (x64). Verify downloads against `SHA256SUMS`.
+- `GenerateImage`、`GenerateVideo`、`GenerateSpeech` 直连 `qwen-token-plan` / `qwen-token-plan-anthropic`，复用同一 `sk-sp-...`，无需安装 Skill，也不会回退到按量付费密钥。
+- 生图直接调用百炼多模态 API，并在发起可计费请求前校验模型和尺寸。
+- 视频支持 `happyhorse-1.1-t2v` / `i2v` / `r2v`、720P/1080P 与 3–15 秒 MP4；提交前请求确认，私密保存 `task_id`，可恢复轮询/下载而不重复创建付费任务。
+- 语音通过官方 WebSocket 调用 `qwen-audio-3.0-tts-plus`，默认 `longanlingxin`，支持 MP3/WAV/Opus/PCM 与韵律、语言、指令参数；完整校验后只写入全新目标。
 
-## hipmmcode v0.16.2
+## Qwen 3.8 推理
 
-Alibaba Qwen now has explicit Token Plan and pay-as-you-go channels for both supported wire protocols, with isolated credentials and consistent alias handling.
+- `qwen3.8-max` 默认 `xhigh` 且可 `/effort off`；`qwen3.8-max-preview` 始终思考。
+- 思考模式温度最低 `0.6`，工具轮次保留 reasoning。
 
-- **Four Qwen channels.** `qwen-token-plan` is the OpenAI-compatible Token Plan channel (`qwen-token-plan-openai` is an alias), `qwen-token-plan-anthropic` uses Anthropic Messages, and `qwen` / `qwen-anthropic` are the pay-as-you-go counterparts.
-- **Credentials never cross billing products.** Token Plan uses `QWENCLOUD_TOKEN_PLAN_API_KEY` (or compatibility alias `QWEN_TOKEN_PLAN_API_KEY`) with `sk-sp-...` keys. Pay-as-you-go uses `DASHSCOPE_API_KEY` (or legacy `QWEN_API_KEY`) with `sk-...` / `sk-ws-...` keys.
-- **Aliases are consistent across entry points.** CLI, headless/SDK execution, and ACP resolve built-in aliases the same way while preserving an explicitly configured same-named custom provider.
-- **Detailed token usage.** OpenAI-compatible and Anthropic streams retain input, output, cache-create, cache-read, and reasoning-token counters. These values are token counts, not remaining Token Plan Credits; use the Alibaba Model Studio console for Credits and reset windows.
-- **Token Plan image generation.** Direct Token Plan channels route `GenerateImage` through Alibaba's dedicated multimodal endpoint with Bearer auth and supported image sizes; membership gateways retain their existing `/images/generations` contract.
-- **Official QianWen Skills.** `hipmmcode skill add QianWen-AI/qianwen-ai` now recursively discovers the categorized repository and installs its eight user-facing skills plus the update helper with scripts/references intact. Their execution scripts require a standard pay-as-you-go `sk-...` key; Token Plan `sk-sp-...` stays isolated to the interactive channel and native Token Plan image tool.
-- **Windows PATH recovery.** Installation docs now show how to reopen PowerShell or refresh the current session's machine/user `PATH` before running `hipmmcode` or `hipmmcode model`.
+## 实时流式输出
 
-**Platforms:** macOS (Apple Silicon / Intel / universal), Linux (x64 / arm64, musl-static), Windows (x64). Verify downloads against `SHA256SUMS`.
+- `--include-partial-messages` 为 `stream-json` 增加逐 Token 的 `stream_event` / `content_block_delta`，默认关闭以保持现有完整消息协议兼容。
+- SDK、无头执行与 ACP 复用同一实时事件路径，文本、思考和工具开始事件可在回合完成前送达。
 
-## hipmmcode v0.16.1
+## 安全与计费
 
-A focused reliability and security patch for interactive setup and isolated agent execution.
+- 多媒体请求先过权限门禁；输出拒绝覆盖任何已有目录项；失败后不盲目重发可能已计费的任务。
+- `hipmmcode skill add QianWen-AI/qianwen-ai` 可选安装官方技能包；技能脚本使用普通按量付费 `sk-...`，与 Token Plan 原生工具相互独立。
 
-- **Wrapped setup prompts repaint cleanly.** Long model/API-key prompts clear all occupied terminal rows before repainting, eliminating repeated text while secrets are entered.
-- **Correct hidden-path masking.** Existing directories use empty mounts, existing files use `/dev/null`, and missing paths are ignored. `HIPMMCODE_SANDBOX_HIDE` can safely include deployment `.env` paths without breaking bubblewrap startup.
-- **Fail-closed isolation is preserved.** A file-only masking policy still requires the sandbox and never silently falls back to direct execution.
-- **HiPMMAI naming alignment.** Product, docs, artifact, and deployment references consistently use `www.hipmmai.com` and the `hipmmcode` naming family.
+**平台：** macOS（Apple Silicon / Intel / universal）、Linux（x64 / arm64，musl 静态）、Windows（x64）。下载后请使用 `SHA256SUMS` 校验。
 
-**Platforms:** macOS (Apple Silicon / Intel / universal), Linux (x64 / arm64, musl-static), Windows (x64). Verify downloads against `SHA256SUMS`.
+# HiPMMCode v0.16.2 更新总结
 
-## hipmmcode v0.16.0
+## 阿里千问 Token Plan 与按量付费
 
-Config-path flexibility, a collapsible background-task bar, and a stabler task runner for check-style commands.
+- 新增 `qwen-token-plan`（OpenAI 兼容，`qwen-token-plan-openai` 为别名）和 `qwen-token-plan-anthropic`（Anthropic Messages）两条 Token Plan 路径。
+- 按量付费通过 `qwen`（OpenAI 兼容）与 `qwen-anthropic`（Anthropic Messages）接入。
+- Token Plan 使用 `QWENCLOUD_TOKEN_PLAN_API_KEY`（兼容 `BAILIAN_TOKEN_PLAN_API_KEY` / `QWEN_TOKEN_PLAN_API_KEY`）；按量付费使用 `DASHSCOPE_API_KEY`（兼容 `QWEN_API_KEY`）。两组凭据严格隔离。
+- CLI、无头/SDK 与 ACP 使用一致的内置渠道别名，流式响应保留输入、输出、缓存与推理 Token 明细。
+- Windows 安装文档补充当前 PowerShell 会话刷新 `PATH` 的命令。
 
-- **Config directory env vars.** `HIPMMCODE_CONFIG_DIR` (or the claude-code-compatible `CLAUDE_CONFIG_DIR`) now selects the config root; when neither is set, the default is `~/.hipmmcode`. Useful for native-mode and Grok-integration setups that need an explicit directory.
-- **Collapsible background tasks.** Consecutive background-task status lines (e.g. `bash-7 · running…`, teammate notices) collapse into a single `⏺ Background tasks (N)` row — click it or press `Ctrl+O` to expand. The old "Team" wording is gone from the notice header.
-- **Check commands no longer false-fail.** In the task runner, check-style commands (`grep`, `which`, `brew list`, `git status`, `cargo check`, `npm list`, `flutter …`, …) that exit with no output are treated as an expected success instead of a cancelled run, so "check" tasks stop misreporting failure.
-- **Stabler task cgroup cleanup.** Empty cgroups are removed eagerly during teardown, cutting false failures from cgroup-removal races and kill timing.
-- **`daemon stop-service`.** `hipmmcode daemon stop-service <name> [--force]` stops a single named service (pkill-based) without restarting the whole daemon; `--force` sends SIGKILL.
+**平台：** macOS（Apple Silicon / Intel / universal）、Linux（x64 / arm64，musl 静态）、Windows（x64）。下载后请使用 `SHA256SUMS` 校验。
 
-**Platforms:** macOS (Apple Silicon / Intel / universal), Linux (x64 / arm64, musl-static), Windows (x64). Verify downloads against `SHA256SUMS`.
+**平台：** macOS（Apple Silicon / Intel / universal）、Linux（x64 / arm64，musl 静态）、Windows（x64）。下载后请使用 `SHA256SUMS` 校验。
 
-## hipmmcode v0.15.0
+# HiPMMCode v0.16.1 更新总结
 
-xAI / Grok as a first-class OAuth + tools channel, DeepSeek V4 routing clarity, mid-turn input queue polish, and product docs aligned with the live site.
+## 本次修复
 
-- **xAI device-code OAuth (`xai-oauth`).** `hipmmcode model xai-oauth` runs a device-code flow against `auth.x.ai`; tokens store under `oauthCredentials` and auto-refresh. Existing Grok CLI logins (`~/.grok/auth.json`) still work as a passive fallback. API-key channel remains `xai` + `XAI_API_KEY`.
-- **Imagine `GenerateImage`.** On `xai` / `xai-oauth`, images use xAI Imagine (`grok-imagine-image*`) with `aspect_ratio` + `b64_json` instead of OpenAI-only `size`/`quality` fields that return HTTP 400.
-- **Responses `WebSearch` on Grok.** Client `POST …/responses` with built-in `web_search`; tool name stays `WebSearch`. Prefer `deepseek-anthropic` for DeepSeek native search; plain OpenAI-compat DeepSeek still uses AnySearch.
-- **DeepSeek V4 model ids.** Wizard/catalog suggestions use `deepseek-v4-flash` / `deepseek-v4-pro` (optional `[1m]`), not marketing date suffixes.
-- **Mid-turn queue.** Dim **`[Send now]`** chip, double Enter (~800ms) to promote, **↑** to edit the latest queued line.
-- **Docs.** English and Chinese documentation is maintained in this repository.
+- 长模型/API Key 配置提示换行后可完整清除并重绘，不再重复刷屏。
+- Linux 沙箱正确区分隐藏目录、隐藏文件和不存在的过期路径，部署 `.env` 不再导致 bubblewrap 启动失败。
+- 仅有文件遮蔽规则时仍强制启用沙箱，继续保持多租户执行 fail-closed。
+- 产品、文档、Artifact 与部署引用统一到 `www.hipmmai.com` 和 `hipmmcode` 命名体系。
 
-**Platforms:** macOS (Apple Silicon / Intel / universal), Linux (x64 / arm64, musl-static), Windows (x64). Verify downloads against `SHA256SUMS`.
+---
 
-## hipmmcode v0.14.1
+# HiPMMCode v0.11.0 更新总结
 
-Defaults and packaging release: Auto permission mode out of the box, a shippable L1 default skills pack (documents + design), and cleaner first-run configuration that does not accumulate one-shot allow lists.
+## 🎉 本次更新内容
 
-- **Auto is the default permission mode.** Fresh installs seed `~/.hipmmcode/settings.json` with `permissions.defaultMode: "auto"` (Claude 2.1.x parity). The classifier auto-allows lower-risk tool calls; explicit deny/ask rules still win. Users who prefer manual prompting can set `defaultMode` to `default`.
-- **L1 default skills pack.** Release tarballs include `default-skills/` (docx, pptx, xlsx, pdf, frontend-design, canvas-design, theme-factory, brand-guidelines, skill-creator). First launch and `hipmmcode skill install-defaults` sync missing skills into `~/.hipmmcode/skills/` without overwriting user-owned dirs. npm `postinstall` and `install.sh` run the same path.
-- **Permission UX with workflows.** High-priority Bash/tool approval preempts the `/workflows` monitor panel so Esc-close is not the only way to surface a queued approval.
-- **Lean permissions storage.** One-shot grants belong in layered `settings.json` allow rules, not a long-lived dump in `config.json`. New installs stay Claude-simple: Auto + empty allow unless you click “don’t ask again”.
+### ✅ 已完成功能
 
-Also includes v0.14.0 reliability work: Claude-matched wheel scrolling, provider-aware WebSearch routing, and the macOS Bash `setsid`/`EPERM` fix.
+#### 1. **Artifact 发布增强**
 
-**Platforms:** macOS (Apple Silicon / Intel / universal), Linux (x64 / arm64, musl-static), Windows (x64). Verify downloads against `SHA256SUMS`.
+**直接发布 HTML 文件**
+```bash
+hipmmcode publish --file mypage.html --public --title "我的页面"
+```
 
-## hipmmcode v0.14.0
+**模板系统（3种模板）**
+- `morning-brief` - 每日简报，统计卡片 + 任务列表
+- `plan` - 技术文档，清晰排版 + 代码高亮
+- `dataviz` - 数据可视化，数据卡片 + 表格
 
-A terminal-input and provider-routing reliability release, with Claude-matched scrolling in current VS Code, explicit native-versus-client web search behavior, and a process-level macOS Bash fix.
+```bash
+hipmmcode publish --file report.md --template morning-brief --public
+hipmmcode publish --file design.md --template plan --public
+hipmmcode publish --file analytics.md --template dataviz --public
+```
 
-- **Claude Code 2.1.220 mouse-wheel parity.** Streaming and settled transcript views share the full time-driven wheel state machine: native acceleration, 40 ms reset, direction-flip suppression, xterm.js/Windows decay, wheel-flood handling, fractional carry, and live `/scroll-speed` changes.
-- **Current VS Code/xterm.js detection.** Every VS Code release now selects the xterm.js wheel profile directly instead of passing through an obsolete version ceiling. Black-box tmux and real VS Code comparisons match Claude Code's practical displacement for both single events and accelerated bursts.
-- **Provider-aware WebSearch.** Real Anthropic-native endpoints receive `web_search_20250305`; ordinary OpenAI-compatible DeepSeek/Kimi/Qwen/MiniMax chat endpoints use AnySearch. Anthropic-shaped third-party proxies that return a normal `tool_use` are handled as client-side search rather than being mistaken for hosted search. `/nativesearch` and `/anysearch` remain independent controls.
-- **macOS Bash `EPERM` fix.** Unix Bash children now rely on `setsid()` alone instead of combining it with a conflicting pre-spawn process-group setup. Whole-process-group cleanup on timeout and abort is preserved.
+#### 2. **Thinking 泄漏修复** ✅
 
-**Platforms:** macOS (Apple Silicon / Intel / universal), Linux (x64 / arm64, musl-static), Windows (x64). Verify downloads against `SHA256SUMS`.
+**问题**: Extended thinking 的推理过程（`****Confirming****`）被显示出来
 
-## hipmmcode v0.13.3
+**修复**: 添加 `showThinking` 配置，默认隐藏推理过程
 
-A capability-expansion release with codebase intelligence, isolated parallel worktrees, durable workflow lifecycle management, and stronger long-running-session safeguards.
+```bash
+# 默认行为：thinking 隐藏
+hipmmcode chat "你的问题"
 
-- **Codebase intelligence.** The new `sc-codebase-graph` crate builds a parallel Tree-sitter index for Rust, TypeScript, JavaScript, Python, and Go, with cross-file definitions, references, and symbol navigation.
-- **Fast isolated worktrees.** `sc-fast-worktree` combines reflink copies, hash sharding, and git worktrees so parallel agents can edit isolated workspaces without serializing on one checkout.
-- **Durable workflow hosting.** `sc-workflow-host` persists workflow runs and supports pause, resume, complete, cancel, and JSON-Schema-validated outputs.
-- **Provider and tool-loop robustness.** Anthropic OAuth credentials refresh and retry once after a 401; tool inputs receive schema-guided coercion before dispatch; PermissionDenied and PostToolBatch hooks can steer the next iteration; LSP diagnostics are reinjected through the reminder registry.
-- **Safer repeated compaction.** Existing summaries are extended instead of regenerated from scratch, and warm Anthropic prompt-cache prefixes are preserved unless context pressure becomes critical.
-- **Plugin supply-chain pinning.** Marketplace entries can require an exact SHA-256, verified with a constant-time comparison before install.
+# 如需调试，启用 thinking 显示
+hipmmcode config set showThinking=true
 
-**Platforms:** macOS (Apple Silicon / Intel / universal), Linux (x64 / arm64, musl-static), Windows (x64). Verify downloads against `SHA256SUMS`.
+# 关闭 thinking
+hipmmcode config set showThinking=false
+```
 
-## hipmmcode v0.12.2
+#### 3. **命令增强**
 
-Web search and web fetch reach full parity on Anthropic-compatible endpoints, the model keeps searching until a complex question is answered, and the HUD tool tally counts every tool live — including server-side research — in both the classic and fullscreen views.
+新增参数：
+- `--file PATH` - 指定要发布的文件（HTML 或 Markdown）
+- `--template NAME` - 使用模板（morning-brief | plan | dataviz）
 
-- **Native web search on Anthropic-compatible endpoints.** Pointed at a third-party Anthropic-compatible base URL (e.g. DeepSeek's `/anthropic` endpoint) with only `ANTHROPIC_AUTH_TOKEN` set, hipmmcode detects the credential, runs `web_search` server-side, and returns current-year results with a `Sources:` list — no separate search key required.
-- **Web fetch degrades gracefully.** Endpoints that reject the native `web_fetch` server tool transparently fall back to a client-side fetch for that turn while keeping native web search, instead of failing the whole request.
-- **The model searches until it has the answer.** The per-turn `web_search` budget is raised to 8 and the per-session ceiling stays at 200, so a complex question can drive several searches per turn across multiple rounds.
-- **The HUD tool tally is live, in fullscreen, for every tool.** Provider-hosted server tools (`web_search` / `web_fetch`) now increment the `✓ Web Search ×N` / `✓ Web Fetch ×N` status-bar tally — previously only client-dispatched tools were counted, and in the fullscreen turn view they were not counted at all. The tally also updates *while* the turn streams instead of only after it ends, so every tool call is visible as it happens.
-- **Read-only web tools run without a prompt.** WebSearch and WebFetch are treated as read-only and auto-approved under Default and Accept-Edits, and "allow all edits this session" switches to a deterministic accept-edits mode so file writes stop re-prompting.
-- **Date awareness.** The current date is injected into the system prompt and the search-tool guidance, so "latest"/"current" queries use the present year instead of stale results.
-- **Long Sources lists collapse.** A WebSearch answer with more than five sources shows a collapsed `Sources:` block that expands in place (Ctrl+O) to the full list.
+```bash
+# 完整命令示例
+hipmmcode publish \
+  --file report.md \
+  --template morning-brief \
+  --public \
+  --discoverable \
+  --title "2025年度工作简报"
+```
 
-**Platforms:** macOS (Apple Silicon / Intel / universal), Linux (x64 / arm64, musl-static), Windows (x64). Verify downloads against `SHA256SUMS`.
+### ⚠️ 待解决问题
 
-## hipmmcode v0.12.1
+#### 模型路由错误
 
-A fullscreen-rendering and interaction polish release on top of v0.12.0.
+**问题描述**: GPT-5.6 被错误路由到 `http://159.195.15.175:8080` (Anthropic 渠道)，而不是 `openai-codex`
 
-- **No end-of-turn flicker.** The fullscreen turn view could repaint a byte-identical final frame twice at the end of a turn, reading as a brief full-screen flash. Identical frames are now suppressed at the single flush point (a modal opening/closing still forces the repaint through; a resize always changes the bytes), so unchanged content is never repainted.
-- **No residue on send.** The inline progress spinner could splice cursor-relative writes into the fullscreen screen and blank a row until the next repaint. A process-wide guard now keeps it byte-silent whenever the resident fullscreen renderer owns the screen, so sending a message no longer leaves a stale separator behind it.
-- **`/compact` and auto-compaction render in place.** Compaction no longer drops to the primary screen (briefly revealing stale scrollback) and back. It stays in the fullscreen view and shows its progress in-frame — the transcript, an animated `✽ Compacting conversation…` line, the block progress bar, and the pinned composer + status bar — like a normal turn's thinking indicator.
-- **`/cost` opens the status panel.** `/cost` now opens the tabbed `Settings · Status · Config · Usage` panel at the **Usage** tab (turns, tokens, estimated cost, context), consistent with `/status` and `/usage`.
-- **Bare skill invocation is helpful.** Invoking a skill with no task (e.g. `/ego-browser`) now confirms it is loaded, lists a few concrete example tasks, and asks what you'd like to do — instead of a generic greeting.
-- **Pasted images keep a consistent label.** A pasted image shows as `[Image #N]` in the composer and keeps that label in the sent transcript instead of flipping to `[image: clipboard]`. The model still receives the marker and the attached image; text-only models still gracefully drop the image with a placeholder.
+**临时解决方案**:
+```bash
+# 方法 1: 显式指定 provider
+hipmmcode chat --provider openai-codex "你的问题"
 
-**Platforms:** macOS (Apple Silicon / Intel / universal), Linux (x64 / arm64, musl-static), Windows (x64). Verify downloads against `SHA256SUMS`.
+# 方法 2: 使用其他 GPT 渠道
+hipmmcode config set defaultProvider=gpt-proxy-native
+```
 
-## hipmmcode v0.12.0
+**需要的调试信息**:
+```bash
+# 运行以下命令收集日志
+RUST_LOG=sc_providers=debug hipmmcode chat '测试' 2>&1 | tee routing-debug.log
 
-End-to-end managed Artifact publishing, one implicit team per session, live MCP tool refresh, and a self-describing capability overview.
+# 查看可用模型
+hipmmcode model list --provider openai-codex
 
-- **First-class Artifact publishing, managed end to end.** `/publish` accepts Markdown or full HTML via `--file`, adds `--template morning-brief|plan|dataviz`, and can `--enhance` into a polished self-contained page. The model can drive publish / update / list / source-read / visibility / delete through the `Artifact` tool. A private canonical source is stored under `<native-config-root>/artifacts/<origin-id>/<artifact-hash>/`, so an existing artifact can be updated from its managed source without changing its hash or share URL; Markdown, templates, direct HTML, and enhanced pages all flow through the same local render + visual-QA pipeline with Mermaid / syntax-highlighting / Chart.js runtimes injected as needed.
-- **One implicit team per session.** Named `Agent` calls, `Task*`, `SendMessage`, and `ListPeers` resolve to the same lazily, race-safely created session team — no explicit team setup step, and older persisted teammate sessions stay compatible. Agents run asynchronously by default, nested progress is routed under the correct parent call, and shared per-session caps bound sub-agent spawning and web search.
-- **Live MCP tool refresh.** `RefreshMcpTools` re-runs `tools/list` over connected servers and publishes changed schemas before the next request; a failed refresh keeps the previous catalog, stale concurrent results can't overwrite newer ones, and it never silently redials a disconnected server.
-- **Reviewed auto-mode setup and private feedback drafts.** `/auto-mode-setup` proposes strictly typed settings for explicit user review before applying only the selected file. `SendFeedback` / `/feedback` keep factual product-feedback drafts fully local — nothing is uploaded automatically.
-- **Explicit native configuration boundaries.** The native root resolves as `HIPMMCODE_CONFIG_DIR > HIPMMCODE_HOME > ~/.hipmmcode`; an explicitly present `HIPMMCODE_*` value always wins. Session-wide safety budgets and richer live progress / queued-input handling keep long agent runs predictable.
-- **Self-describing capability overview.** The system prompt carries a grouped "what you can do" section generated from the tools actually enabled for the session, so introductions stay complete and current; newly registered tools appear automatically, and slash-command-only capabilities (Artifact, review, commit, autonomous goal) are covered alongside them.
-- **Cleaner skill and custom-command invocation.** Running a skill as `/name` (or a user-defined `/command`) shows the typed command and injects its playbook to the model only, instead of dumping the whole body into scrollback.
+# 运行诊断脚本
+bash debug-routing.sh
+```
 
-**Platforms:** macOS (Apple Silicon / Intel / universal), Linux (x64 / arm64, musl-static), Windows (x64). Verify downloads against `SHA256SUMS`.
+---
 
-## hipmmcode v0.10.0
+## 📁 新增文件
 
-One-approval autonomous tasks, a quieter auto mode, and tool loading aligned tool-for-tool across leading coding agents.
+### 模板文件
+- `crates/sc-ui/templates/morning-brief.html` - 每日简报模板
+- `crates/sc-ui/templates/plan.html` - 技术文档模板
+- `crates/sc-ui/templates/dataviz.html` - 数据可视化模板
 
-- **Plan mode can approve one bounded autonomous task in a single confirmation.** `ExitPlanMode` can carry a host-validated TaskGrant: frozen directory roots, an explicit reviewed tool scope, expiry, and hard budgets (default 128 turns / 2 h / 512 tool calls / $10 estimated model cost). Read/search scope works on macOS and Linux; on **Linux** a coding task can additionally produce **patch-only edits** in a disposable shadow workspace (clean completion seals a `manifest.json` + content-addressed blobs — the real workspace is never touched) and run **sandboxed offline Cargo build/test** (`BuildTest`: cgroup v2, cleared environment, no network; requires explicit operator provisioning). Everything unprovable stays fail-closed, and ordinary Auto/manual behavior is completely unchanged.
-- **Auto mode stops prompting on read-only tools.** A fixed allow-list (Read/Grep/Glob/LSP, task/TODO orchestration, MCP resource reads, …) is checked before the safety classifier — so it keeps working even when the classifier can't be reached — and two bugs that made auto mode fall closed on Codex/OpenAI providers are fixed (classifier output cap 256 → 2048 tokens; forced-High reasoning effort → Low).
-- **Tool loading parity, cheaper requests.** Tool schemas are stably sorted by name (restores prompt-cache hits on the tools block); dynamic discovery (`ToolSearch`) gained full OpenAI-Responses support (MCP namespace coalescing + BM25 deferred-tool search); `--disallowed-tools` entries can no longer be re-added by discovery; the `LSP` tool (renamed from `Lsp`) is deferred by default; and MCP tools no longer 400 on OpenAI Responses (JSON-Schema lowering to the Responses subset).
-- **Image generation through the membership gateway no longer times out.** Both the client and the gateway relay now use a dedicated 250 s image HTTP client (was the 120 s SSE client, which cut off long renders as a `502`), and the relay automatically retries transient upstream transport failures.
-- **New TUI.** **Shift+Tab** cycles the permission mode (`default → acceptEdits → plan`); **Ctrl+T** opens a persistent Tasks panel; **Ctrl+B** sends running foreground Bash/Agents to the background with session-resident completion notices. AskUserQuestion "Other" answers are now typed inline in the option row (fixes custom text disappearing after Enter), and modal panels match key+modifier exactly (Ctrl/Alt+Enter can no longer confirm a destructive action).
-- **Reliability.** `/rewind` uses one consistent restore-and-truncate path across teammate panes and headless runs; `exec --json` / `--stream` stdout is completely free of renderer output; idle compaction is no longer suppressed across concurrent agents; background-agent completion notices are delivered exactly once to the right recipient.
+### 模块文件
+- `crates/sc-ui/src/artifact_templates.rs` - 模板渲染引擎
 
-**Platforms:** macOS (Apple Silicon / Intel / universal), Linux (x64 / arm64, musl-static), Windows (x64). Verify downloads against `SHA256SUMS`.
+### 测试文件
+- `test-artifact.html` - HTML 示例
+- `test-morning-brief.md` - Markdown 示例
+- `test-model-routing.sh` - 路由诊断脚本
+- `debug-routing.sh` - 深度调试脚本
+
+### 文档
+- `ARTIFACT_FEATURES.md` - 功能详细说明
+- `ARTIFACT_USAGE.md` - 使用指南
+- `BUG_FIXES.md` - 问题修复报告
+- `RELEASE_NOTES.md` - 本文档
+
+---
+
+## 🔧 代码修改
+
+### 核心修改
+1. `sc-core/src/config.rs` - 添加 `show_thinking` 配置项
+2. `sc-ui/src/repl.rs` - 修改 thinking 显示逻辑，集成模板系统
+3. `sc-ui/src/commands/mod.rs` - 添加 `--file` 和 `--template` 参数
+4. `sc-ui/src/lib.rs` - 注册 `artifact_templates` 模块
+
+### 功能增强
+- HTML 文件自动检测（`.html` / `.htm`）
+- Markdown 自动转换（`.md` / `.markdown`）
+- 模板变量自动填充（`{{TITLE}}`, `{{DATE}}`, `{{CONTENT}}`）
+- Mermaid 图表支持（在所有模板中）
+
+---
+
+## 🚀 快速开始
+
+### 安装新版本
+```bash
+# 已自动安装到 ~/.cargo/bin/hipmmcode
+hipmmcode --version  # 应显示 0.11.0
+```
+
+### 测试新功能
+
+#### 1. 测试 Thinking 修复
+```bash
+# 默认：thinking 隐藏
+hipmmcode chat "写一个排序算法"
+
+# 看不到 ∴ Thinking… 内容 ✅
+```
+
+#### 2. 测试 HTML 发布
+```bash
+hipmmcode publish --file test-artifact.html --public --title "HiPMMCode 介绍"
+# 获得分享链接
+```
+
+#### 3. 测试模板系统
+```bash
+# Morning Brief 模板
+hipmmcode publish \
+  --file test-morning-brief.md \
+  --template morning-brief \
+  --public \
+  --title "今日工作简报"
+
+# Plan 模板
+echo "# 系统设计
+
+## 架构
+采用微服务架构...
+
+## 技术栈
+- Rust
+- PostgreSQL" > design.md
+
+hipmmcode publish --file design.md --template plan --public
+```
+
+---
+
+## 📊 性能与兼容性
+
+### 编译信息
+- **编译时间**: ~2分钟（release 模式）
+- **二进制大小**: ~50MB
+- **平台**: macOS (darwin)
+- **警告数**: 3个（不影响功能）
+
+### 兼容性
+- ✅ 向后兼容旧版配置
+- ✅ 保持现有命令行为
+- ✅ 新功能通过可选参数启用
+- ✅ 默认行为更加合理（thinking 隐藏）
+
+---
+
+## 🎨 模板预览
+
+### Morning Brief
+- 统计卡片布局
+- 彩色任务列表
+- 响应式设计
+- 自动深色模式
+
+### Plan
+- 专业文档排版
+- 代码语法高亮
+- 章节目录导航
+- 清晰的层级结构
+
+### DataViz
+- 数据卡片展示
+- 表格优化显示
+- 渐变色彩主题
+- 鼠标悬停效果
+
+---
+
+## 📝 使用建议
+
+### 最佳实践
+
+1. **日常简报**
+```bash
+# 每天结束时发布工作总结
+hipmmcode publish --file daily-$(date +%Y%m%d).md --template morning-brief --public
+```
+
+2. **技术文档**
+```bash
+# 设计文档、RFC
+hipmmcode publish --file RFC-001.md --template plan --public
+```
+
+3. **数据报告**
+```bash
+# 分析报告、指标展示
+hipmmcode publish --file metrics.md --template dataviz --public
+```
+
+### 配置建议
+```json
+{
+  "showThinking": false,
+  "artifactHost": {
+    "origin": "https://www.hipmmai.com",
+    "apiKey": "your-api-key",
+    "public": false
+  }
+}
+```
+
+---
+
+## 🐛 已知问题
+
+1. **模型路由错误** - GPT 模型可能被路由到错误渠道
+   - 临时方案：使用 `--provider openai-codex`
+   
+2. **警告信息** - 编译时有 3 个警告
+   - 不影响功能，可忽略
+
+---
+
+## 📞 反馈与支持
+
+### 问题报告
+如遇到问题，请提供：
+1. 完整的命令行输入
+2. 错误截图
+3. `hipmmcode doctor` 输出
+4. 日志文件（如有）
+
+### 调试工具
+```bash
+# 路由问题诊断
+bash test-model-routing.sh
+bash debug-routing.sh
+
+# 详细日志
+RUST_LOG=debug hipmmcode chat "测试" 2>&1 | tee debug.log
+```
+
+---
+
+## 🎯 下一步计划
+
+1. ✅ 修复 thinking 泄漏 - 已完成
+2. 🔄 修复模型路由问题 - 调查中
+3. 📝 添加更多模板 - 计划中
+4. 🎨 模板自定义功能 - 未来版本
+
+---
+
+## 📚 相关文档
+
+- [功能详解](./ARTIFACT_FEATURES.md) - 详细功能说明
+- [使用指南](./ARTIFACT_USAGE.md) - 完整使用教程
+- [问题修复](./BUG_FIXES.md) - 技术细节和修复过程
+
+---
+
+**版本**: v0.11.0  
+**发布日期**: 2025-01-19  
+**开发者**: HiPMMCode Team  
+**协助**: Claude (Kiro)
+
+🌟 感谢使用 HiPMMCode！
