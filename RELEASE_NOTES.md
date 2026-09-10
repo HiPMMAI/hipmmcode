@@ -1,3 +1,14 @@
+# HiPMMCode v1.0.7 更新总结
+
+DeepSeek V4.1 Flash 原生识图，不再绕行 vision-exp。启动屏换成点阵 H。
+
+- **目录。** `deepseek` / `deepseek-anthropic` 建议 `deepseek-flash`（👁）和 `deepseek-v4-pro`。旧名 `deepseek-v4-flash`、`deepseek-v4-flash-vision-exp` 仍能打通（接口落到 Flash），但不进选择器。
+- **贴图走当前模型。** `deepseek-flash` 自己看图，不再把这一轮改写到 vision SKU。`deepseek-v4-pro` 不接受图片。
+- **简称。** `flash` / `vision` / `chat` → `deepseek-flash`；`pro` / `v4` → `deepseek-v4-pro`。
+- **启动标识。** 左侧点阵 H，右侧粗体 `iPMM` 加浅色 `Code`。
+
+**平台：** macOS（Apple Silicon / Intel / universal）、Linux（x64 / arm64，musl 静态）、Windows（x64）。下载后请用 `SHA256SUMS` 校验。公开仓 tag：`v1.0.7`。桌面版独立版本。
+
 # HiPMMCode v1.0.6 更新总结
 
 macOS 终端里 Ctrl+V 可以贴图。

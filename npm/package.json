@@ -1,6 +1,6 @@
 {
   "name": "@hipmmai/hipmmcode",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Provider-agnostic AI coding agent for your terminal (binary distribution)",
   "bin": {
     "hipmmcode": "bin/run.js"
