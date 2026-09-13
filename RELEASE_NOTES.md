@@ -1,3 +1,35 @@
+# HiPMMCode v1.0.10 更新总结
+
+窄终端里 Thinking 不再闪出两行；macOS 二进制 Developer ID 签名并公证。
+
+- **Thinking 双行。** 空输入框的长占位符按列宽换行（和打字时同一套 wrap），100ms 的 spinner 刷新不会在旧行再打一颗星。空闲输入框同样处理。底栏过长时截断，不再把占位符残字混进状态行。
+- **macOS 签名公证。** `darwin-arm64` / `darwin-x64` / `darwin-universal` 的 `hipmmcode` 用 Developer ID Application 加 hardened runtime 签名，并提交 Apple 公证。独立 Mach-O 不能像 `.app` 那样 staple；Gatekeeper 联网核验票据。Linux / Windows 包不签 Apple 证书。
+
+**平台：** macOS（Apple Silicon / Intel / universal）、Linux（x64 / arm64，musl 静态）、Windows（x64）。下载后请用 `SHA256SUMS` 校验。公开仓 tag：`v1.0.10`。桌面版独立版本。
+
+# HiPMMCode v1.0.9 更新总结
+
+Grok 回复播报、斜杠命令幽灵提醒，以及能真正打开图片的 Command+点击。
+
+- **回复播报。** `/voice talk` / `/voice speak` 把 Grok TTS 直接灌进扬声器，不落盘。默认速度 **1.2**。`/tts speed slow|normal|fast` 或 `0.7–1.5`。播放条：暂停 / 继续 / 停止（`p` / `s`）。
+- **幽灵提醒。** 输入 `/tts` 淡显 `[voice|speed]`；空命令打开的选择器页脚同样给出空格后参数。
+- **Command+点击路径。** `路径：/Users/…/photo.jpg` 会先剥掉中文标签再打开真实文件。
+- **Grok 多媒体**（视频 / TTS / STT / Realtime）随本构建带上，见下方 v1.0.8。
+
+**平台：** macOS（Apple Silicon / Intel / universal）、Linux（x64 / arm64，musl 静态）、Windows（x64）。下载后请用 `SHA256SUMS` 校验。公开仓 tag：`v1.0.9`。桌面版独立版本。
+
+# HiPMMCode v1.0.8 更新总结
+
+Grok 视频 / TTS / STT / Realtime：OAuth 与第三方 `XAI_BASE_URL` 中转共用同一套接口。
+
+- **视频。** `GenerateVideo` 在 `xai` / `xai-oauth` 上调用 `POST /videos/generations`，轮询 `GET /videos/{id}`。默认 `grok-imagine-video-1.5`。千问 Token Plan 路径不变。
+- **TTS。** `GenerateSpeech` 在 Grok 上 `POST /tts`（默认 `eve`）。`/tts` 选音色（先中文后英文，A–Z）。`/voice talk` / `/voice speak` 把回复直接播报、不落盘。官方 TTS 只选音色，没有 chat 模型。千问 WebSocket TTS 不变。
+- **STT。** 新工具 `TranscribeAudio`：`POST /stt` 转写工作区音频文件，不是麦克风流。
+- **Realtime。** 新工具 `RealtimeVoice`：`WS /realtime` 文本进、返回转写。TUI 不做双向语音对讲。
+- **配置。** 官方 SuperGrok：`hipmmcode model xai-oauth`。中转：`export XAI_BASE_URL=…` 与 `export XAI_API_KEY=…`，渠道 `xai`。不要用 `GROK_MODELS_BASE_URL`。
+
+**平台：** macOS（Apple Silicon / Intel / universal）、Linux（x64 / arm64，musl 静态）、Windows（x64）。下载后请用 `SHA256SUMS` 校验。公开仓 tag：`v1.0.8`。桌面版独立版本。
+
 # HiPMMCode v1.0.7 更新总结
 
 DeepSeek V4.1 Flash 原生识图，不再绕行 vision-exp。启动屏换成点阵 H。

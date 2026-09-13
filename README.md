@@ -4,6 +4,10 @@
 
 **hipmmcode** is a provider-agnostic AI coding agent for your terminal: a fullscreen TUI that orchestrates teams of LLM agents across 29+ model channels (Anthropic, OpenAI, Gemini, DeepSeek, Kimi, MiniMax, DashScope, GLM, custom proxies, …).
 
+**New in v1.0.10 — one Thinking row on a narrow terminal, and a signed macOS CLI.** The empty-composer placeholder wraps at the column width so the spinner cannot stamp a second Thinking line after autowrap. `darwin-arm64` / `darwin-x64` / `darwin-universal` binaries are Developer ID signed and notarized (Gatekeeper looks up the ticket; standalone Mach-O is not stapled like a `.app`).
+
+**New in v1.0.9 — spoken Grok replies, slash-arg ghost hints, and Command-click that opens the real image.** `/voice talk` and `/voice speak` pipe Grok TTS to the speakers with no leftover file. Default TTS speed is **1.2**; `/tts speed slow|normal|fast` (or `0.7–1.5`). Typing `/tts` shows dim `[voice|speed]`. A glued label such as `路径：/Users/…/photo.jpg` is stripped before open. Grok video / TTS / STT / Realtime work on SuperGrok OAuth and a third-party `XAI_BASE_URL` relay.
+
 **New in v1.0.7 — DeepSeek V4.1 Flash native vision, and a compact welcome H.** `deepseek` / `deepseek-anthropic` suggest `deepseek-flash` (👁) and `deepseek-v4-pro`. Image turns stay on the selected model — no vision-exp detour. `deepseek-v4-pro` does not accept images. The startup header is a braille H with bold `iPMM` and dim `Code`.
 
 **New in v1.0.6 — Ctrl+V image paste in the macOS terminal.** Terminal.app and iTerm2 swallow Cmd+V when the clipboard is an image. The idle composer, mid-turn editor, and readline now honor **Ctrl+V**: a screenshot becomes `[Image #N]`; text still pastes as text. Cmd+V in VS Code / Cursor is unchanged. Ctrl+C remains interrupt, not copy.
@@ -148,6 +152,10 @@ Binary-only, free to use; no redistribution or reverse engineering. See [LICENSE
 # hipmmcode（中文）
 
 **hipmmcode** 是终端里的全能 AI 编程智能体:全屏 TUI,可在 29+ 模型渠道(Anthropic、OpenAI、Gemini、DeepSeek、Kimi、MiniMax、通义、智谱、自定义代理……)上编排 LLM 智能体团队。
+
+**v1.0.10 新增 —— 窄终端 Thinking 不再闪出两行；macOS CLI 签名公证。** 空输入框占位符按列宽换行，spinner 不会在旧行再打一颗星。`darwin-arm64` / `darwin-x64` / `darwin-universal` 用 Developer ID 签名并提交 Apple 公证（独立 Mach-O 不能像 `.app` 那样 staple，Gatekeeper 联网核验票据）。
+
+**v1.0.9 新增 —— Grok 回复播报、斜杠命令幽灵提醒，Command+点击能打开真实图片。** `/voice talk` / `/voice speak` 把 Grok TTS 直接灌进扬声器，不落盘。默认速度 **1.2**；`/tts speed slow|normal|fast`（或 `0.7–1.5`）。输入 `/tts` 会淡显 `[voice|speed]`。`路径：/Users/…/photo.jpg` 这种中文标签会先剥掉再打开。Grok 视频 / TTS / STT / Realtime 同时覆盖 SuperGrok OAuth 和第三方 `XAI_BASE_URL` 中转。
 
 **v1.0.7 新增 —— DeepSeek V4.1 Flash 原生识图，启动点阵 H。** `deepseek` / `deepseek-anthropic` 建议 `deepseek-flash`（👁）和 `deepseek-v4-pro`。贴图走当前选中的模型，不再绕行 vision-exp。`deepseek-v4-pro` 不接受图片。启动屏左侧点阵 H，右侧粗体 `iPMM` 加浅色 `Code`。
 
