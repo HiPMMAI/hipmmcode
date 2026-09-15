@@ -1,3 +1,15 @@
+# HiPMMCode v1.1.0 更新总结
+
+平台会员（普惠 / 高级 / 尊享）、Grok 检索对齐 Grok CLI，引用默认关闭。
+
+- **平台套餐。** `/login` 绑定 `inclusive-grok` / `premium-grok` / `vip-grok`。`/logout` 只解绑套餐。语音与 `/tts` `/voice` 跟套餐走；官方多媒体需尊享且当前对话在 OAuth。
+- **Grok 检索。** Responses 服务端 `web_search`（搜+浏览），不再跟一轮失败的 WebFetch。`/sources` 管文末链接，`/cite` 管 `[1]` `[2]`，**默认都关**。裸命令打开选择器。
+- **欢迎页与底栏。** `email · VIP`（或 Inclusive / Premium / None）。会员色只上平台渠道，不上 `xai-oauth`。
+- **Grok 视频。** 官方图生视频与参考生视频（参考最多 7 张；参考模式最高 720p）。
+- **斜杠选择器。** 裸 `/vim` `/compat` `/pet` `/brief` `/focus` `/pause-memory` `/advisor` 等 ↑↓ + 回车；`on`/`off` 仍可用。
+
+**平台：** macOS（Apple Silicon / Intel / universal）、Linux（x64 / arm64，musl 静态）、Windows（x64）。下载后请用 `SHA256SUMS` 校验。公开仓 tag：`v1.1.0`。桌面版独立版本。
+
 # HiPMMCode v1.0.10 更新总结
 
 窄终端里 Thinking 不再闪出两行；macOS 二进制 Developer ID 签名并公证。

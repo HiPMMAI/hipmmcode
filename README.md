@@ -4,6 +4,8 @@
 
 **hipmmcode** is a provider-agnostic AI coding agent for your terminal: a fullscreen TUI that orchestrates teams of LLM agents across 29+ model channels (Anthropic, OpenAI, Gemini, DeepSeek, Kimi, MiniMax, DashScope, GLM, custom proxies, …).
 
+**New in v1.1.0 — platform membership, Grok CLI-style search, citations off by default.** `/login` binds Inclusive / Premium / VIP as `inclusive-grok` / `premium-grok` / `vip-grok`. Official Grok search uses Responses `web_search` (server search + browse). `/sources` and `/cite` default **off**; bare commands open Enable/Disable pickers. Welcome shows `email · VIP`. `GenerateVideo` supports official i2v and r2v.
+
 **New in v1.0.10 — one Thinking row on a narrow terminal, and a signed macOS CLI.** The empty-composer placeholder wraps at the column width so the spinner cannot stamp a second Thinking line after autowrap. `darwin-arm64` / `darwin-x64` / `darwin-universal` binaries are Developer ID signed and notarized (Gatekeeper looks up the ticket; standalone Mach-O is not stapled like a `.app`).
 
 **New in v1.0.9 — spoken Grok replies, slash-arg ghost hints, and Command-click that opens the real image.** `/voice talk` and `/voice speak` pipe Grok TTS to the speakers with no leftover file. Default TTS speed is **1.2**; `/tts speed slow|normal|fast` (or `0.7–1.5`). Typing `/tts` shows dim `[voice|speed]`. A glued label such as `路径：/Users/…/photo.jpg` is stripped before open. Grok video / TTS / STT / Realtime work on SuperGrok OAuth and a third-party `XAI_BASE_URL` relay.
@@ -152,6 +154,8 @@ Binary-only, free to use; no redistribution or reverse engineering. See [LICENSE
 # hipmmcode（中文）
 
 **hipmmcode** 是终端里的全能 AI 编程智能体:全屏 TUI,可在 29+ 模型渠道(Anthropic、OpenAI、Gemini、DeepSeek、Kimi、MiniMax、通义、智谱、自定义代理……)上编排 LLM 智能体团队。
+
+**v1.1.0 新增 —— 平台会员、Grok CLI 同款检索、引用默认关闭。** `/login` 绑定普惠 / 高级 / 尊享为 `inclusive-grok` / `premium-grok` / `vip-grok`。官方 Grok 检索走 Responses `web_search`。`/sources` 与 `/cite` **默认关闭**，裸命令打开选择器。欢迎页显示 `email · VIP`。`GenerateVideo` 支持官方图生视频与参考生视频。
 
 **v1.0.10 新增 —— 窄终端 Thinking 不再闪出两行；macOS CLI 签名公证。** 空输入框占位符按列宽换行，spinner 不会在旧行再打一颗星。`darwin-arm64` / `darwin-x64` / `darwin-universal` 用 Developer ID 签名并提交 Apple 公证（独立 Mach-O 不能像 `.app` 那样 staple，Gatekeeper 联网核验票据）。
 
