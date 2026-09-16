@@ -1,3 +1,15 @@
+# HiPMMCode v1.1.1 更新总结
+
+`/status` 显示当前 `/rename` 名称、Grok 同款鼠标点选、平台用量按积分展示。
+
+- **会话名。** `/rename` 立刻写入内存标题。`/status` 的 Session name 在第一次自动保存前也会显示。
+- **鼠标。** 输入框点击定位、拖选复制；对话区拖选复制并贴边滚动。斜杠选择器残留 Enter 不再连打确认。
+- **平台用量。** `/usage` 显示剩余 **积分**。会员色只上平台 Grok 渠道。`/status` 对平台渠道隐藏 Base URL。
+- **视频静帧。** `GenerateVideo` 可用上一张图、粘贴图或本地 JPEG/PNG/WebP。
+- **听写语言。** `/voice lang` 是 STT 口语提示，不是翻译。
+
+**平台：** macOS（Apple Silicon / Intel / universal）、Linux（x64 / arm64，musl 静态）、Windows（x64）。下载后请用 `SHA256SUMS` 校验。公开仓 tag：`v1.1.1`。桌面版独立版本。
+
 # HiPMMCode v1.1.0 更新总结
 
 平台会员（普惠 / 高级 / 尊享）、Grok 检索对齐 Grok CLI，引用默认关闭。

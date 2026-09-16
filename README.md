@@ -4,6 +4,8 @@
 
 **hipmmcode** is a provider-agnostic AI coding agent for your terminal: a fullscreen TUI that orchestrates teams of LLM agents across 29+ model channels (Anthropic, OpenAI, Gemini, DeepSeek, Kimi, MiniMax, DashScope, GLM, custom proxies, …).
 
+**New in v1.1.1 — `/status` shows the live `/rename` title, Grok-like mouse select, platform usage in credits.** `/rename` is visible in Status before the first autosave. Click-to-caret and drag-copy in the composer and transcript. `/usage` shows remaining **积分**. `/voice lang` is the STT spoken-language hint, not a translator. `GenerateVideo` accepts last still / paste / local JPEG/PNG/WebP.
+
 **New in v1.1.0 — platform membership, Grok CLI-style search, citations off by default.** `/login` binds Inclusive / Premium / VIP as `inclusive-grok` / `premium-grok` / `vip-grok`. Official Grok search uses Responses `web_search` (server search + browse). `/sources` and `/cite` default **off**; bare commands open Enable/Disable pickers. Welcome shows `email · VIP`. `GenerateVideo` supports official i2v and r2v.
 
 **New in v1.0.10 — one Thinking row on a narrow terminal, and a signed macOS CLI.** The empty-composer placeholder wraps at the column width so the spinner cannot stamp a second Thinking line after autowrap. `darwin-arm64` / `darwin-x64` / `darwin-universal` binaries are Developer ID signed and notarized (Gatekeeper looks up the ticket; standalone Mach-O is not stapled like a `.app`).
@@ -154,6 +156,8 @@ Binary-only, free to use; no redistribution or reverse engineering. See [LICENSE
 # hipmmcode（中文）
 
 **hipmmcode** 是终端里的全能 AI 编程智能体:全屏 TUI,可在 29+ 模型渠道(Anthropic、OpenAI、Gemini、DeepSeek、Kimi、MiniMax、通义、智谱、自定义代理……)上编排 LLM 智能体团队。
+
+**v1.1.1 新增 —— `/status` 显示当前 `/rename` 名称、Grok 同款鼠标点选、平台用量按积分。** `/rename` 在第一次自动保存前就会出现在 Status。输入框点击定位、拖选复制；对话区拖选复制。`/usage` 显示剩余 **积分**。`/voice lang` 是 STT 口语提示，不是翻译。`GenerateVideo` 可用上一张静帧 / 粘贴图 / 本地 JPEG/PNG/WebP。
 
 **v1.1.0 新增 —— 平台会员、Grok CLI 同款检索、引用默认关闭。** `/login` 绑定普惠 / 高级 / 尊享为 `inclusive-grok` / `premium-grok` / `vip-grok`。官方 Grok 检索走 Responses `web_search`。`/sources` 与 `/cite` **默认关闭**，裸命令打开选择器。欢迎页显示 `email · VIP`。`GenerateVideo` 支持官方图生视频与参考生视频。
 
