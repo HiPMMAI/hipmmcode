@@ -1,3 +1,14 @@
+# HiPMMCode v1.1.2 更新总结
+
+macOS 内置麦克风、`/voice setup`，中文 `file:` 路径不再崩溃。
+
+- **内置录音。** 新 Mac 不必先装 SoX。`/voice talk` 用系统麦克风（`cpal`），16 kHz 单声道 WAV。
+- **`/voice setup`。** 诊断麦和播放器；确认后安装。缺硬件时 `/voice talk` 也会问要不要装。
+- **TTS 播放。** 按 `PATH` 找 `ffplay` / `mpv` / `afplay`。播失败会尝试补装再试。
+- **中文文件链接。** `卡通换头_15s.mp4` 这类 basename 不再 panic。
+
+**平台：** macOS（Apple Silicon / Intel / universal）、Linux（x64 / arm64，musl 静态）、Windows（x64）。下载后请用 `SHA256SUMS` 校验。公开仓 tag：`v1.1.2`。桌面版独立版本。
+
 # HiPMMCode v1.1.1 更新总结
 
 `/status` 显示当前 `/rename` 名称、Grok 同款鼠标点选、平台用量按积分展示。

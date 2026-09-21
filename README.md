@@ -4,6 +4,8 @@
 
 **hipmmcode** is a provider-agnostic AI coding agent for your terminal: a fullscreen TUI that orchestrates teams of LLM agents across 29+ model channels (Anthropic, OpenAI, Gemini, DeepSeek, Kimi, MiniMax, DashScope, GLM, custom proxies, …).
 
+**New in v1.1.2 — macOS built-in mic, `/voice setup`, CJK `file:` crash fix.** New Macs can `/voice talk` without SoX. `/voice setup` installs ffplay/sox when missing. Spoken replies search `PATH` for a player. A name like `卡通换头_15s.mp4` no longer panics the markdown renderer.
+
 **New in v1.1.1 — `/status` shows the live `/rename` title, Grok-like mouse select, platform usage in credits.** `/rename` is visible in Status before the first autosave. Click-to-caret and drag-copy in the composer and transcript. `/usage` shows remaining **积分**. `/voice lang` is the STT spoken-language hint, not a translator. `GenerateVideo` accepts last still / paste / local JPEG/PNG/WebP.
 
 **New in v1.1.0 — platform membership, Grok CLI-style search, citations off by default.** `/login` binds Inclusive / Premium / VIP as `inclusive-grok` / `premium-grok` / `vip-grok`. Official Grok search uses Responses `web_search` (server search + browse). `/sources` and `/cite` default **off**; bare commands open Enable/Disable pickers. Welcome shows `email · VIP`. `GenerateVideo` supports official i2v and r2v.
@@ -156,6 +158,8 @@ Binary-only, free to use; no redistribution or reverse engineering. See [LICENSE
 # hipmmcode（中文）
 
 **hipmmcode** 是终端里的全能 AI 编程智能体:全屏 TUI,可在 29+ 模型渠道(Anthropic、OpenAI、Gemini、DeepSeek、Kimi、MiniMax、通义、智谱、自定义代理……)上编排 LLM 智能体团队。
+
+**v1.1.2 新增 —— macOS 内置麦克风、`/voice setup`、中文 `file:` 路径崩溃修复。** 新 Mac 不必先装 SoX。`/voice setup` 缺播放器/录音时会安装。回复播报按 `PATH` 找播放器。`卡通换头_15s.mp4` 这类文件名不再把 markdown 打崩。
 
 **v1.1.1 新增 —— `/status` 显示当前 `/rename` 名称、Grok 同款鼠标点选、平台用量按积分。** `/rename` 在第一次自动保存前就会出现在 Status。输入框点击定位、拖选复制；对话区拖选复制。`/usage` 显示剩余 **积分**。`/voice lang` 是 STT 口语提示，不是翻译。`GenerateVideo` 可用上一张静帧 / 粘贴图 / 本地 JPEG/PNG/WebP。
 
