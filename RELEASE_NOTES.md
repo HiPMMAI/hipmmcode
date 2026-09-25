@@ -1,3 +1,22 @@
+# HiPMMCode v1.1.4 更新总结
+
+生成时，重复的工具调用收成一行；全屏只重画有变化的行。
+
+- **重复工具收起。** 同一类连续调用（搜索、读取、列表、命令、MCP，以及其他一行能写完的重复）显示成 `Calling {name} ×N`，用 ctrl+o 或点击展开。单独一次仍是卡片。报错，以及写入、编辑、提问这些要看结果的卡片，保持展开。
+- **吐字不再整屏重画。** 直播画面只发送变化的行，不再每个字都把整个终端重画一遍。
+
+**平台：** macOS（Apple Silicon / Intel / universal）、Linux（x64 / arm64，musl 静态）、Windows（x64）。下载后请用 `SHA256SUMS` 校验。公开仓 tag：`v1.1.4`。桌面版独立版本。
+
+# HiPMMCode v1.1.3 更新总结
+
+斜杠命令留在全屏界面。`/resume` 会切到你选中的那个会话。
+
+- **全屏。** `/resume`、`/model` 以及其他斜杠命令不再掉回主屏幕，也不会把对话再打印一遍。只有 `/editor` 会离开全屏。
+- **恢复后的标题。** 选中会话后，输入框标题变成该会话的名字，包括自动起的标题。上一会话的工具计数会清掉。
+- **Grok 模型列表。** 内置回退列表包含 `grok-4.7`、`grok-4.7-fast`、`grok-4.7-build-fast`。套餐登录如果服务端没给模型列表，默认模型是 `grok-4.7`。
+
+**平台：** macOS（Apple Silicon / Intel / universal）、Linux（x64 / arm64，musl 静态）、Windows（x64）。下载后请用 `SHA256SUMS` 校验。公开仓 tag：`v1.1.3`。桌面版独立版本。
+
 # HiPMMCode v1.1.2 更新总结
 
 macOS 内置麦克风、`/voice setup`，中文 `file:` 路径不再崩溃。

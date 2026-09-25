@@ -4,6 +4,10 @@
 
 **hipmmcode** is a provider-agnostic AI coding agent for your terminal: a fullscreen TUI that orchestrates teams of LLM agents across 29+ model channels (Anthropic, OpenAI, Gemini, DeepSeek, Kimi, MiniMax, DashScope, GLM, custom proxies, …).
 
+**New in v1.1.4 — repeated tool runs collapse, and streaming redraws only changed rows.** A burst of the same kind of call shows `Calling {name} ×N` and opens with ctrl+o or a click. One call stays a card. Errors and Write/Edit/question cards stay open. The fullscreen frame sends only the rows that changed.
+
+**New in v1.1.3 — slash commands stay fullscreen, `/resume` switches the chip.** `/resume`, `/model`, and the other slash commands no longer drop out of the fullscreen TUI or reprint the transcript. Only `/editor` leaves fullscreen. Resuming a session shows that session's title, including an auto title, and clears the previous tool tally. Built-in Grok fallbacks include `grok-4.7`, `grok-4.7-fast`, and `grok-4.7-build-fast`; a plan login with no server model list defaults to `grok-4.7`.
+
 **New in v1.1.2 — macOS built-in mic, `/voice setup`, CJK `file:` crash fix.** New Macs can `/voice talk` without SoX. `/voice setup` installs ffplay/sox when missing. Spoken replies search `PATH` for a player. A name like `卡通换头_15s.mp4` no longer panics the markdown renderer.
 
 **New in v1.1.1 — `/status` shows the live `/rename` title, Grok-like mouse select, platform usage in credits.** `/rename` is visible in Status before the first autosave. Click-to-caret and drag-copy in the composer and transcript. `/usage` shows remaining **积分**. `/voice lang` is the STT spoken-language hint, not a translator. `GenerateVideo` accepts last still / paste / local JPEG/PNG/WebP.
@@ -158,6 +162,10 @@ Binary-only, free to use; no redistribution or reverse engineering. See [LICENSE
 # hipmmcode（中文）
 
 **hipmmcode** 是终端里的全能 AI 编程智能体:全屏 TUI,可在 29+ 模型渠道(Anthropic、OpenAI、Gemini、DeepSeek、Kimi、MiniMax、通义、智谱、自定义代理……)上编排 LLM 智能体团队。
+
+**v1.1.4 新增 —— 重复工具收起，吐字只重画变化的行。** 同一类连续调用收成 `Calling {name} ×N`，ctrl+o 或点击展开。单独一次仍是卡片。报错和写入、编辑、提问保持展开。全屏只发送变化的行。
+
+**v1.1.3 新增 —— 斜杠命令保持全屏，`/resume` 切到所选会话。** `/resume`、`/model` 等斜杠命令不再掉出全屏，也不会把对话再打印一遍。只有 `/editor` 离开全屏。恢复会话后输入框显示该会话标题（含自动标题），并清掉上一会话的工具计数。内置 Grok 回退列表包含 `grok-4.7`、`grok-4.7-fast`、`grok-4.7-build-fast`；套餐登录没有服务端模型列表时默认 `grok-4.7`。
 
 **v1.1.2 新增 —— macOS 内置麦克风、`/voice setup`、中文 `file:` 路径崩溃修复。** 新 Mac 不必先装 SoX。`/voice setup` 缺播放器/录音时会安装。回复播报按 `PATH` 找播放器。`卡通换头_15s.mp4` 这类文件名不再把 markdown 打崩。
 
