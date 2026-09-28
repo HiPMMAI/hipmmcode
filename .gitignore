@@ -2,6 +2,11 @@
 npm/dist/
 node_modules/
 
+# v1.1.5 CLI release drops belong in GitHub Release assets, not Git history.
+hipmmcode-*.tar.gz
+/SHA256SUMS
+/upload-v*/
+
 # Desktop release packages belong in GitHub Release assets, not Git history.
 /dist/
 /release-assets/
