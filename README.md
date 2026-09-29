@@ -4,6 +4,8 @@
 
 **hipmmcode** is a provider-agnostic AI coding agent for your terminal: a fullscreen TUI that orchestrates teams of LLM agents across 29+ model channels (Anthropic, OpenAI, Gemini, DeepSeek, Kimi, MiniMax, DashScope, GLM, custom proxies, …).
 
+**New in v1.1.6 — Grok effort menu, Windows path checks, and a status row that stays up.** Unset Grok channels default to `high`. `/effort max` and `ultra` clamp to `xhigh`. The menu is Extended (`xhigh`), Heavy (`high`), Balanced (`medium`), and Faster (`low`). On Windows, Read, Write, and Edit treat `\\?\C:\…` and `C:\…` as the same file, so a tool is not refused only because the prefix appeared. `config.json` stays unreadable. The blue status stays for the whole turn. A real path opens on a plain click, including `目录/index.html` under the working directory, Desktop, or Downloads. Provider errors omit the host, IP, and port. PowerShell started from a GUI parent does not open a console window.
+
 **New in v1.1.5 — Windows shell, quieter streaming, and prompt suggestions.** PowerShell is passed to `-Command` as typed, not through `[ScriptBlock]::Create`. Everyday Bash on macOS and Linux no longer waits on a second model check; destructive commands and plan mode still do. Tool calls stay where they happened while text is streaming. After the answer is on screen, the bottom row no longer keeps saying `Thinking…`. `grok-4.7` uses a 500k context window, and its top reasoning level shows as `(xhigh)`. After a normal turn, an empty input can show the next line in gray; Tab or Right Arrow accepts it. `RESTORED {}` no longer leaks onto the composer.
 
 **New in v1.1.4 — repeated tool runs collapse, and streaming redraws only changed rows.** A burst of the same kind of call shows `Calling {name} ×N` and opens with ctrl+o or a click. One call stays a card. Errors and Write/Edit/question cards stay open. The fullscreen frame sends only the rows that changed.
@@ -164,6 +166,8 @@ Binary-only, free to use; no redistribution or reverse engineering. See [LICENSE
 # hipmmcode（中文）
 
 **hipmmcode** 是终端里的全能 AI 编程智能体:全屏 TUI,可在 29+ 模型渠道(Anthropic、OpenAI、Gemini、DeepSeek、Kimi、MiniMax、通义、智谱、自定义代理……)上编排 LLM 智能体团队。
+
+**v1.1.6 新增 —— Grok 推理菜单、Windows 路径核对，以及一直亮着的蓝色状态。** 没选过推理档时，Grok 渠道默认 `high`。`/effort max` 和 `ultra` 收到 `xhigh`。菜单是 Extended（`xhigh`）、Heavy（`high`）、Balanced（`medium`）、Faster（`low`）。Windows 上 Read、Write、Edit 把 `\\?\C:\…` 和 `C:\…` 当成同一个文件，不再只因这个前缀拒绝写入。存放密钥的 `config.json` 仍然不可读。整轮生成期间蓝色状态一直在。真实路径单击打开，包括当前目录、桌面或下载里的 `目录/index.html`。供应商报错不带主机、IP 和端口。从图形程序启动的 PowerShell 不再弹出终端。
 
 **v1.1.5 新增 —— Windows 命令、更安静的吐字，以及输入栏灰字预测。** PowerShell 原样传给 `-Command`，不再套 `[ScriptBlock]::Create`。macOS 和 Linux 上 `cargo build`、`git commit` 这类日常命令不再多问一轮模型；破坏性命令和计划模式仍走原来的检查。吐字时工具留在调用位置。正文写完后底部不再留着 `Thinking…`。`grok-4.7` 上下文按 500k 显示，最高推理档显示为 `(xhigh)`。一轮正常结束后，空输入栏可以用灰色显示下一句，Tab 或右方向键填入。`RESTORED {}` 不再盖住输入框。
 

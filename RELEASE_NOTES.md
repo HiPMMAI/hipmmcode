@@ -1,3 +1,26 @@
+# HiPMMCode v1.1.6 更新总结
+
+Grok 推理菜单和官方客户端一致。Windows 上读写编辑不再因为路径写法被拒绝。生成过程中蓝色状态一直在。单击真实文件路径即可打开。
+
+- **Grok 推理档。** 未手动选择时，所有 Grok 渠道默认 `high`。`/effort max` 和 `ultra` 收到 `xhigh`。菜单是 Extended（`xhigh`）、Heavy（`high`）、Balanced（`medium`）、Faster（`low`）。
+- **Windows 文件工具。** Read、Write、Edit，以及笔记本、补丁、语音和视频，把 `\\?\C:\…` 和 `C:\…` 看成同一个文件。存放 API key 的 `config.json` 仍然不可读。技能目录不再显示 `\\?\` 前缀。
+- **生成状态。** 整轮生成期间蓝色状态一直显示，并随当前步骤变成 Thinking、Continuing 或正在跑的工具。正文写出第一句后不再消失。
+- **单击打开。** 真实存在的文件单击即打开，包括当前目录、桌面或下载里的 `目录/index.html`。
+- **报错与控制台。** 供应商 HTTP 失败不带主机、IP 和端口。Write / Edit 结束后收成几行预览。从图形程序启动的 PowerShell 不再弹出终端。列出桌面窗口不再依赖 Codex 的 sky 通道。
+
+**平台：** macOS（Apple Silicon / Intel / universal）、Linux（x64 / arm64，musl 静态）、Windows（x64）。下载后请用 `SHA256SUMS` 校验。公开仓 tag：`v1.1.6`。桌面版独立版本。
+
+# HiPMMCode v1.1.5 更新总结
+
+Windows 命令直接交给本机的壳。macOS 和 Linux 的日常 Bash 不再多问一轮模型。生成结束后，输入栏可以出现灰色的下一句预测。
+
+- **Windows。** PowerShell 原样传给 `-Command`，不再套 `[ScriptBlock]::Create`。自动模式不再为每条 PowerShell 先问一次 `grok-4.7`。
+- **macOS / Linux。** `cargo build`、`git commit` 这类日常命令直接执行。`rm -rf /`、`curl | sh`、`git reset --hard` 和计划模式仍走原来的检查。
+- **界面。** 吐字时工具留在调用位置，不再整组堆在最下面。正文写完后底部不再留着 `Thinking…`。`grok-4.7` 上下文按 500k 显示。最高推理档在状态栏显示为 `(xhigh)`，不再显示 `max`。
+- **Prompt suggestions。** 一轮正常结束、输入栏为空、后面没有排队时，预测下一句并用灰色显示。Tab 或右方向键填入。请求不带 temperature、输出上限和推理档。
+
+**平台：** macOS（Apple Silicon / Intel / universal）、Linux（x64 / arm64，musl 静态）、Windows（x64）。下载后请用 `SHA256SUMS` 校验。公开仓 tag：`v1.1.5`。桌面版独立版本。
+
 # HiPMMCode v1.1.4 更新总结
 
 生成时，重复的工具调用收成一行；全屏只重画有变化的行。
