@@ -1,3 +1,12 @@
+# HiPMMCode v1.2.0
+
+The fullscreen TUI no longer leaves a frozen second `Continuing…` line. `hipmmcode update` can still find the latest CLI release when the GitHub API does not answer.
+
+- **One status row.** After a question or leaving plan mode moves the spinner, the 100ms tick does not write `Continuing…` on the previous row.
+- **Update without the API.** A failed latest-release call follows `releases/latest` and accepts only `vX.Y.Z`. Desktop tags are ignored.
+
+**Platforms:** macOS (Apple Silicon, Intel, and universal), Linux (x64 and arm64, musl static), and Windows (x64). Check downloads against `SHA256SUMS`. Tag: `v1.2.0`. Desktop builds stay on their own version line. The 16-file upload set is `dist/upload-v1.2.0/` after packaging. Do not `gh release` or git push unless asked.
+
 # HiPMMCode v1.1.6
 
 The Grok effort menu matches the Grok client. Windows file tools no longer refuse a path only because of the `\\?\` prefix. The blue status stays up for the whole turn, and a real file path opens on a click.

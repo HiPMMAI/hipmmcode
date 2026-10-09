@@ -1,3 +1,12 @@
+# HiPMMCode v1.2.0 更新总结
+
+全屏底部不再留下冻住的第二行 `Continuing…`。GitHub API 没有回应时，`hipmmcode update` 仍能找到最新命令行版本。
+
+- **只留一行状态。** 提问或离开计划模式把转圈那一行挪走后，100 毫秒刷新不再往旧行写 `Continuing…`。
+- **API 限流时仍能更新。** latest 接口失败后跟随 `releases/latest`，只接受 `vX.Y.Z`，忽略 `desktop-v*`。
+
+**平台：** macOS（Apple Silicon / Intel / universal）、Linux（x64 / arm64，musl 静态）、Windows（x64）。下载后请用 `SHA256SUMS` 校验。公开仓 tag：`v1.2.0`。桌面版独立版本。本地 16 件上传集在打包完成后位于 `dist/upload-v1.2.0/`。未要求前不要 `gh release` 或 git push。
+
 # HiPMMCode v1.1.6 更新总结
 
 Grok 推理菜单和官方客户端一致。Windows 上读写编辑不再因为路径写法被拒绝。生成过程中蓝色状态一直在。单击真实文件路径即可打开。
