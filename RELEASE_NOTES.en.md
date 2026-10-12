@@ -1,3 +1,12 @@
+# HiPMMCode v1.2.1
+
+AskUserQuestion no longer stacks two `Continuing…` lines or two empty input rows. A Chinese reply no longer leaves one wide character on its own line.
+
+- **One status line.** The 100ms tick redraws the whole frame. It does not stamp `Continuing…` onto a remembered row. The empty hint stays on one row.
+- **Chinese wrap.** Assistant text is wrapped once, so `可`, `严`, and `湾，` are not peeled onto a line by themselves. The user bar stops two columns short of the right edge.
+
+**Platforms:** macOS (Apple Silicon, Intel, and universal; Developer ID signed, not notarized this cut), Linux (x64 and arm64, musl static), and Windows (x64, unsigned). Check downloads against `SHA256SUMS`. Tag: `v1.2.1`. Desktop builds stay on their own version line. Do not mark `desktop-v*` as GitHub Latest.
+
 # HiPMMCode v1.2.0
 
 The fullscreen TUI no longer leaves a frozen second `Continuing…` line. `hipmmcode update` can still find the latest CLI release when the GitHub API does not answer.

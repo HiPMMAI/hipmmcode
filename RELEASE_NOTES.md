@@ -1,3 +1,12 @@
+# HiPMMCode v1.2.1 更新总结
+
+提问之后不再叠出两行 `Continuing…` 和两行空输入提示。中文回复不再把一个宽字单独放到下一行。
+
+- **状态只留一行。** 100 毫秒刷新重画整帧，不再往记住的那一行补写 `Continuing…`。空输入提示始终一行。
+- **中文折行。** 助手正文只折一次。`可`、`严`、`湾，` 不会被拆成单独一行。用户灰条在右边缘留出两列。
+
+**平台：** macOS（Apple Silicon / Intel / universal，Developer ID 签名，本次未公证）、Linux（x64 / arm64，musl 静态）、Windows（x64，未签名）。下载后请用 `SHA256SUMS` 校验。公开仓 tag：`v1.2.1`。桌面版独立版本，不要把 `desktop-v*` 设为 GitHub Latest。
+
 # HiPMMCode v1.2.0 更新总结
 
 全屏底部不再留下冻住的第二行 `Continuing…`。GitHub API 没有回应时，`hipmmcode update` 仍能找到最新命令行版本。
