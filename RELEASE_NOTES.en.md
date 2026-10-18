@@ -4,7 +4,7 @@ While a reply is being spoken, Pause and Stop stay on the bottom bar. A gray nex
 
 - **Voice controls stay up.** `/voice talk` and `/voice speak` keep `Pause` and `Stop` for the whole playback. The suggestion hint returns after the audio finishes.
 
-**Platforms:** macOS (Apple Silicon, Intel, and universal; Developer ID signed, not notarized this cut), Linux (x64 and arm64, musl static), and Windows (x64, unsigned). Check downloads against `SHA256SUMS`. Tag: `v1.2.2`. GitHub Latest stays v1.2.1 until this release is published. Desktop builds stay on their own version line. Do not mark `desktop-v*` as GitHub Latest.
+**Platforms:** macOS (Apple Silicon, Intel, and universal; Developer ID signed, not notarized this cut), Linux (x64 and arm64, musl static), and Windows (x64, unsigned). Check downloads against `SHA256SUMS`. Tag: `v1.2.2`. Desktop builds stay on their own version line. Do not mark `desktop-v*` as GitHub Latest.
 
 # HiPMMCode v1.2.1
 
