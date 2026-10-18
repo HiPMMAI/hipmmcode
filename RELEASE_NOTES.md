@@ -1,3 +1,11 @@
+# HiPMMCode v1.2.2 更新总结
+
+回复还在朗读时，底栏继续显示暂停和停止。灰色的下一句建议不再把它们盖住。
+
+- **语音控制一直在。** `/voice talk` 和 `/voice speak` 在整段播放期间保留 `Pause` 和 `Stop`。声音结束后，建议提示才回到这一行。
+
+**平台：** macOS（Apple Silicon / Intel / universal，Developer ID 签名，本次未公证）、Linux（x64 / arm64，musl 静态）、Windows（x64，未签名）。下载后请用 `SHA256SUMS` 校验。公开仓 tag：`v1.2.2`。GitHub Latest 在发布前仍是 v1.2.1。桌面版独立版本，不要把 `desktop-v*` 设为 GitHub Latest。
+
 # HiPMMCode v1.2.1 更新总结
 
 提问之后不再叠出两行 `Continuing…` 和两行空输入提示。中文回复不再把一个宽字单独放到下一行。

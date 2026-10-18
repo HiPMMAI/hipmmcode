@@ -1,3 +1,11 @@
+# HiPMMCode v1.2.2
+
+While a reply is being spoken, Pause and Stop stay on the bottom bar. A gray next-line suggestion no longer covers them.
+
+- **Voice controls stay up.** `/voice talk` and `/voice speak` keep `Pause` and `Stop` for the whole playback. The suggestion hint returns after the audio finishes.
+
+**Platforms:** macOS (Apple Silicon, Intel, and universal; Developer ID signed, not notarized this cut), Linux (x64 and arm64, musl static), and Windows (x64, unsigned). Check downloads against `SHA256SUMS`. Tag: `v1.2.2`. GitHub Latest stays v1.2.1 until this release is published. Desktop builds stay on their own version line. Do not mark `desktop-v*` as GitHub Latest.
+
 # HiPMMCode v1.2.1
 
 AskUserQuestion no longer stacks two `Continuing…` lines or two empty input rows. A Chinese reply no longer leaves one wide character on its own line.

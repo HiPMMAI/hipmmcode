@@ -4,6 +4,8 @@
 
 **hipmmcode** is a provider-agnostic AI coding agent for your terminal: a fullscreen TUI that orchestrates teams of LLM agents across 29+ model channels (Anthropic, OpenAI, Gemini, DeepSeek, Kimi, MiniMax, DashScope, GLM, custom proxies, …).
 
+**New in v1.2.2 — Pause and Stop stay while a reply is spoken.** `/voice talk` and `/voice speak` keep those controls for the whole playback. A gray next-line suggestion no longer covers them, and it returns after the audio finishes.
+
 **New in v1.2.1 — one status line, and Chinese text that stays together.** After a question, the TUI no longer stacks two `Continuing…` lines or two empty input hints. The 100ms refresh redraws the whole frame instead of writing the status onto a remembered row. A Chinese reply is wrapped once, so a character such as `可` or `严` is not left alone on the next line.
 
 **New in v1.2.0 — one status row, and update when the GitHub API is quiet.** The fullscreen TUI no longer leaves a frozen second `Continuing…` line when a question or plan mode moves the spinner. `hipmmcode update` follows `releases/latest` and accepts only a plain `vX.Y.Z` tag if the API latest-release call fails. Desktop tags are ignored.
@@ -170,6 +172,8 @@ Binary-only, free to use; no redistribution or reverse engineering. See [LICENSE
 # hipmmcode（中文）
 
 **hipmmcode** 是终端里的全能 AI 编程智能体:全屏 TUI,可在 29+ 模型渠道(Anthropic、OpenAI、Gemini、DeepSeek、Kimi、MiniMax、通义、智谱、自定义代理……)上编排 LLM 智能体团队。
+
+**v1.2.2 新增 —— 朗读期间暂停和停止一直留着。** `/voice talk` 和 `/voice speak` 在整段播放期间保留这两个按钮。灰色的下一句建议不再盖住它们，声音结束后才回到这一行。
 
 **v1.2.1 新增 —— 状态只留一行，中文不再把一个字拆到下一行。** 提问之后不再叠出两行 `Continuing…` 和两行空输入提示。100 毫秒刷新重画整帧，不再往记住的那一行补写状态。中文回复只折一次，`可`、`严` 这类字不会单独占一行。
 
