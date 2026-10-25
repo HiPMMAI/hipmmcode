@@ -1,3 +1,13 @@
+# HiPMMCode v1.2.3
+
+On Windows, Ctrl+V pastes a copied picture. Drag-select copies the text, and Ctrl+V pastes that selection. A PowerShell script that contains Chinese is no longer read as the wrong encoding.
+
+- **One Ctrl+V for pictures and text.** In PowerShell or Windows Terminal, a picture clipboard inserts `[Image #N]`. A text-only clipboard still pastes text.
+- **Drag to copy.** Drag across the transcript and release. The bottom bar reports the copy, and Ctrl+V pastes that text.
+- **Chinese PowerShell scripts.** A `.ps1` that contains Chinese is saved as UTF-8 with a BOM. Windows PowerShell 5.1 reads it as Unicode.
+
+**Platforms:** macOS (Apple Silicon, Intel, and universal; Developer ID signed, notarization accepted, standalone binary not stapled), Linux (x64 and arm64, musl static), and Windows (x64, unsigned). Check downloads against `SHA256SUMS`. Tag: `v1.2.3`. Desktop builds stay on their own version line. Do not mark `desktop-v*` as GitHub Latest.
+
 # HiPMMCode v1.2.2
 
 While a reply is being spoken, Pause and Stop stay on the bottom bar. A gray next-line suggestion no longer covers them.

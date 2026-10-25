@@ -1,3 +1,13 @@
+# HiPMMCode v1.2.3 更新总结
+
+Windows 里 Ctrl+V 能贴图片。滑选一段文字并松开后，这段文字进入剪贴板，再按 Ctrl+V 就能贴出来。带中文的 PowerShell 脚本不再被读成乱码。
+
+- **图片和文字都用 Ctrl+V。** 在 PowerShell 或 Windows Terminal 里，剪贴板是图片时插入 `[Image #N]`。只有文字时仍是贴文字。
+- **滑选即复制。** 在对话里按住鼠标滑过文字，松开后底部显示已复制。Ctrl+V 贴出的就是刚选中的内容。
+- **PowerShell 中文脚本。** 含中文的 `.ps1` 按 UTF-8 BOM 保存。Windows PowerShell 5.1 按 Unicode 读取，不再把引号和管道拆坏。
+
+**平台：** macOS（Apple Silicon / Intel / universal，Developer ID 签名，公证已接受，独立二进制未装订）、Linux（x64 / arm64，musl 静态）、Windows（x64，未签名）。下载后请用 `SHA256SUMS` 校验。公开仓 tag：`v1.2.3`。桌面版独立版本，不要把 `desktop-v*` 设为 GitHub Latest。16 件上传集在 `dist/upload-v1.2.3/`。
+
 # HiPMMCode v1.2.2 更新总结
 
 回复还在朗读时，底栏继续显示暂停和停止。灰色的下一句建议不再把它们盖住。

@@ -4,6 +4,8 @@
 
 **hipmmcode** is a provider-agnostic AI coding agent for your terminal: a fullscreen TUI that orchestrates teams of LLM agents across 29+ model channels (Anthropic, OpenAI, Gemini, DeepSeek, Kimi, MiniMax, DashScope, GLM, custom proxies, …).
 
+**New in v1.2.3 — Windows Ctrl+V pastes a picture, and a drag-selection copies.** In PowerShell or Windows Terminal, Ctrl+V on a copied picture inserts `[Image #N]`. A text-only clipboard still pastes text. Drag across the transcript and release: the selection is copied, and Ctrl+V pastes it. A PowerShell script that contains Chinese is saved as UTF-8 with a BOM, so Windows PowerShell 5.1 reads it as Unicode.
+
 **New in v1.2.2 — Pause and Stop stay while a reply is spoken.** `/voice talk` and `/voice speak` keep those controls for the whole playback. A gray next-line suggestion no longer covers them, and it returns after the audio finishes.
 
 **New in v1.2.1 — one status line, and Chinese text that stays together.** After a question, the TUI no longer stacks two `Continuing…` lines or two empty input hints. The 100ms refresh redraws the whole frame instead of writing the status onto a remembered row. A Chinese reply is wrapped once, so a character such as `可` or `严` is not left alone on the next line.
@@ -172,6 +174,8 @@ Binary-only, free to use; no redistribution or reverse engineering. See [LICENSE
 # hipmmcode（中文）
 
 **hipmmcode** 是终端里的全能 AI 编程智能体:全屏 TUI,可在 29+ 模型渠道(Anthropic、OpenAI、Gemini、DeepSeek、Kimi、MiniMax、通义、智谱、自定义代理……)上编排 LLM 智能体团队。
+
+**v1.2.3 新增 —— Windows 里 Ctrl+V 能贴图片，滑选松手即复制。** 在 PowerShell 或 Windows Terminal 里，剪贴板是图片时 Ctrl+V 插入 `[Image #N]`。只有文字时仍是贴文字。在对话里按住鼠标滑选，松开后文字进入剪贴板，再按 Ctrl+V 即可贴出。带中文的 PowerShell 脚本按 UTF-8 BOM 保存，Windows PowerShell 5.1 会按 Unicode 读取。
 
 **v1.2.2 新增 —— 朗读期间暂停和停止一直留着。** `/voice talk` 和 `/voice speak` 在整段播放期间保留这两个按钮。灰色的下一句建议不再盖住它们，声音结束后才回到这一行。
 
