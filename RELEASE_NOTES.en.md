@@ -1,3 +1,13 @@
+# HiPMMCode v1.3.0
+
+The fullscreen terminal picks up the panels and session tools that were missing from the previous cut. Open them from the slash menu instead of leaving the screen.
+
+- **Session tools.** Resume, rewind, import, and export stay inside the TUI. A restart returns to the same session.
+- **Review and settings.** Code review, the diff, model, effort, theme, hooks, memory, and permissions each have their own panel.
+- **Agents.** The footer lists teammates, and the agent tree shows who is working.
+
+**Platforms:** macOS (Apple Silicon, Intel, and universal; Developer ID signed), Linux (x64 and arm64, musl static), and Windows (x64, unsigned). Check downloads against `SHA256SUMS`. Tag: `v1.3.0`. Desktop builds stay on their own version line. Do not mark `desktop-v*` as GitHub Latest. The 16-file upload set is `dist/upload-v1.3.0/`. GitHub Latest stays v1.2.3 until this release is published.
+
 # HiPMMCode v1.2.3
 
 On Windows, Ctrl+V pastes a copied picture. Drag-select copies the text, and Ctrl+V pastes that selection. A PowerShell script that contains Chinese is no longer read as the wrong encoding.

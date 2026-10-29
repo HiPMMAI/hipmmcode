@@ -1,3 +1,13 @@
+# HiPMMCode v1.3.0 更新总结
+
+全屏终端补上了上一版没有的面板和会话操作。用斜杠菜单打开，不用退出全屏。
+
+- **会话。** 恢复、回退、导入、导出都留在终端里。重启后回到同一个会话。
+- **审阅和设置。** 代码审阅、差异、模型、推理强度、主题、钩子、记忆和权限各有自己的面板。
+- **智能体。** 底栏列出队友，智能体树显示谁在工作。
+
+**平台：** macOS（Apple Silicon / Intel / universal，Developer ID 签名）、Linux（x64 / arm64，musl 静态）、Windows（x64，未签名）。下载后请用 `SHA256SUMS` 校验。公开仓 tag：`v1.3.0`。桌面版独立版本，不要把 `desktop-v*` 设为 GitHub Latest。16 件上传集在 `dist/upload-v1.3.0/`。GitHub Latest 在发布前仍是 v1.2.3。
+
 # HiPMMCode v1.2.3 更新总结
 
 Windows 里 Ctrl+V 能贴图片。滑选一段文字并松开后，这段文字进入剪贴板，再按 Ctrl+V 就能贴出来。带中文的 PowerShell 脚本不再被读成乱码。
