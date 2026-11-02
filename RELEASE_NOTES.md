@@ -1,3 +1,22 @@
+# HiPMMCode v1.3.1 更新总结
+
+启动页换成彩色点阵的 HM Bot。一轮对话的样子和行为对齐 Claude Code 2.1.316。
+
+- **启动标志。** 启动页左边是 12 行彩色盲文点阵的 HM Bot：弹簧天线、金头箍、金耳机、眨眼笑脸和蓝围巾。
+- **实时状态。** 转圈行写出正在做的事（`Reading`、`Writing`、`Running a web search`），带用时、token 数和思考状态。
+- **ultrathink。** 输入 `ultrathink`，这一轮的推理强度升到 xhigh，模型不支持时升到最高档。`CLAUDE_CODE_DISABLE_ULTRATHINK=1` 可以关掉。
+- **Markdown。** 斜体、粗斜体、删除线、自动链接、嵌套有序列表、引用竖线、转义和行尾反斜杠，显示和 Claude Code 一致。
+- **生成中不跳动。** 回复写的过程中看到的，就是写完后留下的样子。工具行和下面的回复之间保持一个空行；没写完的标题、列表项、行内代码等这一行写完再显示；表格整张写完才出现；调工具前的思考不再显示两次。
+- **换行宽度。** Linux 和 Windows 上，回复每行写满整个终端，和 Claude Code 一致，句末的 `。` 不会单独掉到下一行。macOS 上 `⏺` 圆点占两格，仍留出两列。中英混排继续按字换行。
+- **远程控制。** 输入框右上角显示 `/rc`、`/rcl` 的状态（`● /rcl active`、`○ /rc /rcl off`），推理强度留在底栏。`/rcl` 直连本机中转，开着 Clash、Surge 这类系统代理时不再报 502。
+- **手机控制。** 新增 `/remote-control-sessions`（`/rcs`）：列出这台电脑所有远程会话（`/rc`、`/rcl`、手机新建的）和连着的手机，可以断开或结束单个会话、显示二维码、断开某台手机并删掉它的 SSH 密钥；`hipmmcode remote-control --list` 打印同一份列表，`--disable`、`--enable` 整机开关。手机发来的斜杠命令不会在电脑上弹面板卡住：用量、状态、上下文以文字回到手机，只对电脑终端有意义的命令会说明原因。手机可以发图片和 PDF（作为这一轮的附件），用 `@` 补全会话目录里的文件，查看改动（diff）。手机还能浏览、打开会话目录里的文件（`~/.ssh` 这类敏感文件不给读），也能接着电脑上保存的对话继续（在那个会话的 tmux 里以 `--resume` 启动）。从手机新建的会话不会再卡在“是否信任此文件夹”的提示上。
+- **斜杠菜单和 MCP。** 模糊搜索排序一致。MCP 支持进度、表单问答、列表刷新、资源模板和参数补全。
+- **权限。** `permissions.blockWritesOutsideWorkingDirectories` 打开后，任何模式下 Write、Edit、NotebookEdit 都不能写工作目录之外。被规则拒绝的调用显示 `Not run · permission denied` 和原因。
+- **命令超时。** 命令到了超时时间转到后台继续跑，带上已有输出。
+- **压缩。** 回复里缺少摘要时先再要一次。
+
+**平台：** macOS（Apple Silicon / Intel / universal，Developer ID 签名）、Linux（x64 / arm64，musl 静态）、Windows（x64，未签名）。下载后请用 `SHA256SUMS` 校验。公开仓 tag：`v1.3.1`。桌面版独立版本，不要把 `desktop-v*` 设为 GitHub Latest。16 件上传集在 `dist/upload-v1.3.1/`。GitHub Latest 在发布前仍是 v1.2.3。
+
 # HiPMMCode v1.3.0 更新总结
 
 全屏终端补上了上一版没有的面板和会话操作。用斜杠菜单打开，不用退出全屏。

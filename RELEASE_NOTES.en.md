@@ -1,3 +1,22 @@
+# HiPMMCode v1.3.1
+
+The welcome screen now shows HM Bot in coloured braille dots. A turn looks and behaves like Claude Code 2.1.316.
+
+- **Welcome mark.** A 12-row coloured braille HM Bot: spring antenna, gold headband, gold headset, winking smile and blue scarf.
+- **Live status.** The spinner names the real action (`Reading`, `Writing`, `Running a web search`), with elapsed time, tokens and thinking.
+- **ultrathink.** Typing `ultrathink` raises effort to xhigh, or the model's top level, for that turn. `CLAUDE_CODE_DISABLE_ULTRATHINK=1` turns it off.
+- **Markdown.** Italic, bold italic, strikethrough, autolinks, nested ordered lists, quote bars, escapes and line-end backslashes render as in Claude Code.
+- **Steady streaming.** What you see while a reply is being written is what stays when it ends. The reply keeps a blank row below the tool group. An unfinished heading, list item or inline code waits until its line is done, a table appears once it is complete, and reasoning before a call no longer shows twice.
+- **Line width.** On Linux and Windows a reply row fills the terminal as in Claude Code, so a closing `。` stays on its line. macOS keeps two columns free for its wide `⏺`. Mixed Chinese and English still wraps by character.
+- **Remote control.** The corner above the input shows the `/rc` and `/rcl` state (`● /rcl active`, `○ /rc /rcl off`); the effort stays in the footer. `/rcl` reaches the local relay directly, so a system proxy (Clash, Surge) no longer answers 502.
+- **Phone control.** New `/remote-control-sessions` (`/rcs`): every Remote Control session on this computer (`/rc`, `/rcl`, started from a phone) with the phones connected to each; disconnect or end one, show its QR code, disconnect a phone and remove its SSH key. `hipmmcode remote-control --list` prints the same list; `--disable` / `--enable` turn it off and on for the whole computer. Slash commands sent from a phone never leave a dialog waiting here: usage, status and context come back as text, and terminal-only commands say why they did not run. The phone can send pictures and PDFs (attached to that turn), complete `@` file paths in the session folder, and review the diff. It can also browse and open files in the session folder (sensitive files such as `~/.ssh` are refused) and pick up a saved conversation again (started with `--resume` in that session's tmux). A session started from a phone no longer stops at the folder-trust prompt.
+- **Slash menu and MCP.** Fuzzy search ranks commands the same way. MCP servers get progress, elicitation forms, list refreshes, resource templates and argument completion.
+- **Permissions.** `permissions.blockWritesOutsideWorkingDirectories` stops Write, Edit and NotebookEdit outside the working directories in every mode. A call a rule denies shows `Not run · permission denied` and the reason.
+- **Shell timeouts.** A command that reaches its timeout moves to the background with the output so far.
+- **Compaction.** A reply with no summary is asked for once more before falling back.
+
+**Platforms:** macOS (Apple Silicon, Intel, and universal; Developer ID signed), Linux (x64 and arm64, musl static), and Windows (x64, unsigned). Check downloads against `SHA256SUMS`. Tag: `v1.3.1`. Desktop builds stay on their own version line. Do not mark `desktop-v*` as GitHub Latest. The 16-file upload set is `dist/upload-v1.3.1/`. GitHub Latest stays v1.2.3 until this release is published.
+
 # HiPMMCode v1.3.0
 
 The fullscreen terminal picks up the panels and session tools that were missing from the previous cut. Open them from the slash menu instead of leaving the screen.
