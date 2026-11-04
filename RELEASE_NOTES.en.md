@@ -1,3 +1,17 @@
+# HiPMMCode v1.3.2
+
+Image generation finishes on a slow network, the model calls GenerateImage instead of looking for another way, and `/status` shows where the session is saved.
+
+- **Slow networks.** GenerateImage used to give up 250 seconds after sending the request, even while the finished image was still downloading, and reported it as `malformed response`. The wait for the render (300 s) and the download are timed separately: a download that keeps moving is never cut, and only 60 seconds without data counts as stalled, within 10 minutes in all. A stall says the image was generated and the network is slow. The last poll of a membership image job is no longer cut at 60 seconds. Video downloads (60 minutes) and Grok speech work the same way.
+- **GenerateImage is always offered.** It is no longer deferred behind ToolSearch, Turbo included. Call it directly for any picture, poster or illustration. GenerateVideo and GenerateSpeech stay deferred and carry the same rules.
+- **Session file in `/status`.** A `Session file` row under `Session ID` shows the absolute path of the session JSON.
+- **The status row on the phone too.** Under Remote Control the terminal's live row goes to the phone as drawn, so the phone shows the same progress, time and tokens.
+- **The welcome screen on a narrow terminal.** The lines beside the mark wrap inside their column, or go under the mark when there is no room beside it.
+- **The phone follows the terminal into another conversation.** After `/resume` or `/clear`, the phone's chat view shows the new one. A bare `/resume` from the phone lists this folder's recent conversations instead of opening a picker the phone cannot see.
+- **The whole conversation on the phone after `/rcl` again.** Turning Remote Control on again in the same conversation clears the phone and sends the whole conversation. Phone-started sessions are unchanged.
+
+**Platforms:** macOS (Apple Silicon, Intel, and universal; Developer ID signed, not notarized this cut), Linux (x64 and arm64, musl static), and Windows (x64, unsigned). Check downloads against `SHA256SUMS`. Tag: `v1.3.2`. Desktop builds stay on their own version line. Do not mark `desktop-v*` as GitHub Latest.
+
 # HiPMMCode v1.3.1
 
 The welcome screen now shows HM Bot in coloured braille dots. A turn looks and behaves like Claude Code 2.1.316.

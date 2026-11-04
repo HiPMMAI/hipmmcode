@@ -4,6 +4,8 @@
 
 **hipmmcode** is a provider-agnostic AI coding agent for your terminal: a fullscreen TUI that orchestrates teams of LLM agents across 29+ model channels (Anthropic, OpenAI, Gemini, DeepSeek, Kimi, MiniMax, DashScope, GLM, custom proxies, …).
 
+**New in v1.3.2 — image generation finishes on a slow network, and `/status` shows the session file.** A download that is still moving is not cut off at 250 seconds. The model calls GenerateImage directly. `/status` shows the path of the session JSON. The phone shows the same live status row as the terminal, follows `/resume` and `/clear` into the new conversation, and sees the whole conversation when `/rcl` is turned on again. Welcome text on a narrow screen no longer covers the mark.
+
 **New in v1.3.1 — HM Bot on the welcome screen, and turns that match Claude Code 2.1.316.** The welcome screen shows HM Bot in coloured braille dots beside `HiPMM Code`. The spinner names the real action (`Reading`, `Writing`, `Running a web search`). Typing `ultrathink` raises effort for that turn. Markdown renders as in Claude Code. `permissions.blockWritesOutsideWorkingDirectories` keeps Write, Edit and NotebookEdit inside the working directories, and a command that reaches its timeout moves to the background instead of being killed. A reply looks the same while it streams as when it ends, rows fill the terminal width as in Claude Code, and the corner above the input shows the `/rc` and `/rcl` state.
 
 **v1.3.0 — session tools and panels stay in the fullscreen terminal.** Resume, rewind, import, and export no longer leave the screen. Code review, the diff, model, effort, theme, hooks, memory, and permissions each open as their own panel. The footer lists teammates, and the agent tree shows who is working. A restart returns to the same session.
@@ -178,6 +180,8 @@ Binary-only, free to use; no redistribution or reverse engineering. See [LICENSE
 # hipmmcode（中文）
 
 **hipmmcode** 是终端里的全能 AI 编程智能体:全屏 TUI,可在 29+ 模型渠道(Anthropic、OpenAI、Gemini、DeepSeek、Kimi、MiniMax、通义、智谱、自定义代理……)上编排 LLM 智能体团队。
+
+**v1.3.2 新增 —— 网络慢时生图也能收完，`/status` 显示会话文件。** 数据还在传就不打断，不再在 250 秒时把已生成的图掐掉。模型直接调用 GenerateImage。`/status` 显示会话 JSON 的路径。手机上能看到和终端一样的状态行；终端里 `/resume` 或 `/clear` 之后，手机跟着换成新对话；再次打开 `/rcl` 时，手机会看到整段对话。窄屏上启动页的文字不再盖住标志。
 
 **v1.3.1 新增 —— 启动页换成 HM Bot，一轮对话对齐 Claude Code 2.1.316。** 启动页左边是彩色点阵的 HM Bot，右边是 `HiPMM Code`。转圈行写出正在做的事（`Reading`、`Writing`、`Running a web search`）。输入 `ultrathink` 提高这一轮的推理强度。Markdown 显示和 Claude Code 一致。`permissions.blockWritesOutsideWorkingDirectories` 让 Write、Edit、NotebookEdit 只能写工作目录之内；命令到了超时时间转到后台继续跑，不再被杀掉。回复生成中和生成后画面一致，每行宽度和 Claude Code 相同；输入框右上角显示 `/rc`、`/rcl` 的状态。
 
