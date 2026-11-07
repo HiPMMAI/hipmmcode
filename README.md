@@ -4,6 +4,8 @@
 
 **hipmmcode** is a provider-agnostic AI coding agent for your terminal: a fullscreen TUI that orchestrates teams of LLM agents across 29+ model channels (Anthropic, OpenAI, Gemini, DeepSeek, Kimi, MiniMax, DashScope, GLM, custom proxies, …).
 
+**New in v1.3.3 — no flicker or leftovers in the fullscreen terminal.** Every panel is written over in place, so arrow keys, closing a panel, a finished background task, and pages like `/help` no longer blank the screen first. Ctrl+Enter sends the composer line now, the same as Send now. Exit 1 from `grep`, `diff`, `test`, and similar commands is a result, not a failure. Turning Remote Control off waits at most 3 seconds. Scrolling as a turn ends no longer recalls an old prompt, and only a command that failed shows a red dot. The context figure stays true after `/compact` and a model switch. Switching to a smaller window compacts before the next message. A compaction in the middle of a turn no longer crashes the session, and `serve`, SDK, and `exec` sessions auto-compact too. macOS binaries are Developer ID signed and notarized.
+
 **New in v1.3.2 — image generation finishes on a slow network, and `/status` shows the session file.** A download that is still moving is not cut off at 250 seconds. The model calls GenerateImage directly. `/status` shows the path of the session JSON. The phone shows the same live status row as the terminal, follows `/resume` and `/clear` into the new conversation, and sees the whole conversation when `/rcl` is turned on again. Welcome text on a narrow screen no longer covers the mark.
 
 **New in v1.3.1 — HM Bot on the welcome screen, and turns that match Claude Code 2.1.316.** The welcome screen shows HM Bot in coloured braille dots beside `HiPMM Code`. The spinner names the real action (`Reading`, `Writing`, `Running a web search`). Typing `ultrathink` raises effort for that turn. Markdown renders as in Claude Code. `permissions.blockWritesOutsideWorkingDirectories` keeps Write, Edit and NotebookEdit inside the working directories, and a command that reaches its timeout moves to the background instead of being killed. A reply looks the same while it streams as when it ends, rows fill the terminal width as in Claude Code, and the corner above the input shows the `/rc` and `/rcl` state.
@@ -180,6 +182,8 @@ Binary-only, free to use; no redistribution or reverse engineering. See [LICENSE
 # hipmmcode（中文）
 
 **hipmmcode** 是终端里的全能 AI 编程智能体:全屏 TUI,可在 29+ 模型渠道(Anthropic、OpenAI、Gemini、DeepSeek、Kimi、MiniMax、通义、智谱、自定义代理……)上编排 LLM 智能体团队。
+
+**v1.3.3 新增 —— 全屏终端不再闪屏、不留残影。** 面板都在原地覆盖更新，方向键、关闭面板、后台任务完成和 `/help` 不再先把屏幕擦空。Ctrl+Enter 立即发送，和「Send now」一样。`grep`、`diff`、`test` 这类命令返回 1 只是结果，不再显示成失败。关掉远程控制最多等 3 秒。一轮刚结束时滚动滚轮，不会再调出以前发过的话。只有真正失败的命令才显示红点。`/compact` 和切换模型后的上下文数字保持准确；切到更小窗口会先压缩再发下一条。回合中途压缩后不再在回合结束时崩溃。`serve`、SDK 和 `exec` 也会自动压缩。macOS 二进制已 Developer ID 签名并公证。
 
 **v1.3.2 新增 —— 网络慢时生图也能收完，`/status` 显示会话文件。** 数据还在传就不打断，不再在 250 秒时把已生成的图掐掉。模型直接调用 GenerateImage。`/status` 显示会话 JSON 的路径。手机上能看到和终端一样的状态行；终端里 `/resume` 或 `/clear` 之后，手机跟着换成新对话；再次打开 `/rcl` 时，手机会看到整段对话。窄屏上启动页的文字不再盖住标志。
 

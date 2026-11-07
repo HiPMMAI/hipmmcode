@@ -1,3 +1,17 @@
+# HiPMMCode v1.3.3 更新总结
+
+全屏终端不再闪屏、不留残影；Ctrl+Enter 立即发送；Bash 的搜索、比较类命令不再误报失败。
+
+- **Ctrl+Enter 等于「Send now」。** 全屏模式下回合进行中，Ctrl+Enter 把输入框里的话立即发送（输入框为空时，立即发送排在最前的那条），和点「Send now」一样。需要能区分 Ctrl+Enter 的终端（kitty、WezTerm、Ghostty、iTerm2 等）；macOS 自带终端里 Ctrl+Enter 和回车发的是同一个字符，请连按两次回车。打开外部编辑器（Ctrl+G、Ctrl+X Ctrl+E、`/editor`）和 Ctrl+Z 挂起时会先恢复普通按键，nano、vim 里 Esc 和 Ctrl+X 照常可用；`HIPMMCODE_KEYBOARD_PROTOCOL=0` 可以关掉。另外，点建议提示只填进输入框、不再直接发送；全屏回车不再闪一下；流式输出时只重画有变化的行。
+- **Bash 命令少报红。** `grep`/`rg` 没搜到、`diff` 有差异、`test`/`[` 条件不成立、`find` 部分目录不可读时返回的 1 不再算失败，显示为「No matches found」「Files differ」「Condition is false」等结果（看的是管道/命令链最后一段，2 及以上仍算失败）；工具说明也提醒模型：探测类命令加 `|| true`、先看每步输出再继续、`ssh` 里的文件在远端、`rsync`/`scp` 每个源都要带 `host:`。
+- **全屏不再闪屏、不留残影。** 模型、思考强度、配置、`/status`、`/cost`、回退、MCP、Agents、记忆、复制、帮助等所有面板改成「逐行原地覆盖」并放在同步更新里，按方向键不再先空白再出现；面板关闭时不再先擦最后一行；后台任务完成时不再退出全屏、打印一行再整屏重画；`/help` 等静态页的清屏和页面内容一次显示；`/model` 的「discovering models…」不再擦掉输入框；`/help` 按 Esc 直接回到输入框，不再多一行「press any key」；分页器滚动不再逐行闪。
+- **关闭远程控制不再卡住。** 关掉 `/rc`、`/rcl` 时先停后台任务，再发告别消息，最多等 3 秒；中转站不响应时也能马上回到输入框。
+- **执行完不再自动冒出旧消息。** 一轮刚结束时滚动滚轮，输入框里不会再出现以前发过的消息或 `[Image #N]`。原因是交接时鼠标上报会短暂关闭，macOS 终端、iTerm2、Ghostty 会把这时的滚轮当成 ↑ 键，调出了历史记录；现在全屏期间鼠标上报一直开着。回车发送时，输入框清空和消息进入对话记录在同一帧完成（和 Claude Code 一样），不再残留已发出的文字，光标也不会闪出来。
+- **只有真正失败的才是红点。** 和 Claude Code 一样：运行中是灰点，命令成功是绿点，只有失败的命令是红点。一组命令跑完后不显示点，组里某个 `grep` 没搜到也不会把整组标红；按 Ctrl+O 展开仍能看到失败的那条是红色。
+- **上下文和压缩跟得上。** `/compact` 后和切换模型后显示的上下文算上了工具定义，并保留上一次的真实用量，发下一条消息时不再突然变大。从大窗口模型（DeepSeek，100 万）切到小窗口模型（Grok 4.7，50 万）时，会在发出下一条消息前先压缩，而不是把自动压缩关掉。回合结束时判断压缩用的数和底部条一致，显示「100% · 0% until auto-compact」就会压缩。回合中途压缩后，回合结束时不再崩溃退出（`range start index … out of range`）。`serve`/SDK 会话和 `exec` 模式也会自动压缩了。
+
+**平台：** macOS（Apple Silicon / Intel / universal，Developer ID 签名并公证）、Linux（x64 / arm64，musl 静态）、Windows（x64，未签名）。下载后请用 `SHA256SUMS` 校验。公开仓 tag：`v1.3.3`。桌面版独立版本，不要把 `desktop-v*` 设为 GitHub Latest。桌面版独立版本，不要把 `desktop-v*` 设为 GitHub Latest。
+
 # HiPMMCode v1.3.2 更新总结
 
 网络慢时生图也能收完，模型直接调用 GenerateImage，`/status` 显示会话文件路径。
