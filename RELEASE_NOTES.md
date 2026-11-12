@@ -1,3 +1,15 @@
+# HiPMMCode v1.3.6 更新总结
+
+手机消息在回合中送达，grok 过载会自动重试，会话按每条消息保存。
+
+- **手机消息在回合中送达。** 远程控制发来的消息加入正在跑的这一轮，在下一次工具结果时送给模型，不再等整轮结束。`ctrl+enter` 或「Send now」立即发送。
+- **grok 过载自动重试。** 「The model is currently at capacity due to high demand」会在等待后重试。中途被掐断的回复保留已有文字，最多自动续 3 次。
+- **会话按每条消息保存。** 会话文件改为 `~/.hipmmcode/sessions/<id>.jsonl`。回合中途崩溃也能留住最后完成的一步。旧的 `.json` 会话仍可打开。
+- **粘贴和卡住的回复。** 粘贴图片显示为 `[Image #N]`。请求带 3.2 万 token 输出上限，重复回复不再撑满上下文。
+- **子代理和队友。** 后台子代理每 30 秒显示一句进度。队友颜色和关闭请求编号固定。会话由 `/rename`、计划批准或转入后台时命名。
+
+**平台：** macOS（Apple Silicon / Intel / universal，Developer ID 签名并公证）、Linux（x64 / arm64，musl 静态）、Windows（x64，未签名）。下载后请用 `SHA256SUMS` 校验。公开仓 tag：`v1.3.6`。桌面版独立版本，不要把 `desktop-v*` 设为 GitHub Latest。
+
 # HiPMMCode v1.3.3 更新总结
 
 全屏终端不再闪屏、不留残影；Ctrl+Enter 立即发送；Bash 的搜索、比较类命令不再误报失败。

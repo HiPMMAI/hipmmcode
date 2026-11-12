@@ -83,15 +83,21 @@ trap 'rmdir "$LOCK_DIR" 2>/dev/null || true' EXIT
 tmp=$(mktemp -d)
 trap 'rm -rf "$tmp"; rmdir "$LOCK_DIR" 2>/dev/null || true' EXIT
 
-url="https://github.com/$REPO/releases/latest/download/hipmmcode-$label.tar.gz"
+github_base="https://github.com/$REPO/releases/latest/download"
+mirror_base="${HIPMMCODE_MIRROR_BASE:-https://www.hipmmai.com/hipmmcode/releases/latest}"
+url="$github_base/hipmmcode-$label.tar.gz"
 echo "Downloading $url ..."
-curl -fsSL "$url" -o "$tmp/hipmmcode.tar.gz"
+if ! curl -fsSL --retry 1 --connect-timeout 15 "$url" -o "$tmp/hipmmcode.tar.gz"; then
+  echo "GitHub is unreachable; trying $mirror_base ..." >&2
+  url="$mirror_base/hipmmcode-$label.tar.gz"
+  curl -fsSL --retry 2 --connect-timeout 20 "$url" -o "$tmp/hipmmcode.tar.gz"
+fi
 
 # Best-effort integrity check against the release's SHA256SUMS. Never fatal
 # on its own — an older release, a rate-limited fetch, or no local hash tool
 # shouldn't block an otherwise-good install; a MISMATCH is fatal (that means
 # the download is corrupt or was tampered with).
-sums_url="https://github.com/$REPO/releases/latest/download/SHA256SUMS"
+sums_url="${url%/hipmmcode-$label.tar.gz}/SHA256SUMS"
 if curl -fsSL "$sums_url" -o "$tmp/SHA256SUMS" 2>/dev/null; then
   expected=$(awk -v f="hipmmcode-$label.tar.gz" '$2 == f || $2 == "*"f {print $1; exit}' "$tmp/SHA256SUMS")
   if [ -n "$expected" ]; then

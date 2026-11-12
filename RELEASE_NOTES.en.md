@@ -1,3 +1,15 @@
+# HiPMMCode v1.3.6
+
+Phone messages arrive mid-turn, grok overloads are retried, and sessions are saved as each message lands.
+
+- **Phone messages arrive mid-turn.** A message sent from the phone over Remote Control while a turn is running joins that turn and reaches the model at the next tool result. It used to wait for the whole turn. `ctrl+enter` or the [Send now] chip sends now.
+- **grok overloads are retried.** "The model is currently at capacity due to high demand" is retried after a backoff. A reply cut off mid-stream keeps its text and continues on its own, up to 3 times.
+- **Sessions are saved as each message lands.** A session is now `~/.hipmmcode/sessions/<id>.jsonl`. A crash mid-turn keeps everything up to the last finished step. Older `.json` sessions still load.
+- **Pasting and stuck replies.** A pasted image becomes `[Image #N]`. Requests carry a 32k output cap, so a repeating reply no longer fills the context.
+- **Subagents and teammates.** A background subagent shows a short progress summary every 30 seconds. Teammate colours and shutdown ids are stable. A session is named by `/rename`, when a plan is approved, or when it is sent to the background.
+
+**Platforms:** macOS (Apple Silicon, Intel, and universal; Developer ID signed and notarized), Linux (x64 and arm64, musl static), and Windows (x64, unsigned). Verify downloads with `SHA256SUMS`. Public tag: `v1.3.6`. Desktop is versioned independently — do not make `desktop-v*` GitHub Latest.
+
 # HiPMMCode v1.3.3
 
 No flicker or leftovers in the fullscreen terminal, Ctrl+Enter sends now, and searches and comparisons in Bash no longer show as failures.

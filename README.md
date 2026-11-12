@@ -4,6 +4,8 @@
 
 **hipmmcode** is a provider-agnostic AI coding agent for your terminal: a fullscreen TUI that orchestrates teams of LLM agents across 29+ model channels (Anthropic, OpenAI, Gemini, DeepSeek, Kimi, MiniMax, DashScope, GLM, custom proxies, …).
 
+**New in v1.3.6 — phone messages arrive mid-turn, and grok overloads are retried.** A message from the phone joins the running turn instead of waiting for it to end. A grok capacity error retries on its own. Sessions are saved as each message lands, so a crash keeps the last finished step. Pasted images use `[Image #N]`, a stuck reply stops at 32k tokens, and macOS binaries are Developer ID signed and notarized.
+
 **New in v1.3.3 — no flicker or leftovers in the fullscreen terminal.** Every panel is written over in place, so arrow keys, closing a panel, a finished background task, and pages like `/help` no longer blank the screen first. Ctrl+Enter sends the composer line now, the same as Send now. Exit 1 from `grep`, `diff`, `test`, and similar commands is a result, not a failure. Turning Remote Control off waits at most 3 seconds. Scrolling as a turn ends no longer recalls an old prompt, and only a command that failed shows a red dot. The context figure stays true after `/compact` and a model switch. Switching to a smaller window compacts before the next message. A compaction in the middle of a turn no longer crashes the session, and `serve`, SDK, and `exec` sessions auto-compact too. macOS binaries are Developer ID signed and notarized.
 
 **New in v1.3.2 — image generation finishes on a slow network, and `/status` shows the session file.** A download that is still moving is not cut off at 250 seconds. The model calls GenerateImage directly. `/status` shows the path of the session JSON. The phone shows the same live status row as the terminal, follows `/resume` and `/clear` into the new conversation, and sees the whole conversation when `/rcl` is turned on again. Welcome text on a narrow screen no longer covers the mark.
@@ -182,6 +184,8 @@ Binary-only, free to use; no redistribution or reverse engineering. See [LICENSE
 # hipmmcode（中文）
 
 **hipmmcode** 是终端里的全能 AI 编程智能体:全屏 TUI,可在 29+ 模型渠道(Anthropic、OpenAI、Gemini、DeepSeek、Kimi、MiniMax、通义、智谱、自定义代理……)上编排 LLM 智能体团队。
+
+**v1.3.6 新增 —— 手机消息在回合中送达，grok 过载会自动重试。** 手机发来的消息加入正在跑的这一轮，不再等整轮结束。grok 返回容量不足时会自动重试。会话按每条消息保存，中途崩溃也能留住最后完成的一步。粘贴图片显示为 `[Image #N]`，卡住的回复停在 3.2 万 token。macOS 二进制已 Developer ID 签名并公证。
 
 **v1.3.3 新增 —— 全屏终端不再闪屏、不留残影。** 面板都在原地覆盖更新，方向键、关闭面板、后台任务完成和 `/help` 不再先把屏幕擦空。Ctrl+Enter 立即发送，和「Send now」一样。`grep`、`diff`、`test` 这类命令返回 1 只是结果，不再显示成失败。关掉远程控制最多等 3 秒。一轮刚结束时滚动滚轮，不会再调出以前发过的话。只有真正失败的命令才显示红点。`/compact` 和切换模型后的上下文数字保持准确；切到更小窗口会先压缩再发下一条。回合中途压缩后不再在回合结束时崩溃。`serve`、SDK 和 `exec` 也会自动压缩。macOS 二进制已 Developer ID 签名并公证。
 

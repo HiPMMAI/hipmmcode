@@ -14,14 +14,23 @@ $installDir = if ($env:HIPMMCODE_INSTALL_DIR) { $env:HIPMMCODE_INSTALL_DIR } els
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 
 $label = "windows-x64"
-$url = "https://github.com/$repo/releases/latest/download/hipmmcode-$label.tar.gz"
+$githubBase = "https://github.com/$repo/releases/latest/download"
+$mirrorBase = if ($env:HIPMMCODE_MIRROR_BASE) { $env:HIPMMCODE_MIRROR_BASE } else { "https://www.hipmmai.com/hipmmcode/releases/latest" }
+$url = "$githubBase/hipmmcode-$label.tar.gz"
 Write-Host "Downloading $url ..."
 
 $tmp = Join-Path $env:TEMP ("hipmmcode-" + [System.Guid]::NewGuid().ToString("N"))
 New-Item -ItemType Directory -Force -Path $tmp | Out-Null
 try {
     $tarball = Join-Path $tmp "hipmmcode.tar.gz"
-    Invoke-WebRequest -Uri $url -OutFile $tarball -UseBasicParsing
+    try {
+        Invoke-WebRequest -Uri $url -OutFile $tarball -UseBasicParsing -TimeoutSec 20
+    }
+    catch {
+        $url = "$mirrorBase/hipmmcode-$label.tar.gz"
+        Write-Host "GitHub is unreachable; trying $url ..."
+        Invoke-WebRequest -Uri $url -OutFile $tarball -UseBasicParsing
+    }
     # Windows 10+ ships bsdtar as `tar`; it reads .tar.gz natively.
     tar -xzf $tarball -C $tmp
     if ($LASTEXITCODE -ne 0) { throw "tar extraction failed" }
